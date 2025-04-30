@@ -35,17 +35,16 @@ public class TerrainRéverbère:Terrains{
 }
 
 
-public class Meteos{// a voir comment la faire 
-    public Saisons Saison {get;set;} // faire classe saison a voir si on fait classe catastrophe qui serons liéeq
-    public string temp {get;set;}
-    public List<string> CatastrophePossible {get;set;}// a voir si on fait une classe catastrophe 
+public class Meteos{
+    public string Nom {get;set;}
+    public int[] SaisonPourcent  {get;set;}// pourcentage de possibilité pour les 3 saisons
     public int NuméroCata {get;set;} // 0 pas de catastrrphe sinon numéro de la catastrophes a definir pour chaque
-    public Meteos(int numplanete){
-         Saison = new Saisons(0);
-         temp = "Calme";
-
+    public Meteos(string nom,int[] saisonPourcent, int cata){
+        Nom = nom;
+        SaisonPourcent = saisonPourcent;
+        NuméroCata = cata;
     }
-}
+} 
 
 public class Jardin{
     public MatrixNode Terrains {get;set;} // définir a chaque numéro une plante ou un animal ou objet
