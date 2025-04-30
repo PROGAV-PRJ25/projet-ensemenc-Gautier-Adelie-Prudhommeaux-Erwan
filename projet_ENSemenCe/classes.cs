@@ -116,14 +116,22 @@ public class Saison3 : Saisons{
     public Saison3():base("Saison3",[50,15,15,15,0,0,0.8,0,0,0,0,0,0])//[50,15,15,15,0,0,0.8,0.7,0.7,0.7,0.7,0.7,0.7]
 }
 public class Jardin{
-    public MatrixNode Terrains {get;set;} // définir a chaque numéro une plante ou un animal ou objet
+    public int TourActuel {get;set;}
+    public int Argent {get;set;}
+    public Saisons Saison {get;set;}
+    public Meteos meteo {get;set;}
+    public MatrixNode Terrains {get;set;} // définir a chaque numéro une plante ou un animal ou objet 
+    public string[] ActionPossible {get;set;}
+    public int NombreAction {get;set;}
+    public int[] Objects {get;set;}// chaque indice correspond a un object. il y en a 23 
+
     public List<Plantes> PlantesJouable {get;set;}
     public List<Maladies> MaladiesPossible {get;set;}
     public string[] ObjectsAchetable {get;set;} 
-    public int[] Objects {get;set;} // chaque indice correspond a un object. il y en a 23 
+     
     public int[] GrainesDisponibles {get;set;} // chaque indice est assosier a une plante. il y en a 11 
-    public int TourActuel {get;set;}
-    public int Argent {get;set;}
+    
+    
 
 
     public Jardin(){
