@@ -13,11 +13,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\adeli\\Desktop\\Travail\\ENSC\\1A\\Info\\Projet C#\\projet-ensemenc-Gautier-Adelie-Prudhommeaux-Erwan\\projet_ENSemenCe\\projet_ENSemenCe.csproj",
       "projectName": "projet_ENSemenCe",
       "projectPath": "C:\\Users\\adeli\\Desktop\\Travail\\ENSC\\1A\\Info\\Projet C#\\projet-ensemenc-Gautier-Adelie-Prudhommeaux-Erwan\\projet_ENSemenCe\\projet_ENSemenCe.csproj",
       "packagesPath": "C:\\Users\\adeli\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\adeli\\Desktop\\Travail\\ENSC\\1A\\Info\\Projet C#\\projet-ensemenc-Gautier-Adelie-Prudhommeaux-Erwan\\projet_ENSemenCe\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\Admin\\OneDrive\\Bureau\\Travail\\ENSC\\Projet_ENSemenCe\\projet-ensemenc-ErwanRec\\projet_ENSemenCe\\projet_ENSemenCe.csproj",
+      "projectName": "projet_ENSemenCe",
+      "projectPath": "C:\\Users\\Admin\\OneDrive\\Bureau\\Travail\\ENSC\\Projet_ENSemenCe\\projet-ensemenc-ErwanRec\\projet_ENSemenCe\\projet_ENSemenCe.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Admin\\OneDrive\\Bureau\\Travail\\ENSC\\Projet_ENSemenCe\\projet-ensemenc-ErwanRec\\projet_ENSemenCe\\obj\\",
+>>>>>>> a31f735770c8e5e84858df73999c273d6b29cfd7
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\adeli\\AppData\\Roaming\\NuGet\\NuGet.Config"
