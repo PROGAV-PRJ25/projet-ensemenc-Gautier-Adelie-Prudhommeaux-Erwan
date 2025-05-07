@@ -14,11 +14,19 @@
   "project": {
     "version": "1.0.0",
     "restore": {
+<<<<<<< HEAD
       "projectUniqueName": "C:\\Users\\Admin\\OneDrive\\Bureau\\Travail\\ENSC\\1A\\Informatique\\Tetelin\\Projet_ENSemenCe\\projet-ensemenc-ErwanRec\\projet_ENSemenCe\\projet_ENSemenCe.csproj",
       "projectName": "projet_ENSemenCe",
       "projectPath": "C:\\Users\\Admin\\OneDrive\\Bureau\\Travail\\ENSC\\1A\\Informatique\\Tetelin\\Projet_ENSemenCe\\projet-ensemenc-ErwanRec\\projet_ENSemenCe\\projet_ENSemenCe.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Admin\\OneDrive\\Bureau\\Travail\\ENSC\\1A\\Informatique\\Tetelin\\Projet_ENSemenCe\\projet-ensemenc-ErwanRec\\projet_ENSemenCe\\obj\\",
+=======
+      "projectUniqueName": "C:\\Users\\adeli\\Desktop\\Travail\\ENSC\\1A\\Info\\Projet C#\\projet-ensemenc-Gautier-Adelie-Prudhommeaux-Erwan\\projet_ENSemenCe\\projet_ENSemenCe.csproj",
+      "projectName": "projet_ENSemenCe",
+      "projectPath": "C:\\Users\\adeli\\Desktop\\Travail\\ENSC\\1A\\Info\\Projet C#\\projet-ensemenc-Gautier-Adelie-Prudhommeaux-Erwan\\projet_ENSemenCe\\projet_ENSemenCe.csproj",
+      "packagesPath": "C:\\Users\\adeli\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\adeli\\Desktop\\Travail\\ENSC\\1A\\Info\\Projet C#\\projet-ensemenc-Gautier-Adelie-Prudhommeaux-Erwan\\projet_ENSemenCe\\obj\\",
+>>>>>>> 5d2bafe000efca43b90a7e3bddd8d37106337634
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -80,7 +88,11 @@
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
+<<<<<<< HEAD
       "message": "Problem reading the cache file C:\\Users\\Admin\\OneDrive\\Bureau\\Travail\\ENSC\\1A\\Informatique\\Tetelin\\Projet_ENSemenCe\\projet-ensemenc-ErwanRec\\projet_ENSemenCe\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+=======
+      "message": "Problem reading the cache file C:\\Users\\adeli\\Desktop\\Travail\\ENSC\\1A\\Info\\Projet C#\\projet-ensemenc-Gautier-Adelie-Prudhommeaux-Erwan\\projet_ENSemenCe\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+>>>>>>> 5d2bafe000efca43b90a7e3bddd8d37106337634
     }
   ]
 }
