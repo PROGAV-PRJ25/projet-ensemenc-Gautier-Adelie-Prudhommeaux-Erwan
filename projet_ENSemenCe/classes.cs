@@ -34,27 +34,103 @@ public class TerrainRéverbère:Terrains{
 }
 
 
-public class Meteos{// a voir comment la faire 
-    public Saisons Saison {get;set;} // faire classe saison a voir si on fait classe catastrophe qui serons liéeq
-    public string temp {get;set;}
-    public List<string> CatastrophePossible {get;set;}// a voir si on fait une classe catastrophe 
+public class Meteos{
+    public string Nom {get;set;}
     public int NuméroCata {get;set;} // 0 pas de catastrrphe sinon numéro de la catastrophes a definir pour chaque
-    public Meteos(int numplanete){
-         Saison = new Saisons(0);
-         temp = "Calme";
-
+    public Meteos(string nom,int[] saisonPourcent, int cata){
+        Nom = nom;
+        SaisonPourcent = saisonPourcent;
+        NuméroCata = cata;
+    }
+} 
+public class Calme : Meteos {
+    public Calme():base("Calme",0){
+    }
+}
+public class Pluie : Meteos {
+    public Pluie():base("Pluie",0){
+    }
+}
+public class Nuit : Meteos {
+    public Nuit():base("Nuit",0){
+    }
+}
+public class Soleil : Meteos {
+    public Soleil():base("Soleil",0){
+    }
+}
+public class Secheresse : Meteos{
+    public Secheresse():base("Secheresse",1){
+    }
+}
+public class Gel : Meteos {
+    public Gel():base("Gel",2){
+    }
+}
+public class TempêteStellaire : Meteos {
+    public TempêteStellaire():base("Tempête Stellaire",2){
+    }
+}
+public class CriseEconomique : Meteos {
+    public CriseEconomique():base("Crise économique",3){
+    }
+}
+public class FortePluie : Meteos {
+    public FortePluie():base("Forte Pluie",4){
+    }
+}
+public class HordeAnimaux : Meteos {
+    public HordeAnimaux():base("Horde d’Animaux",5){
+    }
+}
+public class Obligation : Meteos {
+    public Obligation():base("Obligation",6){
+    }
+}
+public class ChangementSaison : Meteos {
+    public ChangementSaison():base("Changement de saison",7){
+    }
+}
+public class ToutNoir : Meteos {
+    public ToutNoir():base("Tout Noir",8){
     }
 }
 
+public class Saisons {
+    public string Nom {get;set;}
+    public int[] PourcentMeteos {get;set;}
+    public Saison(string nom, int[] pourcentMeteos){
+        Nom = nom;
+        PourcentMeteos = pourcentMeteos;
+    }
+}
+
+public class Saison1 : Saisons{
+    public Saison1():base("Saison1",[20,20,20,20,8,5,1,0,0,0,0,0,0])//[20,20,20,20,8,5,1,1,1,1,1,1,1]
+}
+public class Saison2 : Saisons{
+    public Saison2():base("Saison2",[20,20,20,20,5,8,1,0,0,0,0,0,0])//[20,20,20,20,5,8,1,1,1,1,1,1,1]
+}
+public class Saison3 : Saisons{
+    public Saison3():base("Saison3",[50,15,15,15,0,0,0.8,0,0,0,0,0,0])//[50,15,15,15,0,0,0.8,0.7,0.7,0.7,0.7,0.7,0.7]
+}
 public class Jardin{
-    public MatrixNode Terrains {get;set;} // définir a chaque numéro une plante ou un animal ou objet
+    public int TourActuel {get;set;}
+    public int Argent {get;set;}
+    public Saisons Saison {get;set;}
+    public Meteos meteo {get;set;}
+    public MatrixNode Terrains {get;set;} // définir a chaque numéro une plante ou un animal ou objet 
+    public string[] ActionPossible {get;set;}
+    public int NombreAction {get;set;}
+    public int[] Objects {get;set;}// chaque indice correspond a un object. il y en a 23 
+
     public string[] PlantesJouable {get;set;}
     public string[] MaladiesPossible {get;set;}
     public string[] ObjectsAchetable {get;set;} 
-    public int[] Objects {get;set;} // chaque indice correspond a un object. il y en a 23 
+     
     public int[] GrainesDisponibles {get;set;} // chaque indice est assosier a une plante. il y en a 11 
-    public int TourActuel {get;set;}
-    public int Argent {get;set;}
+    
+    
 
 
     public Jardin(){
