@@ -1,37 +1,37 @@
+//penser a trier les classes
 public class Terrains{
-    public string TypeSol {get;set;}
     public string Nomplanete {get;set;}
     public List<Maladies>? MaladiesPossible {get; set;}
     public List<Plantes>? PlanteAchetable {get;set;}
-    public Météos? MeteoAjouté {get;set;} 
+    public Meteos? MeteoAjouté {get;set;} 
 
 
-    public Terrains(int numplanete, List<Maladies> maladiesPossible, List<Plantes> planteAchetable, Météos meteoAjouté){
-        T = ["Aucun","Petit Prince","Businessman","Buveur","Vaniteux","Roi","Géographe","Réverbère"];
-        Nomplanete = T[numplanete];
+    public Terrains(int numplanete, List<Maladies> maladiesPossible, List<Plantes> planteAchetable, Meteos meteoAjouté){
+        string[] nomTerrains = ["Aucun","Petit Prince","Businessman","Buveur","Vaniteux","Roi","Géographe","Réverbère"];
+        Nomplanete = nomTerrains[numplanete];
         MaladiesPossible = maladiesPossible;
         PlanteAchetable = planteAchetable;
         MeteoAjouté = meteoAjouté;
     }
-
 }
+
 public class TerrainPetitPrince:Terrains{
-    public TerrainPetitPrince():base(1,new list<Maladies> {},new list<plantes> {},new Meteos Meteos(0)){}
+    public TerrainPetitPrince():base(1,new List<Maladies> {},new List<Plantes> {},new Meteos(0)){}
 }
 public class TerrainBusinessman:Terrains{
-    public TerrainBusinessman():base(2,new list<Maladies> {},new list<plantes> {},new Meteos Meteos(1)){}
+    public TerrainBusinessman():base(2,new List<Maladies> {},new List<Plantes> {},new Meteos(1)){}
 }
 public class TerrainBuveur:Terrains{
-    public TerrainBuveur():base(3,new list<Maladies> {},new list<plantes> {},new Meteos Meteos(3)){}
+    public TerrainBuveur():base(3,new List<Maladies> {},new List<Plantes> {},new Meteos(3)){}
 }
 public class TerrainRoi:Terrains{
-    public TerrainRoi():base(4,new list<Maladies> {},new list<plantes> {},new Meteos Meteos(4)){}
+    public TerrainRoi():base(4,new List<Maladies> {},new List<Plantes> {},new Meteos(4)){}
 }
 public class TerrainGéographe:Terrains{
-    public TerrainGéographe():base(5,new list<Maladies> {},new list<plantes> {},new Meteos Meteos(5)){}
+    public TerrainGéographe():base(5,new List<Maladies> {},new List<Plantes> {},new Meteos(5)){}
 }
 public class TerrainRéverbère:Terrains{
-    public TerrainRéverbère():base(6,new list<Maladies> {},new list<plantes> {},new Meteos Meteos(6)){}
+    public TerrainRéverbère():base(6,new List<Maladies> {},new List<Plantes> {},new Meteos(6)){}
 }
 
 
@@ -119,8 +119,8 @@ public class Jardin{
     public int TourActuel {get;set;}
     public int Argent {get;set;}
     public Saisons Saison {get;set;}
-    public Meteos meteo {get;set;}
-    public MatrixNode Terrains {get;set;} // définir a chaque numéro une plante ou un animal ou objet 
+    public Meteos Meteo {get;set;}
+    public MatrixNode Modelisation {get;set;} // définir a chaque numéro une plante ou un animal ou objet 
     public string[] ActionPossible {get;set;}
     public int NombreAction {get;set;}
     public int[] Objects {get;set;}// chaque indice correspond a un object. il y en a 23 
@@ -136,14 +136,14 @@ public class Jardin{
 
     public Jardin(){
         TourActuel = 0;
-        Argent = 0;
+        Argent = 100;
         PlantesJouable = new List<Plantes> {new Etoile(), new Meteorite(), new Rose(), new Chapeau(), new Nuage()};
         MaladiesPossible = new List<Maladies> {new Maladies1};
-        ObjectsAchetable = ["Lanterne","Pelle","Écharpe","Pare à vent","Clôture","Tuyaux d'arrosage","Épouventails","Haut parleur"];
+        ObjectsAchetable = ["Lanterne","Pelle","Écharpe","Paravent","Clôture","Tuyaux d'arrosage","Épouventails","Haut parleur"];
         Objects = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         GrainesDisponibles = [10,0,0,0,0,0,0,0,0,0,0];
         int[,] mat = new int[7,7];
-        Terrains = new MatrixNode(mat , 1);
+        Modelisation = new MatrixNode(mat , 1);
     }
 }
 
@@ -151,8 +151,8 @@ public class Jardin{
 public class MatrixNode
 {
     public int[,] Matrix { get; set; }
-    public Terrains planete {get;set;}
-    public MatrixNode Nord { get; set; }
+    public Terrains planete { get; set; }
+    public MatrixNode Nord { get; set; } 
     public MatrixNode Sud { get; set; }
     public MatrixNode Est  { get; set; }
     public MatrixNode Ouest  { get; set; }
@@ -199,7 +199,7 @@ public class Plantes {
     public bool Comestible {get; set;}
     public Saisons Saison {get; set;}
     public Terrains Terrain {get; set;}
-    public int Place {get; set;}
+    public int Place {get; set;} 
     public List<Besoins> Besoin {get; set;}
     public int Longevite {get; set;}  //En mois
     public int Produit {get; set;}
@@ -207,6 +207,7 @@ public class Plantes {
     public int Croissance {get; set;}  //Temps de croissance en mois
     public int Sante {get; set;}
     public int Hauteur {get; set;}
+    static int Indice {get;set;}
 
 
     public Plantes(string nom, int[,] position, string nature, bool comestible, Saisons saison, Terrains terrain, int place, Besoins besoin, int longevite, int produit, Maladies maladie, int croissance, int sante, int hauteur) {
