@@ -1,25 +1,15 @@
 {
   "version": 2,
-<<<<<<< HEAD
-  "dgSpecHash": "dHMrSsPjSoo=",
-  "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\OneDrive\\Bureau\\Travail\\ENSC\\1A\\Informatique\\Tetelin\\Projet_ENSemenCe\\projet-ensemenc-ErwanRec\\projet_ENSemenCe\\projet_ENSemenCe.csproj",
-=======
   "dgSpecHash": "70QdN2yUw8A=",
   "success": true,
   "projectFilePath": "C:\\Users\\adeli\\Desktop\\Travail\\ENSC\\1A\\Info\\Projet C#\\projet-ensemenc-Gautier-Adelie-Prudhommeaux-Erwan\\projet_ENSemenCe\\projet_ENSemenCe.csproj",
->>>>>>> 5d2bafe000efca43b90a7e3bddd8d37106337634
   "expectedPackageFiles": [],
   "logs": [
     {
       "code": "Undefined",
       "level": "Warning",
       "warningLevel": 1,
-<<<<<<< HEAD
-      "message": "Problem reading the cache file C:\\Users\\Admin\\OneDrive\\Bureau\\Travail\\ENSC\\1A\\Informatique\\Tetelin\\Projet_ENSemenCe\\projet-ensemenc-ErwanRec\\projet_ENSemenCe\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
-=======
       "message": "Problem reading the cache file C:\\Users\\adeli\\Desktop\\Travail\\ENSC\\1A\\Info\\Projet C#\\projet-ensemenc-Gautier-Adelie-Prudhommeaux-Erwan\\projet_ENSemenCe\\obj\\project.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
->>>>>>> 5d2bafe000efca43b90a7e3bddd8d37106337634
     }
   ]
 }

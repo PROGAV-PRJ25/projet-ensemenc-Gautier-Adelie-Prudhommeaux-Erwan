@@ -198,7 +198,7 @@ public class Plantes {
     public Terrains Terrain {get; set;}
     public int Place {get; set;}
     public int[] Besoin {get; set;}  //[eaumin, eaumax, lumièremin, applaudissementmin]
-    public int[] BesoinsActuel {get; set;}  //[vie, eau, lumière, applaudissement]
+    public int[] EtatActuel {get; set;}  //[vie, eau, lumière, applaudissement]
     public int Longevite {get; set;}  //En mois
     public int Produit {get; set;}
     public List<Maladies> Maladie {get; set;}  //les maladies qu'a la plante
@@ -207,7 +207,7 @@ public class Plantes {
     static int Indice {get;set;}
 
 
-    public Plantes(string nom, int[,] position, string nature, bool comestible, Saisons saison, string terrain, int place, int[] besoin, int[] besoinsActuels, int longevite, int produit, List<Maladies> maladie, int croissance, int hauteur) {
+    public Plantes(string nom, int[,] position, string nature, bool comestible, Saisons saison, string terrain, int place, int[] besoin, int[] etatActuel, int longevite, int produit, List<Maladies> maladie, int croissance, int hauteur) {
         Nom = nom;
         Position = position;
         Nature = nature;
@@ -216,7 +216,7 @@ public class Plantes {
         Terrain = terrain;
         Place = place;
         Besoin = besoin;
-        BesoinsActuel = besoinsActuels;
+        EtatActuel = etatActuel;
         Longevite = longevite;
         Produit = produit;
         Maladie = maladie;
@@ -226,62 +226,62 @@ public class Plantes {
 }
 
 public class Etoile : Plantes {
-    public Etoile(int[,] position) : base("Etoile", position, "Polycarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 1, [100,150,150,0],[125,160,0], 12, 1, new List<Maladies> {}, 1, 100, 3) {}
+    public Etoile(int[,] position) : base("Etoile", position, "Polycarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 1, [100,150,150,0],[100,125,160,0], 12, 1, new List<Maladies> {}, 1, 3) {}
 } //A voir si on enleve les positions (pas utile)
 
 public class Meteorite : Plantes {
-    public Meteorite(int[,] position) : base("Météorite", position, "Monocarpique", false, new Saison1(), "Petit Prince", 1, new Besoins(), 24, 0, new Maladies(), 6, 150, 2) {
+    public Meteorite(int[,] position) : base("Météorite", position, "Monocarpique", false, new Saison1(), "Petit Prince", 1, [], [150], 24, 0, new List<Maladies> {}, 6, 2) {
         Random aleatoire = new Random();
         Produit = aleatoire.Next(2,6);
     }
 }
 
 public class Rose : Plantes {
-    public Rose(int[,] position) : base("Rose", position, "Monocarpique", false, new Saison3(), "Petit Prince", 1, new Besoins(), 2, 1, new Maladies(), 1, 50, 3) {}
+    public Rose(int[,] position) : base("Rose", position, "Monocarpique", false, new Saison3(), "Petit Prince", 1, [], [50], 2, 1, new List<Maladies> {}, 1, 3) {}
 }
 
 public class Chapeau : Plantes {
-    public Chapeau(int[,] position) : base("Chapeau", position, "Monocarpique", true, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 1, new Besoins(), 24, 2, new Maladies(), 1, 100, 2) {}
+    public Chapeau(int[,] position) : base("Chapeau", position, "Monocarpique", true, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 1, [], [100], 24, 2, new List<Maladies> {}, 1, 2) {}
 }
 
 public class Nuage : Plantes {
-    public Nuage(int[,] position) : base("Nuage", position, "Polycarpique", true, new Saison2(), "Aucun", 1, new Besoins(), 72, 3, new Maladies(), 2, 100, 1) {}
+    public Nuage(int[,] position) : base("Nuage", position, "Polycarpique", true, new Saison2(), "Aucun", 1, [], [100], 72, 3, new List<Maladies> {}, 2, 1) {}
 }
 
 public class EtoileFilante : Plantes {
-    public EtoileFilante(int[,] position) : base("Etoile filante", position, "Monocarpique", false, new Saison1(), "Businessman", 1, new Besoins(), 2, 1, new Maladies(), 1, 50, 2) {}
+    public EtoileFilante(int[,] position) : base("Etoile filante", position, "Monocarpique", false, new Saison1(), "Businessman", 1, [], [50], 2, 1, new List<Maladies> {}, 1, 2) {}
 }
 
 public class Alcootier : Plantes {
-    public Alcootier(int[,] position) : base("Alcootier", position, "Polycarpique", true, new Saison3(), "Buveur", 4, new Besoins(), 240, 1, new Maladies(), 8, 500, 5) {}
+    public Alcootier(int[,] position) : base("Alcootier", position, "Polycarpique", true, new Saison3(), "Buveur", 4, [], [500], 240, 1, new List<Maladies> {}, 8, 5) {}
 }
 
 public class PlanteOrgueilleuse : Plantes {
-    public PlanteOrgueilleuse(int[,] position) : base("Plante orgueilleuse", position, "Polycarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Vaniteux", 1, new Besoins(), 36, 1, new Maladies(), 0.75, 100, 3) {}
+    public PlanteOrgueilleuse(int[,] position) : base("Plante orgueilleuse", position, "Polycarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Vaniteux", 1, [], [100], 36, 1, new List<Maladies> {}, 0.75, 3) {}
 }
 
 public class Couronne : Plantes {
-    public Couronne(int[,] position) : base("Couronne", position, "Monocarpique", true, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Roi", 1, new Besoins(), 12, 1, new Maladies(), 3, 200, 2) {}
+    public Couronne(int[,] position) : base("Couronne", position, "Monocarpique", true, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Roi", 1, [], [200], 12, 1, new List<Maladies> {}, 3, 2) {}
 }
 
 public class Planete : Plantes {
-    public Planete(int[,] position) : base("Planète", position, "Monocarpique", false, new Saison2(), "Géographe", 1, new Besoins(), 60, 1, new Maladies(), 24, 1000, 3) {}
+    public Planete(int[,] position) : base("Planète", position, "Monocarpique", false, new Saison2(), "Géographe", 1, [], [1000], 60, 1, new List<Maladies> {}, 24, 3) {}
 }
 
 public class Lampadaire : Plantes {
-    public Lampadaire(int[,] position) : base("Lampadaire", position, "Polycarpique", false, new Saison1(),"Réverbère", 1, new Besoins(), 1200, 0, new Maladies(), 2, 100, 4) {}
+    public Lampadaire(int[,] position) : base("Lampadaire", position, "Polycarpique", false, new Saison1(),"Réverbère", 1, [], [100], 1200, 0, new List<Maladies> {}, 2, 4) {}
 }
 
 public class Baobab : Plantes {
     public List<int> TauxApparition {get; set;}
-    public Baobab(int[,] position) : base("Baobab", position, "Monocarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 4, new Besoins(), 240, 0, new Maladies(), 5, 700, 5) {
+    public Baobab(int[,] position) : base("Baobab", position, "Monocarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 4, [], [700], 240, 0, new List<Maladies> {}, 5, 5) {
         TauxApparition = new List<int> {0, 0, 0, 0, 0, 0, 0};
     }
 }
 
 public class Champignon : Plantes {
     public List<int> TauxApparition {get; set;}
-    public Champignon(int[,] position) : base("Champignon", position, "Monocarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 1, new Besoins(), 12, 0, new Maladies(), 1, 100, 1) {
+    public Champignon(int[,] position) : base("Champignon", position, "Monocarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 1, [], [100], 12, 0, new List<Maladies> {}, 1, 1) {
         TauxApparition = new List<int> {0, 0, 0, 0, 0, 0, 0};
     }
 }
@@ -327,7 +327,10 @@ public class Mouton : Animaux {
 }
 
 public class Elephant : Animaux {
-    public Elephant(int[,] position) : base("Éléphant", position, 2, 1, new List<int> {0, 0, 0, 0, 0, 0, 0}) {}
+    public int[] Dégats {get; set;}
+    public Elephant(int[,] position) : base("Éléphant", position, 2, 1, new List<int> {0, 0, 0, 0, 0, 0, 0}) {
+        Dégats = [-2000, 0, 0 , 0];
+    }
 
     public void Deplacer() {
         //Si serpent sur une case adjacente, il se déplace à l'opposé
@@ -336,9 +339,11 @@ public class Elephant : Animaux {
 }
 
 public class Oiseau : Animaux {
+    public int[] Dégats {get; set;}
     public Oiseau(int[,] position) : base("Oiseau", position, 1, 0, new List<int> {0, 0, 0, 0, 0, 0, 0}) {
         Random aleatoire = new Random();
         Groupe = aleatoire.Next(2,4);
+        Dégats = [-5, 0, 0 , 0];
     }
 
     public void Deplacer() {
@@ -351,14 +356,42 @@ public class Oiseau : Animaux {
 
 public class Maladies {
     public string Nom {get; set;}
-    public int TauxPropagation {get; set;}
-    public int Dégats {get; set;}
+    public int[] Dégats {get; set;}
     public List<int> TauxApparition {get; set;}
+    public int Medicament {get; set;}
 
-    public Maladies(string nom, int tauxPropagation, int dégats, List<int> tauxApparition) {
+    public Maladies(string nom, int[] dégats, List<int> tauxApparition) {
         Nom = nom;
-        TauxPropagation = tauxPropagation;
-        Dégats = dégats;
+        Dégats = dégats; //nb de dégâts par tour
         TauxApparition = tauxApparition;
+        Medicament = 0;
     }
+}
+
+public class Mildiou : Maladies {
+    public Mildiou() : base("Mildiou", [-8, 0, 0, 0], 2) {}
+}
+
+public class Rouille : Maladies {
+    public Rouille() : base("Rouille", [-1, 0, 0, 0], 2) {}
+}
+
+public class GrandeSoif : Maladies {
+    public GrandeSoif() : base("Grande soif", [0, -4, 0, 0], 4) {}
+}
+
+public class Isolement : Maladies {
+    public Isolement() : base("Isolement", [-5, 0, 0, 0], 15) {}
+}
+
+public class PeurNoir : Maladies {
+    public PeurNoir() : base("Peur du noir", [-5, 0, 0, 0], 4) {}
+}
+
+public class Infertilite : Maladies {
+    public Infertilite() : base("Infertilité", [0, 0, 0, 0], 2) {}
+}
+
+public class Explosion : Maladies {
+    public Explosion() : base("Explosion", [-1, 0, 0, 0], 15) {}
 }
