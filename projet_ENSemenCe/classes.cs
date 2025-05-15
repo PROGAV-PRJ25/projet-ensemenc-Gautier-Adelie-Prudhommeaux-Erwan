@@ -116,36 +116,39 @@ public class Saison3 : Saisons{
 }
 public class Jardin{
     public int TourActuel {get;set;}
-    public int Argent {get;set;}
+    public int Poudredetoile {get;set;}
     public Saisons Saison {get;set;}
     public Meteos Meteo {get;set;}
-    public MatrixNode Modelisation {get;set;} // définir a chaque numéro une plante ou un animal ou objet 
+    public MatrixNode ModelisationPlantes {get;set;} 
+    public MatrixNode ModelisationAnimaux {get;set;} 
     public string[] ActionPossible {get;set;}
     public int NombreAction {get;set;}
-    public int[] Objects {get;set;}// chaque indice correspond a un object. il y en a 23 
-
+    public int[] Objects {get;set;}// chaque indice correspond a un object. il y en a 25 
     public string[] PlantesJouable {get;set;}
     public string[] MaladiesPossible {get;set;}
     public string[] ObjectsAchetable {get;set;} 
-     
     public int[] GrainesDisponibles {get;set;} // chaque indice est assosier a une plante. il y en a 11 
-    
-    
+    public List<Plantes> ListPlante {get;set;}
+    public List<Animaux> ListAnimaux {get;set;}
 
+    
 
     public Jardin(){
         TourActuel = 0;
-        Argent = 100;
+        NombreAction = 3;
+        Poudredetoile = 100;
         PlantesJouable = ["Etoile", "Météorite", "Rose", "Chapeau", "Nuage"];
         MaladiesPossible = ["Maladie1"];
-        ObjectsAchetable = ["Lanterne","Pelle","Écharpe","Paravent","Clôture","Arrosoir","Épouventails","Haut parleur"];
-        Objects = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        ObjectsAchetable = ["Lanterne","Pelle","Écharpe","Paravent","Clôture","Arrosoir","Épouventails","Haut parleur","médicament","pommade"];
+        Objects = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         GrainesDisponibles = [10,0,0,0,0,0,0,0,0,0,0];
-        int[,] mat = new int[7,7];
-        Modelisation = new MatrixNode(mat , 1);
+        int[,] matPlante = new int[7,7];
+        int[,] matAnimaux = new int[7,7];
+        ModelisationPlantes = new MatrixNode(matPlante, 1);
+        ModelisationAnimaux = new MatrixNode(matAnimaux, 1);
+
     }
 }
-
 
 public class MatrixNode
 {
