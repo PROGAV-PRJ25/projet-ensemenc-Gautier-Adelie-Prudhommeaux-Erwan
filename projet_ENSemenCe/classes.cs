@@ -1,12 +1,12 @@
 //penser a trier les classes
 public class Terrains{
     public string Nomplanete {get;set;}
-    public List<Maladies>? MaladiesPossible {get; set;}
+    public Maladies? MaladiesPossible {get; set;}
     public List<Plantes>? PlanteAchetable {get;set;}
     public Meteos? MeteoAjouté {get;set;} 
 
 
-    public Terrains(int numplanete, List<Maladies> maladiesPossible, List<Plantes> planteAchetable, Meteos meteoAjouté){
+    public Terrains(int numplanete, Maladies maladiesPossible, List<Plantes> planteAchetable, Meteos meteoAjouté){
         string[] nomTerrains = ["Aucun","Petit Prince","Businessman","Buveur","Vaniteux","Roi","Géographe","Réverbère"];
         Nomplanete = nomTerrains[numplanete];
         MaladiesPossible = maladiesPossible;
@@ -16,31 +16,30 @@ public class Terrains{
 }
 
 public class TerrainPetitPrince:Terrains{
-    public TerrainPetitPrince():base(1,new List<Maladies> {},new List<Plantes> {},new Meteos(0)){}
+    public TerrainPetitPrince():base(1,new Maladies {},new List<Plantes> {},new TempêteStellaire()){}
 }
 public class TerrainBusinessman:Terrains{
-    public TerrainBusinessman():base(2,new List<Maladies> {},new List<Plantes> {},new Meteos(1)){}
+    public TerrainBusinessman():base(2,new List<Maladies> {},new List<Plantes> {},new CriseEconomique()){}
 }
 public class TerrainBuveur:Terrains{
-    public TerrainBuveur():base(3,new List<Maladies> {},new List<Plantes> {},new Meteos(3)){}
+    public TerrainBuveur():base(3,new List<Maladies> {},new List<Plantes> {},new FortePluie()){}
 }
 public class TerrainRoi:Terrains{
-    public TerrainRoi():base(4,new List<Maladies> {},new List<Plantes> {},new Meteos(4)){}
+    public TerrainRoi():base(4,new List<Maladies> {},new List<Plantes> {},new Obligation()){}
 }
 public class TerrainGéographe:Terrains{
-    public TerrainGéographe():base(5,new List<Maladies> {},new List<Plantes> {},new Meteos(5)){}
+    public TerrainGéographe():base(5,new List<Maladies> {},new List<Plantes> {},new ChangementSaison()){}
 }
 public class TerrainRéverbère:Terrains{
-    public TerrainRéverbère():base(6,new List<Maladies> {},new List<Plantes> {},new Meteos(6)){}
+    public TerrainRéverbère():base(6,new List<Maladies> {},new List<Plantes> {},new ToutNoir()){}
 }
 
 
 public class Meteos{
     public string Nom {get;set;}
     public int NuméroCata {get;set;} // 0 pas de catastrrphe sinon numéro de la catastrophes a definir pour chaque
-    public Meteos(string nom,int[] saisonPourcent, int cata){
+    public Meteos(string nom, int cata){
         Nom = nom;
-        SaisonPourcent = saisonPourcent;
         NuméroCata = cata;
     }
 } 
@@ -69,31 +68,31 @@ public class Gel : Meteos {
     }
 }
 public class TempêteStellaire : Meteos {
-    public TempêteStellaire():base("Tempête Stellaire",2){
+    public TempêteStellaire():base("Tempête Stellaire",3){
     }
 }
 public class CriseEconomique : Meteos {
-    public CriseEconomique():base("Crise économique",3){
+    public CriseEconomique():base("Crise économique",4){
     }
 }
 public class FortePluie : Meteos {
-    public FortePluie():base("Forte Pluie",4){
+    public FortePluie():base("Forte Pluie",5){
     }
 }
 public class HordeAnimaux : Meteos {
-    public HordeAnimaux():base("Horde d’Animaux",5){
+    public HordeAnimaux():base("Horde d’Animaux",6){
     }
 }
 public class Obligation : Meteos {
-    public Obligation():base("Obligation",6){
+    public Obligation():base("Obligation",7){
     }
 }
 public class ChangementSaison : Meteos {
-    public ChangementSaison():base("Changement de saison",7){
+    public ChangementSaison():base("Changement de saison",8){
     }
 }
 public class ToutNoir : Meteos {
-    public ToutNoir():base("Tout Noir",8){
+    public ToutNoir():base("Tout Noir",9){
     }
 }
 
@@ -139,7 +138,7 @@ public class Jardin{
         Argent = 100;
         PlantesJouable = ["Etoile", "Météorite", "Rose", "Chapeau", "Nuage"];
         MaladiesPossible = ["Maladie1"];
-        ObjectsAchetable = ["Lanterne","Pelle","Écharpe","Paravent","Clôture","Tuyaux d'arrosage","Épouventails","Haut parleur"];
+        ObjectsAchetable = ["Lanterne","Pelle","Écharpe","Paravent","Clôture","Arrosoir","Épouventails","Haut parleur"];
         Objects = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         GrainesDisponibles = [10,0,0,0,0,0,0,0,0,0,0];
         int[,] mat = new int[7,7];
@@ -199,17 +198,16 @@ public class Plantes {
     public Terrains Terrain {get; set;}
     public int Place {get; set;}
     public int[] Besoin {get; set;}  //[eaumin, eaumax, lumièremin, applaudissementmin]
-    public int[] BesoinsActuel {get; set;}  //[eau, lumière, applaudissement]
+    public int[] BesoinsActuel {get; set;}  //[vie, eau, lumière, applaudissement]
     public int Longevite {get; set;}  //En mois
     public int Produit {get; set;}
     public List<Maladies> Maladie {get; set;}  //les maladies qu'a la plante
     public int Croissance {get; set;}  //Temps de croissance en mois
-    public int Sante {get; set;}
     public int Hauteur {get; set;}
     static int Indice {get;set;}
 
 
-    public Plantes(string nom, int[,] position, string nature, bool comestible, Saisons saison, Terrains terrain, int place, int[] besoin, int[] besoinsActuels, int longevite, int produit, List<Maladies> maladie, int croissance, int sante, int hauteur) {
+    public Plantes(string nom, int[,] position, string nature, bool comestible, Saisons saison, string terrain, int place, int[] besoin, int[] besoinsActuels, int longevite, int produit, List<Maladies> maladie, int croissance, int hauteur) {
         Nom = nom;
         Position = position;
         Nature = nature;
@@ -223,68 +221,67 @@ public class Plantes {
         Produit = produit;
         Maladie = maladie;
         Croissance = croissance;
-        Sante = sante;
         Hauteur = hauteur;
     }
 }
 
 public class Etoile : Plantes {
-    public Etoile(int[,] position) : base("Etoile", position, "Polycarpique", false, new Saisons(0), new Terrains(0), 1, [100,150,150,0],[125,160,0], 12, 1, new List<Maladies> {}, 1, 100, 3) {}
+    public Etoile(int[,] position) : base("Etoile", position, "Polycarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 1, [100,150,150,0],[125,160,0], 12, 1, new List<Maladies> {}, 1, 100, 3) {}
 } //A voir si on enleve les positions (pas utile)
 
 public class Meteorite : Plantes {
-    public Meteorite(int[,] position) : base("Météorite", position, "Monocarpique", false, new Saisons(1), new Terrains(1), 1, new Besoins(), 24, 0, new Maladies(), 6, 150, 2) {
+    public Meteorite(int[,] position) : base("Météorite", position, "Monocarpique", false, new Saison1(), "Petit Prince", 1, new Besoins(), 24, 0, new Maladies(), 6, 150, 2) {
         Random aleatoire = new Random();
         Produit = aleatoire.Next(2,6);
     }
 }
 
 public class Rose : Plantes {
-    public Rose(int[,] position) : base("Rose", position, "Monocarpique", false, new Saisons(3), new Terrains(1), 1, new Besoins(), 2, 1, new Maladies(), 1, 50, 3) {}
+    public Rose(int[,] position) : base("Rose", position, "Monocarpique", false, new Saison3(), "Petit Prince", 1, new Besoins(), 2, 1, new Maladies(), 1, 50, 3) {}
 }
 
 public class Chapeau : Plantes {
-    public Chapeau(int[,] position) : base("Chapeau", position, "Monocarpique", true, new Saisons(0), new Terrains(0), 1, new Besoins(), 24, 2, new Maladies(), 1, 100, 2) {}
+    public Chapeau(int[,] position) : base("Chapeau", position, "Monocarpique", true, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 1, new Besoins(), 24, 2, new Maladies(), 1, 100, 2) {}
 }
 
 public class Nuage : Plantes {
-    public Nuage(int[,] position) : base("Nuage", position, "Polycarpique", true, new Saisons(2), new Terrains(0), 1, new Besoins(), 72, 3, new Maladies(), 2, 100, 1) {}
+    public Nuage(int[,] position) : base("Nuage", position, "Polycarpique", true, new Saison2(), "Aucun", 1, new Besoins(), 72, 3, new Maladies(), 2, 100, 1) {}
 }
 
 public class EtoileFilante : Plantes {
-    public EtoileFilante(int[,] position) : base("Etoile filante", position, "Monocarpique", false, new Saisons(1), new Terrains(2), 1, new Besoins(), 2, 1, new Maladies(), 1, 50, 2) {}
+    public EtoileFilante(int[,] position) : base("Etoile filante", position, "Monocarpique", false, new Saison1(), "Businessman", 1, new Besoins(), 2, 1, new Maladies(), 1, 50, 2) {}
 }
 
 public class Alcootier : Plantes {
-    public Alcootier(int[,] position) : base("Alcootier", position, "Polycarpique", true, new Saisons(3), new Terrains(3), 4, new Besoins(), 240, 1, new Maladies(), 8, 500, 5) {}
+    public Alcootier(int[,] position) : base("Alcootier", position, "Polycarpique", true, new Saison3(), "Buveur", 4, new Besoins(), 240, 1, new Maladies(), 8, 500, 5) {}
 }
 
 public class PlanteOrgueilleuse : Plantes {
-    public PlanteOrgueilleuse(int[,] position) : base("Plante orgueilleuse", position, "Polycarpique", false, new Saisons(0), new Terrains(4), 1, new Besoins(), 36, 1, new Maladies(), 0.75, 100, 3) {}
+    public PlanteOrgueilleuse(int[,] position) : base("Plante orgueilleuse", position, "Polycarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Vaniteux", 1, new Besoins(), 36, 1, new Maladies(), 0.75, 100, 3) {}
 }
 
 public class Couronne : Plantes {
-    public Couronne(int[,] position) : base("Couronne", position, "Monocarpique", true, new Saisons(0), new Terrains(5), 1, new Besoins(), 12, 1, new Maladies(), 3, 200, 2) {}
+    public Couronne(int[,] position) : base("Couronne", position, "Monocarpique", true, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Roi", 1, new Besoins(), 12, 1, new Maladies(), 3, 200, 2) {}
 }
 
 public class Planete : Plantes {
-    public Planete(int[,] position) : base("Planète", position, "Monocarpique", false, new Saisons(2), new Terrains(6), 1, new Besoins(), 60, 1, new Maladies(), 24, 1000, 3) {}
+    public Planete(int[,] position) : base("Planète", position, "Monocarpique", false, new Saison2(), "Géographe", 1, new Besoins(), 60, 1, new Maladies(), 24, 1000, 3) {}
 }
 
 public class Lampadaire : Plantes {
-    public Lampadaire(int[,] position) : base("Lampadaire", position, "Polycarpique", false, new Saisons(1), new Terrains(7), 1, new Besoins(), 1200, 0, new Maladies(), 2, 100, 4) {}
+    public Lampadaire(int[,] position) : base("Lampadaire", position, "Polycarpique", false, new Saison1(),"Réverbère", 1, new Besoins(), 1200, 0, new Maladies(), 2, 100, 4) {}
 }
 
 public class Baobab : Plantes {
     public List<int> TauxApparition {get; set;}
-    public Baobab(int[,] position) : base("Baobab", position, "Monocarpique", false, new Saisons(0), new Terrains(0), 4, new Besoins(), 240, 0, new Maladies(), 5, 700, 5) {
+    public Baobab(int[,] position) : base("Baobab", position, "Monocarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 4, new Besoins(), 240, 0, new Maladies(), 5, 700, 5) {
         TauxApparition = new List<int> {0, 0, 0, 0, 0, 0, 0};
     }
 }
 
 public class Champignon : Plantes {
     public List<int> TauxApparition {get; set;}
-    public Champignon(int[,] position) : base("Champignon", position, "Monocarpique", false, new Saisons(0), new Terrains(0), 1, new Besoins(), 12, 0, new Maladies(), 1, 100, 1) {
+    public Champignon(int[,] position) : base("Champignon", position, "Monocarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 1, new Besoins(), 12, 0, new Maladies(), 1, 100, 1) {
         TauxApparition = new List<int> {0, 0, 0, 0, 0, 0, 0};
     }
 }
