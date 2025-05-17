@@ -1,6 +1,6 @@
 public class Animaux {
     public string Nom {get; set;}
-    public int[,] Position {get; set;}
+    public int[,] Position {get; set;}  //[ligne, colonne]
     public int PlaceOccupée {get; set;}
     public int Groupe {get; set;}
     public List<int> TauxApparition {get; set;}
@@ -51,13 +51,40 @@ public class Mouton : Animaux {
 
 public class Elephant : Animaux {
     public int[] Dégats {get; set;}
+    public int Direction {get; set;}
     public Elephant(int[,] position) : base("Éléphant", position, 2, 1, new List<int> {0, 0, 0, 0, 0, 0, 0}) {
         Dégats = [-2000, 0, 0 , 0];
+        Random aleatoire = new Random();
+        Direction = aleatoire.Next(4);
+        //0:N  1:S, 2:E, 3:O
     }
-
+        
     public void Deplacer() {
-        //Si serpent sur une case adjacente, il se déplace à l'opposé
-        //Sinon, se déplace en ligne droite (à réfléchir)
+        //Se déplace en ligne droite
+        modelisationAnimaux.Matrix[position] = 0;
+        if (Direction == 1) {
+            if (position[0] == 6) {
+                if (modelisationAnimaux.Sud != null) {
+                    Position = [0, Position[1]];
+                    modelisationAnimaux.Sud.Matrix[position] = Id;
+                }
+                else {ListAnimaux}
+            }
+            else {
+                Position = [Position[0]+1, Position[1]];
+                modelisationAnimaux.Matrix[position] = Id;
+            }
+            
+        }
+        else if (Direction == 1) {
+
+        }
+        else if (Direction == 2) {
+
+        }
+        else {
+
+        }
     }
 }
 
