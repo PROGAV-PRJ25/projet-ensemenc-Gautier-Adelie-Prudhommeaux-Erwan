@@ -26,7 +26,7 @@ public class Jardin{
         ListeSaison = new List<Saisons> {new Saion1(),new Saion2(),new Saion3()}
         Saison = ListeSaison[0];
         PlantesJouable = ["Etoile", "Météorite", "Rose", "Chapeau", "Nuage"];
-        ActionPossible = ["","",];
+        ActionPossible = ["Objet","Planter","Récolter","Déraciné","Arroser","Protéger","Effrayer","Applaudir"];
         MaladiesPossible = ["Maladie1"];
         ObjectsAchetable = ["Lanterne","Pelle","Écharpe","Paravent","Clôture","Arrosoir","Épouventails","Haut parleur","Médicament","Pommade"];
         Objects = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
