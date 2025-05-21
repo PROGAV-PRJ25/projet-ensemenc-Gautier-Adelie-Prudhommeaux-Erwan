@@ -15,6 +15,7 @@ public class Jardin{
     public int[] GrainesDisponibles {get;set;} // chaque indice est associé a une plante. il y en a 11 
     public List<Plantes> ListPlante {get;set;}
     public List<Animaux> ListAnimaux {get;set;}
+    
 
     
 
@@ -44,15 +45,15 @@ public class Jardin{
     }
 
     public Plantes RechercherPlante(int[] co) {
-        int indiceCherché = MatPlante[co];
+        int indiceCherché = MatPlante[co[0], co[1]];
         foreach(Plantes plante in ListPlante) {
             if (plante.Id == indiceCherché) {return plante;}
         }
-        return new Plantes("",[],"",false,new Saison1(),"",0,[],[],0,0,new List<Maladies> {},0,0);
+        return new Plantes("",[],"",false,new Saison1(),"",0,[],[],0,0,new List<Maladies> {},0,0, new Jardin());  
     }
 
     public Animaux RechercherAnimaux(int[] co) {
-        int indiceCherché = MatAnimaux[co];
+        int indiceCherché = MatAnimaux[co[0], co[1]];
         foreach(Animaux animal in ListAnimaux) {
             if (animal.Id == indiceCherché) {return animal;}
         }
@@ -65,8 +66,8 @@ public class Jardin{
             ListPlante.Remove(planteSup);
             for (int i=0; i<21; i++) {
                 for (int j=0; j<21; j++) {
-                    if (MatPlante[i,j] == indiceCherché) {
-                        MatPlante[i,j] = 0;
+                    if (MatPlante[i,j] == planteSup.Id) {
+                        MatPlante[i,j] = -1;
                     }
                 }
             }
@@ -79,8 +80,8 @@ public class Jardin{
             ListAnimaux.Remove(animalSup);
             for (int i=0; i<21; i++) {
                 for (int j=0; j<21; j++) {
-                    if (MatAnimaux[i,j] == indiceCherché) {
-                        MatAnimaux[i,j] = 0;
+                    if (MatAnimaux[i,j] == animalSup.Id) {
+                        MatAnimaux[i,j] = -1;
                     }
                 }
             }
@@ -109,13 +110,13 @@ public class Jardin{
         return deplacement;
     }
 
-    public int[] RechercherPlanteProche(int[] coAnimal, string planteCherchée) { //planteCherchée correspond au nom de la plante la plus proche recherchée. Si on veut regarder toutes les plantes, mettre ""
-        int[] coPlanteProche = [coAnimal[0], coAnimal[1]];
+    public int[] RechercherPlanteProche(int[] coOrigine, string planteCherchée) { //planteCherchée correspond au nom de la plante la plus proche recherchée. Si on veut regarder toutes les plantes, mettre ""
+        int[] coPlanteProche = [coOrigine[0], coOrigine[1]];
         double distPlanteProche = 1000;
         for (int i = 0; i < 21; i++) {
             for (int j = 0; j < 21; j++) {
-                if (MatPlante[i, j] > 0 && (planteCherchée="" || RechercherPlante([i,j]).Nom=planteCherchée)) {
-                    double dist = Math.Sqrt(Math.Pow(coAnimal[0] - i, 2) + Math.Pow(coAnimal[1] - j, 2));
+                if (MatPlante[i, j] > 0 && (planteCherchée=="" || RechercherPlante([i,j]).Nom==planteCherchée)) {
+                    double dist = Math.Sqrt(Math.Pow(coOrigine[0] - i, 2) + Math.Pow(coOrigine[1] - j, 2));
                     if (dist < distPlanteProche) {
                         distPlanteProche = dist;
                         coPlanteProche = [i, j];
@@ -123,7 +124,24 @@ public class Jardin{
                 }
             }
         }
-        return coPlanteProche
+        return coPlanteProche;
+    }
+
+    public int[] RechercherAnimalProche(int[] coOrigine, string animalCherché) { //planteCherchée correspond au nom de la plante la plus proche recherchée. Si on veut regarder toutes les plantes, mettre ""
+        int[] coAnimalProche = [coOrigine[0], coOrigine[1]];
+        double distAnimalProche = 1000;
+        for (int i = 0; i < 21; i++) {
+            for (int j = 0; j < 21; j++) {
+                if (MatAnimaux[i, j] > 0 && (animalCherché=="" || RechercherAnimaux([i,j]).Nom==animalCherché)) {
+                    double dist = Math.Sqrt(Math.Pow(coOrigine[0] - i, 2) + Math.Pow(coOrigine[1] - j, 2));
+                    if (dist < distAnimalProche) {
+                        distAnimalProche = dist;
+                        coAnimalProche = [i, j];
+                    }
+                }
+            }
+        }
+        return coAnimalProche;
     }
 
     public override string ToString()
