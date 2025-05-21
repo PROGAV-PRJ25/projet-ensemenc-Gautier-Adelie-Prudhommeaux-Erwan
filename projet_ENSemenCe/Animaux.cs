@@ -37,9 +37,29 @@ public class Serpent : Animaux
 
     public void Deplacer()
     {
-        //Si elephant sur une case adjacente, il va le manger
-        //Si un chapeau sur une case adjacente, il va se cacher en dessous
-        //Sinon, se dirige vers l'elephant ou le chapeau le plus proche, ou se déplace aléatoirement
+        //Si elephant sur sa case, il va le manger
+        //Si un chapeau sur sa case, il va se cacher en dessous
+        //Sinon, se dirige vers l'elephant le plus proche, ou reste sur place
+        int[] coAnimalProche = Jardin.RechercherAnimalProche(Position, "Éléphant");
+        if (Math.Abs(coAnimalProche[0] - Position[0]) == 1 || Math.Abs(coAnimalProche[1] - Position[1]) == 1)
+        {
+            Jardin.SupprimerAnimaux(coAnimalProche);
+            Jardin.MatAnimaux[Position[0], Position[1]] = -1;
+            Position[0] += coAnimalProche[0];
+            Position[1] += coAnimalProche[1];
+            Jardin.MatAnimaux[Position[0], Position[1]] = Id;
+        }
+        else
+        {
+            int[] deplacement = Jardin.DeplacementDirigéAnimaux(Position, coAnimalProche);
+            Jardin.MatAnimaux[Position[0], Position[1]] = -1;
+            Position[0] += deplacement[0];
+            Position[1] += deplacement[1];
+            Jardin.MatAnimaux[Position[0], Position[1]] = Id;
+        }
+
+        if (Jardin.RechercherPlante(Position).Nom == "Chapeau") { Caché = true; }
+        else { Caché = false; }        
     }
 }
 
@@ -53,32 +73,16 @@ public class Mouton : Animaux
 
     public void Deplacer()
     {
-        //Si baobab sur une case adjacente, il va le manger
-        //Sinon, se dirige vers le baobab ou le mouton le plus proche, ou se déplace aléatoirement
+        //Si baobab sur sa case, il va le manger
+        //Sinon, se dirige vers le baobab le plus proche, ou reste sur place
         Plantes planteEcrasée = Jardin.RechercherPlante(Position);
-        if (planteEcrasée.Nom =="Baobab") {
+        if (planteEcrasée.Nom == "Baobab") {
             Jardin.SupprimerPlante(planteEcrasée.Position);
         }
         else {
-            int[] coPlanteProche = [Position[0], Position[1]];
-            double distPlanteProche = 1000;
-            for (int i = 0; i < 21; i++)
-            {
-                for (int j = 0; j < 21; j++)
-                {
-                    if (Jardin.MatPlante[i, j] > 0)
-                    {
-                        double dist = Math.Sqrt(Math.Pow(Position[0] - i, 2) + Math.Pow(Position[1] - j, 2));
-                        if (dist < distPlanteProche)
-                        {
-                            distPlanteProche = dist;
-                            coPlanteProche = [i, j];
-                        }
-                    }
-                }
-            }
-            int[] deplacement = Jardin.DeplacementDirigéAnimaux( Position, coPlanteProche);
-            Jardin.MatAnimaux[Position[0], Position[1]] = 0;
+            int[] coPlanteProche = Jardin.RechercherPlanteProche(Position, "Baobab");
+            int[] deplacement = Jardin.DeplacementDirigéAnimaux(Position, coPlanteProche);
+            Jardin.MatAnimaux[Position[0], Position[1]] = -1;
             Position[0] += deplacement[0];
             Position[1] += deplacement[1];
             Jardin.MatAnimaux[Position[0], Position[1]] = Id;
@@ -113,7 +117,7 @@ public class Elephant : Animaux
             }
             else if (Jardin.MatAnimaux[Position[0] - 1, Position[1]] == -1)
             {
-                Jardin.MatAnimaux[Position[0] + 1, Position[1]] = 0;   //On supprime l'arrière de l'éléphant
+                Jardin.MatAnimaux[Position[0] + 1, Position[1]] = -1;   //On supprime l'arrière de l'éléphant
                 Position[0] = Position[0] - 1;
                 Jardin.MatAnimaux[Position[0], Position[1]] = Id;
                 Jardin.SupprimerPlante(Position);
@@ -128,7 +132,7 @@ public class Elephant : Animaux
             }
             else if (Jardin.MatAnimaux[Position[0] + 1, Position[1]] == -1)
             {
-                Jardin.MatAnimaux[Position[0] - 1, Position[1]] = 0;   //On supprime l'arrière de l'éléphant
+                Jardin.MatAnimaux[Position[0] - 1, Position[1]] = -1;   //On supprime l'arrière de l'éléphant
                 Position[0] = Position[0] + 1;
                 Jardin.MatAnimaux[Position[0], Position[1]] = Id;
                 Jardin.SupprimerPlante(Position);
@@ -144,7 +148,7 @@ public class Elephant : Animaux
             }
             else if (Jardin.MatAnimaux[Position[0], Position[1] - 1] == -1)
             {
-                Jardin.MatAnimaux[Position[0], Position[1] + 1] = 0;   //On supprime l'arrière de l'éléphant
+                Jardin.MatAnimaux[Position[0], Position[1] + 1] = -1;   //On supprime l'arrière de l'éléphant
                 Position[1] = Position[1] - 1;
                 Jardin.MatAnimaux[Position[0], Position[1]] = Id;
                 Jardin.SupprimerPlante(Position);
@@ -157,7 +161,7 @@ public class Elephant : Animaux
             }
             else if (Jardin.MatAnimaux[Position[0], Position[1] + 1] == -1)
             {
-                Jardin.MatAnimaux[Position[0], Position[1] - 1] = 0;   //On supprime l'arrière de l'éléphant
+                Jardin.MatAnimaux[Position[0], Position[1] - 1] = -1;   //On supprime l'arrière de l'éléphant
                 Position[1] = Position[1] + 1;
                 Jardin.MatAnimaux[Position[0], Position[1]] = Id;
                 Jardin.SupprimerPlante(Position);
@@ -181,33 +185,21 @@ public class Oiseau : Animaux
     {
         //Si plante sur une case adjacente, il va la picorer --> enlève des pv à la plante
         //Sinon, se dirige vers la plante la plus proche (ou reste sur place si la plante n'est pas accessible)
-        if (Jardin.MatPlante[Position[0], Position[1]] > 0) {
+        if (Jardin.MatPlante[Position[0], Position[1]] == 1) { Jardin.MatPlante[Position[0], Position[1]] = -1; }
+        if (Jardin.MatPlante[Position[0], Position[1]] > 0)
+        {
             Plantes plantePicorée = Jardin.RechercherPlante(Position);
-            for (int i=0; i<4; i++) {
+            for (int i = 0; i < 4; i++)
+            {
                 plantePicorée.EtatActuel[i] += Dégats[i];
             }
         }
 
-        else {
-            int[] coPlanteProche = [Position[0], Position[1]];
-            double distPlanteProche = 1000;
-            for (int i = 0; i < 21; i++)
-            {
-                for (int j = 0; j < 21; j++)
-                {
-                    if (Jardin.MatPlante[i, j] > 0)
-                    {
-                        double dist = Math.Sqrt(Math.Pow(Position[0] - i, 2) + Math.Pow(Position[1] - j, 2));
-                        if (dist < distPlanteProche)
-                        {
-                            distPlanteProche = dist;
-                            coPlanteProche = [i, j];
-                        }
-                    } 
-                }
-            }
-            int[] deplacement = Jardin.DeplacementDirigéAnimaux( Position, coPlanteProche);
-            Jardin.MatAnimaux[Position[0], Position[1]] = 0;
+        else
+        {
+            int[] coPlanteProche = Jardin.RechercherPlanteProche(Position, "");
+            int[] deplacement = Jardin.DeplacementDirigéAnimaux(Position, coPlanteProche);
+            Jardin.MatAnimaux[Position[0], Position[1]] = -1;
             Position[0] += deplacement[0];
             Position[1] += deplacement[1];
             Jardin.MatAnimaux[Position[0], Position[1]] = Id;

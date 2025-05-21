@@ -15,6 +15,7 @@ public class Jardin{
     public int[] GrainesDisponibles {get;set;} // chaque indice est associé a une plante. il y en a 11 
     public List<Plantes> ListPlante {get;set;}
     public List<Animaux> ListAnimaux {get;set;}
+    
 
     
 
@@ -119,32 +120,45 @@ public class Jardin{
     // fonction de recherche globale
     public Plantes RechercherPlante(int[] co)
     {
-        int indiceCherché = MatPlante[co[0], co[1]];
+        int indiceCherché = MatPlante[co[0], co[1][0], co[1]];
         foreach (Plantes plante in ListPlante)
         {
             if (plante.Id == indiceCherché) { return plante; }
         }
-        return new Plantes("", [], "", false, new Saison1(), "", 0, [], [], 0, 0, new List<Maladies> { }, 0, 0, " ");
+        return new Plantes("", [], "", false, new Saison1(), "", 0, [], [], 0, 0, new List<Maladies> { }, 0, 0, " ", "", new Jardin());  
     }
 
     public Animaux RechercherAnimaux(int[] co) {
-        int indiceCherché = MatAnimaux[co[0],co[1]];
+        int indiceCherché = MatAnimaux[co[0],co[1][0], co[1]];
         foreach(Animaux animal in ListAnimaux) {
             if (animal.Id == indiceCherché)
             { return animal;}
         }
-        return new Animaux("",[],0,0,new List<int> {},new Jardin()," ");
+        return new Animaux("",[],0,0,new List<int> {},new Jardin(), ""," ");
     }
-    public int[] RechercherPlanteProche(int[] coAnimal, string planteCherchée) { //planteCherchée correspond au nom de la plante la plus proche recherchée. Si on veut regarder toutes les plantes, mettre ""
-        int[] coPlanteProche = [coAnimal[0], coAnimal[1]];
-        double distPlanteProche = 1000;
-        for (int i = 0; i < 21; i++) {
-            for (int j = 0; j < 21; j++) {
-                if (MatPlante[i, j] > 0 && (planteCherchée == "" || RechercherPlante([i,j]).Nom == planteCherchée)) {
-                    double dist = Math.Sqrt(Math.Pow(coAnimal[0] - i, 2) + Math.Pow(coAnimal[1] - j, 2));
-                    if (dist < distPlanteProche) {
-                        distPlanteProche = dist;
-                        coPlanteProche = [i, j];
+
+    public void SupprimerPlante(int[] co) {
+        Plantes planteSup = RechercherPlante(co);
+        if (planteSup.Nom != "") {
+            ListPlante.Remove(planteSup);
+            for (int i=0; i<21; i++) {
+                for (int j=0; j<21; j++) {
+                    if (MatPlante[i,j] == planteSup.Id) {
+                        MatPlante[i,j] = -1;
+                    }
+                }
+            }
+        }
+    }
+
+    public void SupprimerAnimaux(int[] co) {
+        Animaux animalSup = RechercherAnimaux(co);
+        if (animalSup.Nom != "") {
+            ListAnimaux.Remove(animalSup);
+            for (int i=0; i<21; i++) {
+                for (int j=0; j<21; j++) {
+                    if (MatAnimaux[i,j] == animalSup.Id) {
+                        MatAnimaux[i,j] = -1;
                     }
                 }
             }
