@@ -55,9 +55,9 @@ public class Mouton : Animaux
     {
         //Si baobab sur une case adjacente, il va le manger
         //Sinon, se dirige vers le baobab ou le mouton le plus proche, ou se déplace aléatoirement
-        Plantes planteEcrasée = Jardin.RechercherPlante(Jardin.MatPlante[Position[0], Position[1]]);
+        Plantes planteEcrasée = Jardin.RechercherPlante(Position);
         if (planteEcrasée.Nom =="Baobab") {
-            Jardin.SupprimerPlante(planteEcrasée.Id);
+            Jardin.SupprimerPlante(planteEcrasée.Position);
         }
         else {
             int[] coPlanteProche = [Position[0], Position[1]];
