@@ -146,14 +146,42 @@ public class Jardin{
 
     public override string ToString()
     {
-        string resultat = "";
-        for (int i = 0; i < 21; i++)
+        string resultat = "||=========================================||=========================================||=========================================||\n";
+        for (int i = 0; i < 3; i++)
         {
-            for (int j = 0; j < 21; j++)
+            for (int m = 0; m < 7; m++)
             {
-                resultat += Convert.ToString(MatPlante[i, j]);
+
+                resultat += "||-----------------------------------------||-----------------------------------------||-----------------------------------------||\n";
+                resultat += "||";
+                for (int j = 0; j < 3; j++)
+                {
+                    for (int k = 0; k < 7; k++)
+                    {
+
+                        string données = Convert.ToString(MatPlante[i * 7 + m, j * 7 + k]);
+                        if (MatPlante[i * 7 + m, j * 7 + k] == -1)
+                        {
+                            resultat += "     |";
+                        }
+                        else if (MatPlante[i * 7 + m, j * 7 + k] == 0)
+                        {
+                            resultat += "  >< |";
+                        }
+                        else
+                        {
+                            resultat += " ";
+                            resultat += RechercherAnimaux([i * 7 + m, j * 7 + k]).Emoji;
+                            resultat += " ";
+                            resultat += RechercherPlante([i * 7 + m, j * 7 + k]).Emoji;
+                            resultat += " |";
+                        }
+                    }
+                    resultat += "|";
+                }
+                resultat += "\n";
             }
-            resultat += "\n";
+            resultat += "||=========================================||=========================================||=========================================||\n";
         }
         return resultat;
     }

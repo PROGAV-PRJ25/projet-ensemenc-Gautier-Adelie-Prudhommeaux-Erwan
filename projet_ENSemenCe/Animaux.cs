@@ -8,8 +8,9 @@ public class Animaux
     public int Id { get; set; }
     public static int IdSuivant = 1;
     public Jardin Jardin { get; set; }
+    public string Emoji { get; set; }
 
-    public Animaux(string nom, int[] position, int placeOccupée, int groupe, List<int> tauxApparition, Jardin jardin)
+    public Animaux(string nom, int[] position, int placeOccupée, int groupe, List<int> tauxApparition, Jardin jardin, string emoji)
     {
         Nom = nom;
         Position = position;
@@ -19,6 +20,7 @@ public class Animaux
         Id = IdSuivant;
         IdSuivant++;
         Jardin = jardin;
+        Emoji = emoji;
     }
 }
 
@@ -28,7 +30,7 @@ public class Animaux
 public class Serpent : Animaux
 {
     public bool Caché { get; set; }
-    public Serpent(int[] position, Jardin jardin) : base("Serpent", position, 1, 1, new List<int> { 0, 0, 0, 0, 0, 0, 0 }, jardin)
+    public Serpent(int[] position, Jardin jardin) : base("Serpent", position, 1, 1, new List<int> { 0, 0, 0, 0, 0, 0, 0 }, jardin,"🐍")
     {
         Caché = false;
     }
@@ -63,7 +65,7 @@ public class Serpent : Animaux
 
 public class Mouton : Animaux
 {
-    public Mouton(int[] position, Jardin jardin) : base("Mouton", position, 1, 0, new List<int> { 0, 0, 0, 0, 0, 0, 0 }, jardin)
+    public Mouton(int[] position, Jardin jardin) : base("Mouton", position, 1, 0, new List<int> { 0, 0, 0, 0, 0, 0, 0 }, jardin, "🐑")
     {
         Random aleatoire = new Random();
         Groupe = aleatoire.Next(1, 3);
@@ -96,7 +98,7 @@ public class Elephant : Animaux
     public int[] Dégats { get; set; }
     public int Direction { get; set; }
     //La position correspond à celle de la tête de l'éléphant (qui fait 2 cases de long)
-    public Elephant(int[] position, Jardin jardin) : base("Éléphant", position, 2, 1, new List<int> { 0, 0, 0, 0, 0, 0, 0 }, jardin)
+    public Elephant(int[] position, Jardin jardin) : base("Éléphant", position, 2, 1, new List<int> { 0, 0, 0, 0, 0, 0, 0 }, jardin, "🐘")
     {
         Dégats = [-2000, 0, 0, 0];
         Random aleatoire = new Random();
@@ -172,7 +174,7 @@ public class Elephant : Animaux
 public class Oiseau : Animaux
 {
     public int[] Dégats { get; set; }
-    public Oiseau(int[] position, Jardin jardin) : base("Oiseau", position, 1, 0, new List<int> { 0, 0, 0, 0, 0, 0, 0 }, jardin)
+    public Oiseau(int[] position, Jardin jardin) : base("Oiseau", position, 1, 0, new List<int> { 0, 0, 0, 0, 0, 0, 0 }, jardin, "🐦")
     {
         Random aleatoire = new Random();
         Groupe = aleatoire.Next(2, 4);
