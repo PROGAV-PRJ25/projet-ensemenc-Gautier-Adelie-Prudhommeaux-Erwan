@@ -43,22 +43,24 @@ public class Jardin{
         }
     }
 
-    public Plantes RechercherPlante(int indiceCherché) {
+    public Plantes RechercherPlante(int[] co) {
+        int indiceCherché = MatPlante[co];
         foreach(Plantes plante in ListPlante) {
             if (plante.Id == indiceCherché) {return plante;}
         }
         return new Plantes("",[],"",false,new Saison1(),"",0,[],[],0,0,new List<Maladies> {},0,0);
     }
 
-    public Animaux RechercherAnimaux(int indiceCherché) {
+    public Animaux RechercherAnimaux(int[] co) {
+        int indiceCherché = MatAnimaux[co];
         foreach(Animaux animal in ListAnimaux) {
             if (animal.Id == indiceCherché) {return animal;}
         }
         return new Animaux("",[],0,0,new List<int> {},new Jardin());
     }
 
-    public void SupprimerPlante(int indiceCherché) {
-        Plantes planteSup = RechercherPlante(indiceCherché);
+    public void SupprimerPlante(int[] co) {
+        Plantes planteSup = RechercherPlante(co);
         if (planteSup.Nom != "") {
             ListPlante.Remove(planteSup);
             for (int i=0; i<21; i++) {
@@ -71,8 +73,8 @@ public class Jardin{
         }
     }
 
-    public void SupprimerAnimaux(int indiceCherché) {
-        Animaux animalSup = RechercherAnimaux(indiceCherché);
+    public void SupprimerAnimaux(int[] co) {
+        Animaux animalSup = RechercherAnimaux(co);
         if (animalSup.Nom != "") {
             ListAnimaux.Remove(animalSup);
             for (int i=0; i<21; i++) {
@@ -94,20 +96,34 @@ public class Jardin{
         else if (diffY != 0) { deplacement = [0, diffY / Math.Abs(diffY)]; }
         else if (diffX != 0) { deplacement = [diffX / Math.Abs(diffX), 0]; }
 
-        if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1]] != -1)
-        {
-            if (diffY / Math.Abs(diffY) <= 0)
-            {
+        if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1]] != -1) {
+            if (diffY / Math.Abs(diffY) <= 0) {
                 if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1] + 1] != -1) { deplacement = [0, 0]; }
                 else { deplacement[1] = deplacement[1] + 1; }
             }
-            else
-            {
+            else {
                 if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1] - 1] != -1) { deplacement = [0, 0]; }
                 else { deplacement[1] = deplacement[1] - 1; }
             }
         }
         return deplacement;
+    }
+
+    public int[] RechercherPlanteProche(int[] coAnimal, string planteCherchée) { //planteCherchée correspond au nom de la plante la plus proche recherchée. Si on veut regarder toutes les plantes, mettre ""
+        int[] coPlanteProche = [coAnimal[0], coAnimal[1]];
+        double distPlanteProche = 1000;
+        for (int i = 0; i < 21; i++) {
+            for (int j = 0; j < 21; j++) {
+                if (MatPlante[i, j] > 0 && (planteCherchée="" || RechercherPlante([i,j]).Nom=planteCherchée)) {
+                    double dist = Math.Sqrt(Math.Pow(coAnimal[0] - i, 2) + Math.Pow(coAnimal[1] - j, 2));
+                    if (dist < distPlanteProche) {
+                        distPlanteProche = dist;
+                        coPlanteProche = [i, j];
+                    }
+                }
+            }
+        }
+        return coPlanteProche
     }
 
     public override string ToString()
