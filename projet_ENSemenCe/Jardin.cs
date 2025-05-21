@@ -49,7 +49,7 @@ public class Jardin{
         foreach(Plantes plante in ListPlante) {
             if (plante.Id == indiceCherché) {return plante;}
         }
-        return new Plantes("",[],"",false,new Saison1(),"",0,[],[],0,0,new List<Maladies> {},0,0, new Jardin());  
+        return new Plantes("",[],"",false,new Saison1(),"",0,[],[],0,0,new List<Maladies> {},0,0, "", new Jardin());  
     }
 
     public Animaux RechercherAnimaux(int[] co) {
@@ -57,7 +57,7 @@ public class Jardin{
         foreach(Animaux animal in ListAnimaux) {
             if (animal.Id == indiceCherché) {return animal;}
         }
-        return new Animaux("",[],0,0,new List<int> {},new Jardin());
+        return new Animaux("",[],0,0,new List<int> {},new Jardin(), "");
     }
 
     public void SupprimerPlante(int[] co) {
