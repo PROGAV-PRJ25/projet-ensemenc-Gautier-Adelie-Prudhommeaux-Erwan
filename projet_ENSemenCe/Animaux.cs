@@ -109,14 +109,14 @@ public class Elephant : Animaux
         {
             if (Position[0] - 1 < 0 || (Jardin.MatAnimaux[Position[0] - 1, Position[1]] == 0))
             {
-                Jardin.SupprimerAnimaux(Id);
+                Jardin.SupprimerAnimaux(Position);
             }
             else if (Jardin.MatAnimaux[Position[0] - 1, Position[1]] == -1)
             {
                 Jardin.MatAnimaux[Position[0] + 1, Position[1]] = 0;   //On supprime l'arrière de l'éléphant
                 Position[0] = Position[0] - 1;
                 Jardin.MatAnimaux[Position[0], Position[1]] = Id;
-                Jardin.SupprimerPlante(Jardin.MatPlante[Position[0], Position[1]]);
+                Jardin.SupprimerPlante(Position);
             }
         }
 
@@ -124,14 +124,14 @@ public class Elephant : Animaux
         {
             if (Position[0] + 1 > 20 || (Jardin.MatAnimaux[Position[0] + 1, Position[1]] == 0))
             {
-                Jardin.SupprimerAnimaux(Id);
+                Jardin.SupprimerAnimaux(Position);
             }
             else if (Jardin.MatAnimaux[Position[0] + 1, Position[1]] == -1)
             {
                 Jardin.MatAnimaux[Position[0] - 1, Position[1]] = 0;   //On supprime l'arrière de l'éléphant
                 Position[0] = Position[0] + 1;
                 Jardin.MatAnimaux[Position[0], Position[1]] = Id;
-                Jardin.SupprimerPlante(Jardin.MatPlante[Position[0], Position[1]]);
+                Jardin.SupprimerPlante(Position);
             }
         }
 
@@ -140,27 +140,27 @@ public class Elephant : Animaux
         {
             if (Position[1] - 1 < 0 || (Jardin.MatAnimaux[Position[0], Position[1] - 1] == 0))
             {
-                Jardin.SupprimerAnimaux(Id);
+                Jardin.SupprimerAnimaux(Position);
             }
             else if (Jardin.MatAnimaux[Position[0], Position[1] - 1] == -1)
             {
                 Jardin.MatAnimaux[Position[0], Position[1] + 1] = 0;   //On supprime l'arrière de l'éléphant
                 Position[1] = Position[1] - 1;
                 Jardin.MatAnimaux[Position[0], Position[1]] = Id;
-                Jardin.SupprimerPlante(Jardin.MatPlante[Position[0], Position[1]]);
+                Jardin.SupprimerPlante(Position);
             }
         }
         else {
             if (Position[1] + 1 > 20 || (Jardin.MatAnimaux[Position[0], Position[1] + 1] == 0))
             {
-                Jardin.SupprimerAnimaux(Id);
+                Jardin.SupprimerAnimaux(Position);
             }
             else if (Jardin.MatAnimaux[Position[0], Position[1] + 1] == -1)
             {
                 Jardin.MatAnimaux[Position[0], Position[1] - 1] = 0;   //On supprime l'arrière de l'éléphant
                 Position[1] = Position[1] + 1;
                 Jardin.MatAnimaux[Position[0], Position[1]] = Id;
-                Jardin.SupprimerPlante(Jardin.MatPlante[Position[0], Position[1]]);
+                Jardin.SupprimerPlante(Position);
             }
         }
     }
@@ -182,7 +182,7 @@ public class Oiseau : Animaux
         //Si plante sur une case adjacente, il va la picorer --> enlève des pv à la plante
         //Sinon, se dirige vers la plante la plus proche (ou reste sur place si la plante n'est pas accessible)
         if (Jardin.MatPlante[Position[0], Position[1]] > 0) {
-            Plantes plantePicorée = Jardin.RechercherPlante(Jardin.MatPlante[Position[0], Position[1]]);
+            Plantes plantePicorée = Jardin.RechercherPlante(Position);
             for (int i=0; i<4; i++) {
                 plantePicorée.EtatActuel[i] += Dégats[i];
             }
