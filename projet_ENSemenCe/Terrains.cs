@@ -4,15 +4,15 @@ public class Terrains{
     public string Nomplanete {get;set;}
     public string? MaladiesPossible {get; set;}
     public List<string>? PlanteAchetable {get;set;}
-    public int[] MeteoPourcentage {get;set;} 
+    public double[] MeteoPourcentage {get;set;} 
 
 
-    public Terrains(int numplanete, string maladiesPossible, List<string> planteAchetable, Meteos meteoAjouté){
+    public Terrains(int numplanete, string maladiesPossible, List<string> planteAchetable, double[] meteoAjouté){
         string[] nomTerrains = ["Aucun","Petit Prince","Businessman","Buveur","Vaniteux","Roi","Géographe","Réverbère"];
         Nomplanete = nomTerrains[numplanete];
         MaladiesPossible = maladiesPossible;
         PlanteAchetable = planteAchetable;
-        MeteoAjouté = meteoAjouté;
+        MeteoPourcentage = meteoAjouté;
     }
 }
 
@@ -116,8 +116,8 @@ public class ToutNoir : Meteos {
 
 public class Saisons {
     public string Nom {get;set;}
-    public int[] PourcentMeteos {get;set;}
-    public Saisons(string nom, int[] pourcentMeteos){
+    public double[] PourcentMeteos {get;set;}
+    public Saisons(string nom, double[] pourcentMeteos){
         Nom = nom;
         PourcentMeteos = pourcentMeteos;
     }

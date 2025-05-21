@@ -12,7 +12,7 @@ public class Jardin{
     public string[] PlantesJouable {get;set;}
     public string[] MaladiesPossible {get;set;}
     public string[] ObjectsAchetable {get;set;} 
-    public int[] GrainesDisponibles {get;set;} // chaque indice est assosier a une plante. il y en a 11 
+    public int[] GrainesDisponibles {get;set;} // chaque indice est associé a une plante. il y en a 11 
     public List<Plantes> ListPlante {get;set;}
     public List<Animaux> ListAnimaux {get;set;}
 
@@ -23,7 +23,7 @@ public class Jardin{
         NombreAction = 3;
         Poudredetoile = 100;
         Meteo = new Calme();
-        ListeSaison = new List<Saisons> {new Saion1(),new Saion2(),new Saion3()}
+        ListeSaison = new List<Saisons> {new Saison1(),new Saison2(),new Saison3()};
         Saison = ListeSaison[0];
         PlantesJouable = ["Etoile", "Météorite", "Rose", "Chapeau", "Nuage"];
         ActionPossible = ["Objet","Planter","Récolter","Déraciné","Arroser","Protéger","Effrayer","Applaudir"];
@@ -35,63 +35,93 @@ public class Jardin{
         MatAnimaux = new int[21,21];
         ListAnimaux = new List<Animaux> {};
         ListPlante = new List<Plantes> {};
-        for (int i = 7; i<14;i++){
-            for (int j = 7; j<14;j++){
+        for (int i = 0; i<7;i++){
+            for (int j = 0; j<7;j++){
                 MatPlante[i,j]= -1;
                 MatAnimaux[i,j]= -1;
             }
         }
+    }
 
+    public Plantes RechercherPlante(int indiceCherché) {
+        foreach(Plantes plante in ListPlante) {
+            if (plante.Id == indiceCherché) {return plante;}
+        }
+        return new Plantes("",[],"",false,new Saison1(),"",0,[],[],0,0,new List<Maladies> {},0,0);
+    }
+
+    public Animaux RechercherAnimaux(int indiceCherché) {
+        foreach(Animaux animal in ListAnimaux) {
+            if (animal.Id == indiceCherché) {return animal;}
+        }
+        return new Animaux("",[],0,0,new List<int> {},new Jardin());
+    }
+
+    public void SupprimerPlante(int indiceCherché) {
+        Plantes planteSup = RechercherPlante(indiceCherché);
+        if (planteSup.Nom != "") {
+            ListPlante.Remove(planteSup);
+            for (int i=0; i<21; i++) {
+                for (int j=0; j<21; j++) {
+                    if (MatPlante[i,j] == indiceCherché) {
+                        MatPlante[i,j] = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    public void SupprimerAnimaux(int indiceCherché) {
+        Animaux animalSup = RechercherAnimaux(indiceCherché);
+        if (animalSup.Nom != "") {
+            ListAnimaux.Remove(animalSup);
+            for (int i=0; i<21; i++) {
+                for (int j=0; j<21; j++) {
+                    if (MatAnimaux[i,j] == indiceCherché) {
+                        MatAnimaux[i,j] = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    public int[] DeplacementDirigéAnimaux(int[] coAnimal, int[] coCible)
+    {
+        int diffX = coCible[0] - coAnimal[0];
+        int diffY = coCible[1] - coAnimal[1];
+        int[] deplacement = [0, 0];
+        if (diffX != 0 && diffY != 0) { deplacement = [diffX / Math.Abs(diffX), diffY / Math.Abs(diffY)]; }
+        else if (diffY != 0) { deplacement = [0, diffY / Math.Abs(diffY)]; }
+        else if (diffX != 0) { deplacement = [diffX / Math.Abs(diffX), 0]; }
+
+        if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1]] != -1)
+        {
+            if (diffY / Math.Abs(diffY) <= 0)
+            {
+                if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1] + 1] != -1) { deplacement = [0, 0]; }
+                else { deplacement[1] = deplacement[1] + 1; }
+            }
+            else
+            {
+                if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1] - 1] != -1) { deplacement = [0, 0]; }
+                else { deplacement[1] = deplacement[1] - 1; }
+            }
+        }
+        return deplacement;
     }
 
     public override string ToString()
     {
-        return Calme();
+        string resultat = "";
+        for (int i = 0; i < 21; i++)
+        {
+            for (int j = 0; j < 21; j++)
+            {
+                resultat += Convert.ToString(MatPlante[i, j]);
+            }
+            resultat += "\n";
+        }
+        return resultat;
     }
 }
 
-
-
-
-
-public class Maladies {
-    public string Nom {get; set;}
-    public int[] Dégats {get; set;}
-    public int TauxApparition {get; set;}
-    public int Medicament {get; set;}
-
-    public Maladies(string nom, int[] dégats, int tauxApparition) {
-        Nom = nom;
-        Dégats = dégats; //nb de dégâts par tour
-        TauxApparition = tauxApparition;
-        Medicament = 0;
-    }
-}
-
-public class Mildiou : Maladies {
-    public Mildiou() : base("Mildiou", [-8, 0, 0, 0], 2) {}
-}
-
-public class Rouille : Maladies {
-    public Rouille() : base("Rouille", [-1, 0, 0, 0], 2) {}
-}
-
-public class GrandeSoif : Maladies {
-    public GrandeSoif() : base("Grande soif", [0, -4, 0, 0], 4) {}
-}
-
-public class Isolement : Maladies {
-    public Isolement() : base("Isolement", [-5, 0, 0, 0], 15) {}
-}
-
-public class PeurNoir : Maladies {
-    public PeurNoir() : base("Peur du noir", [-5, 0, 0, 0], 4) {}
-}
-
-public class Infertilite : Maladies {
-    public Infertilite() : base("Infertilité", [0, 0, 0, 0], 2) {}
-}
-
-public class Explosion : Maladies {
-    public Explosion() : base("Explosion", [-1, 0, 0, 0], 15) {}
-}
