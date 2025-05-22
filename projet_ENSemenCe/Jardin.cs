@@ -44,12 +44,15 @@ public class Jardin{
         }
     }
 
-    public Plantes RechercherPlante(int[] co) {
+
+    public Plantes RechercherPlante(int[] co)
+    {
         int indiceCherché = MatPlante[co[0], co[1]];
-        foreach(Plantes plante in ListPlante) {
-            if (plante.Id == indiceCherché) {return plante;}
+        foreach (Plantes plante in ListPlante)
+        {
+            if (plante.Id == indiceCherché) { return plante; }
         }
-        return new Plantes("",[],"",false,new Saison1(),"",0,[],[],0,0,new List<Maladies> {},0,0, "", new Jardin());  
+        return new Plantes("", [], "", false, new Saison1(), "", 0, [], [], 0, 0, new List<Maladies> { }, 0, 0, "", new Jardin());
     }
 
     public Animaux RechercherAnimaux(int[] co) {
