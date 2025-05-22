@@ -17,9 +17,9 @@ public class Plantes {
     public static int IdSuivant = 2;
     public Jardin Jardin { get; set; }
     public string Emoji { get; set; }
+    public bool Proteger { get; set; }
+    public bool Explosion { get; set; }
 
-
-    
     public Plantes(string nom, int[] position, string nature, bool comestible, Saisons saison, string terrain, int place, int[] besoin, int[] etatActuel, int longevite, int produit, List<Maladies> maladie, double croissance, int hauteur, string emoji, Jardin jardin)
     {
         Nom = nom;
@@ -39,7 +39,9 @@ public class Plantes {
         Id = IdSuivant;
         IdSuivant++;
         Emoji = emoji;
+        Proteger = false;
         Jardin = jardin;
+        Explosion = false;
     }
 }
 
