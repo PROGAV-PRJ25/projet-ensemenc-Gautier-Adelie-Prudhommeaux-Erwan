@@ -20,6 +20,7 @@ public class Jardin
     public List<Plantes> ListPlante { get; set; }
     public List<Animaux> ListAnimaux { get; set; }
     public int[,] MatTerrain { get; set; }
+    public int CriseEco {get;set;}
 
 
 
@@ -27,13 +28,14 @@ public class Jardin
     public Jardin()
     {
         TourActuel = 0;
+        CriseEco = 0;
         NombreAction = 3;
         Poudredetoile = 100;
         Meteo = new Calme();
         ListeSaison = new List<Saisons> { new Saison1(), new Saison2(), new Saison3() };
         Saison = ListeSaison[0];
         PlantesJouable = ["Etoile", "Météorite", "Rose", "Chapeau", "Nuage"];
-        ActionPossible = ["Objet", "Planter", "Récolter", "Déraciné", "Arroser", "Protéger", "Effrayer", "Applaudir"];
+        ActionPossible = ["Objet", "Planter", "Récolter", "Déraciné", "Arroser", "Protéger", "Effrayer", "Applaudir","Regarder"];
         MaladiesPossible = ["Maladie1"];
         ObjectsAchetable = ["Lanterne", "Pelle", "Écharpe", "Paravent", "Arrosoir", "Haut parleur", "Médicament", "Pommade"]; //cloture et epouventails
         Objects = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
@@ -61,7 +63,144 @@ public class Jardin
         }
     }
 
-    // magasin et objets
+// fonction qui change la meteo 
+    public void MeteoChange(){
+
+    }
+
+// fonction qui change la saison 
+    public void SaisonChange(){
+        // condition pour changer la saison
+    }
+
+    public int ListeChoix(string[] liste)
+    {
+        int indexSelection = 0;
+        int len = liste.Length;
+        ConsoleKey key;
+
+        do
+        {
+            Console.Clear();
+            Console.WriteLine("Sélectionnez avec les flèches, puis appuyez sur Entrée pour valider :\n");
+
+            for (int i = 0; i < len; i++)
+            {
+                if (i == indexSelection)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkCyan;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine($"> {liste[i]}");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine($"  {liste[i]}");
+                }
+            }
+
+            key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.LeftArrow && indexSelection > 0)
+                indexSelection--;
+            else if (key == ConsoleKey.RightArrow && indexSelection < len - 1)
+                indexSelection++;
+
+        } while (key != ConsoleKey.Enter);
+        return indexSelection;
+    }
+
+
+    public void magasin()
+    {
+        if (CriseEco > 0){
+            Console.WriteLine("Vous ne pouvez pas acheter c'est la crisis total here !!!!!!");
+        }else{
+        Console.WriteLine("Que voulez vous faire ? ");
+        string[] l1 = ["Achater", "Vendre","sortir"];
+        int index1 = ListeChoix(l1);
+        if (index1 == 0)
+        {
+            Console.WriteLine("Dans quel catégories voulez vous acheter ? ");
+            string[] l2 = ["Objets", "Terrains", "sortir"];
+            int index2 = ListeChoix(l2);
+            if (index2 == 0)
+            {
+                Console.WriteLine("Que voulez vous acheter? ");
+                int index3 = ListeChoix(ObjectsAchetable);
+                // vérification si il peux l'acheter avec son argent 
+                AcheterObjet(index3);
+                NombreAction--;
+            }
+            else if (index2 == 2)
+            {}
+            else
+            {
+                AcheterTerrain();
+            }
+        } else if (index1 == 2) {
+        }
+        else
+        {
+            Console.WriteLine("Que voulez vous vendre ? ");
+            string[] list = ["Lanterne", "Pelle", "Echarpe", "Paravent", "Arrosoir", "Haut parleur", "Medicament", "Pommade", "Etoile", "Météorite", "Rose", "Chapeau", "Nuage", "Etoile filante", "Alcool", "Soleil", "Couronne", "Planète", "poussière d'étoile", "sortir"];
+            int id = ListeChoix(list);
+            if (Objects[id] == 0)
+            {
+                Console.WriteLine("Vous n'en n'avez pas, vous ne pouvez pas en vendre !!!");
+                Console.WriteLine("Voulez-vous faire une autre utilisation du magasin ? O/N");
+                string taper = Console.ReadLine()!;
+                while (taper != "O" || taper != "N")
+                {
+                    Console.WriteLine("vous avez taper un caractère invalide.");
+                    Console.WriteLine("Voulez-vous faire une autre utilisation du magasin ? O/N");
+                    taper = Console.ReadLine()!;
+                }
+                if (taper == "O")
+                {
+                    magasin();
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("Combien voulez vous en vendre");
+                int nombre = int.Parse(Console.ReadLine()!);
+                if (nombre > Objects[id])
+                {
+                    Console.WriteLine("Vous n'en avez pas assez pour en vendre autant");
+                    Console.WriteLine("Voulez-vous faire une autre utilisation du magasin ? O/N");
+                    string taper1 = Console.ReadLine()!;
+                    while (taper1 != "O" || taper1 != "N")
+                    {
+                        Console.WriteLine("vous avez taper un caractère invalide.");
+                        Console.WriteLine("Voulez-vous faire une autre utilisation du magasin ? O/N");
+                        taper1 = Console.ReadLine()!;
+                    }
+                    if (taper1 == "O")
+                    {
+                        magasin();
+                    }
+                }
+                else
+                {
+                    int prix = 1; // a définir pour chacun
+                    Poudredetoile += prix * nombre;
+                    Objects[id] -= nombre;
+                    NombreAction--;
+                }
+            }
+        }
+        }
+    }
+
+    public void action()
+    {
+        int index = ListeChoix(ActionPossible);
+        //ici j'ai l'action voulu faut faire le reste
+    }
+// il y a aussi a faire la fonction inspection plante
+    // achat et objets
     public void Objet(string choix, int[] coord)
     {
         Plantes plante = RechercherPlante(coord);
@@ -138,42 +277,19 @@ public class Jardin
 
     public void AcheterObjet(int objet)
     {
-        Objects[objet - 1]++;
+        Objects[objet]++;
     }
-        public void AcheterTerrain(string[] ob)
+    public void AcheterTerrain()
     {
-        int indexSelection = 0;
-        ConsoleKey key;
-
-        do
+        string[] ob = ["Retour", "Petit Prince", "Businessman", "Buveur", "Vaniteux", "Roi", "Géographe", "Réverbère"];
+        int indexSelection = ListeChoix(ob);
+        if (indexSelection != 0)
         {
-            Console.Clear();
-            Console.WriteLine("Sélectionnez un mot avec les flèches, puis appuyez sur Entrée :\n");
-
-            for (int i = 0; i < options.Count; i++)
-            {
-                if (i == indexSelection)
-                {
-                    Console.BackgroundColor = ConsoleColor.DarkCyan;
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine($"> {ob[i]}");
-                    Console.ResetColor();
-                }
-                else
-                {
-                    Console.WriteLine($"  {ob[i]}");
-                }
-            }
-
-            key = Console.ReadKey(true).Key;
-
-            if (key == ConsoleKey.LeftArrow && indexSelection > 0)
-                indexSelection--;
-            else if (key == ConsoleKey.RightArrow && indexSelection < options.Count - 1)
-                indexSelection++;
-
-        } while (key != ConsoleKey.Enter);
-        PlacerTerrain(ob[indexSelection], indexSelection, MatTerrain);
+            PlacerTerrain(ob[indexSelection], indexSelection, MatTerrain);
+            NombreAction--;
+        } else {
+            Console.WriteLine("Vous n'avez pas acheter de terrain.");
+        }
     }
 
     public void PlacerTerrain(string nom, int indice, int[,] matLibre)
@@ -187,7 +303,7 @@ public class Jardin
         {
             for (int x = 0; x < size && !found; x++)
             {
-                if (matrice[x, y] == 0)
+                if (matLibre[x, y] == 0)
                 {
                     cursorX = x;
                     cursorY = y;
@@ -197,80 +313,83 @@ public class Jardin
         }
 
         if (!found)
-            console.WriteLine("vous ne pouvez plus acheter de terrain.");
-
-        ConsoleKey key;
-
-        do
         {
-            Console.Clear();
-            Console.WriteLine($"Sélectionnez une case libre avec les flèches pour sélectionnés l'endroit ou vous voulez placer le terrain {nom} puis appuyez sur Entrée :\n");
-
-            for (int y = 0; y < size; y++)
-            {
-                for (int x = 0; x < size; x++)
-                {
-                    bool estSelection = (x == cursorX && y == cursorY);
-                    bool estLibre = matLibre[x, y] == 0;
-
-                    if (estSelection)
-                    {
-                        if (estLibre)
-                        {
-                            Console.BackgroundColor = ConsoleColor.Green;
-                            Console.ForegroundColor = ConsoleColor.Black;
-                        }
-                        else
-                        {
-                            Console.BackgroundColor = ConsoleColor.DarkGray;
-                            Console.ForegroundColor = ConsoleColor.White;
-                        }
-                    }
-                    else if (!estLibre)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkGray;
-                    }
-
-                    Console.Write(matLibre[x, y] == 0 ? " ." : " X");
-                    Console.ResetColor();
-                    Console.Write(" ");
-                }
-                Console.WriteLine();
-            }
-
-            key = Console.ReadKey(true).Key;
-
-            int newX = cursorX;
-            int newY = cursorY;
-
-            switch (key)
-            {
-                case ConsoleKey.LeftArrow: newX = Math.Max(0, cursorX - 1); break;
-                case ConsoleKey.RightArrow: newX = Math.Min(size - 1, cursorX + 1); break;
-                case ConsoleKey.UpArrow: newY = Math.Max(0, cursorY - 1); break;
-                case ConsoleKey.DownArrow: newY = Math.Min(size - 1, cursorY + 1); break;
-            }
-
-            // Se déplacer uniquement si la case est libre
-            if (matLibre[newX, newY] == 0)
-            {
-                cursorX = newX;
-                cursorY = newY;
-            }
-
-        } while (key != ConsoleKey.Enter);
-
-        for (int i = 7 * cursorX; i < 7 * (cursorX + 1); i++)
-        {
-            for (int j = 7 * cursorY; j < 7 * (cursorX + 1); j++)
-            {
-                MatPlante[i, j] = -1;
-                MatAnimaux[i, j] = -1;
-                MatObjets[i, j] = -1;
-            }
+            Console.WriteLine("vous ne pouvez plus acheter de terrain.");
         }
-        MatTerrain[cursorX, cursorY] = indice;
+        else
+        {
+            ConsoleKey key;
 
+            do
+            {
+                Console.Clear();
+                Console.WriteLine($"Sélectionnez une case libre avec les flèches pour sélectionnés l'endroit ou vous voulez placer le terrain {nom} puis appuyez sur Entrée :\n");
+
+                for (int y = 0; y < size; y++)
+                {
+                    for (int x = 0; x < size; x++)
+                    {
+                        bool estSelection = (x == cursorX && y == cursorY);
+                        bool estLibre = matLibre[x, y] == 0;
+
+                        if (estSelection)
+                        {
+                            if (estLibre)
+                            {
+                                Console.BackgroundColor = ConsoleColor.Green;
+                                Console.ForegroundColor = ConsoleColor.Black;
+                            }
+                            else
+                            {
+                                Console.BackgroundColor = ConsoleColor.DarkGray;
+                                Console.ForegroundColor = ConsoleColor.White;
+                            }
+                        }
+                        else if (!estLibre)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                        }
+
+                        Console.Write(matLibre[x, y] == 0 ? " ." : " X");
+                        Console.ResetColor();
+                        Console.Write(" ");
+                    }
+                    Console.WriteLine();
+                }
+
+                key = Console.ReadKey(true).Key;
+
+                int newX = cursorX;
+                int newY = cursorY;
+
+                switch (key)
+                {
+                    case ConsoleKey.LeftArrow: newX = Math.Max(0, cursorX - 1); break;
+                    case ConsoleKey.RightArrow: newX = Math.Min(size - 1, cursorX + 1); break;
+                    case ConsoleKey.UpArrow: newY = Math.Max(0, cursorY - 1); break;
+                    case ConsoleKey.DownArrow: newY = Math.Min(size - 1, cursorY + 1); break;
+                }
+
+                // Se déplacer uniquement si la case est libre
+                if (matLibre[newX, newY] == 0)
+                {
+                    cursorX = newX;
+                    cursorY = newY;
+                }
+
+            } while (key != ConsoleKey.Enter);
+
+            for (int i = 7 * cursorX; i < 7 * (cursorX + 1); i++)
+            {
+                for (int j = 7 * cursorY; j < 7 * (cursorX + 1); j++)
+                {
+                    MatPlante[i, j] = -1;
+                    MatAnimaux[i, j] = -1;
+                    MatObjets[i, j] = -1;
+                }
+            }
+            MatTerrain[cursorX, cursorY] = indice;
+        }
     }
 
     // fonction pour les différentes actions du joueur
