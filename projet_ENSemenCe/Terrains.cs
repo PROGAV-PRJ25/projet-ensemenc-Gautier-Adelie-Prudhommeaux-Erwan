@@ -17,22 +17,22 @@ public abstract class Terrains{
 }
 
 public class TerrainPetitPrince:Terrains{
-    public TerrainPetitPrince():base(1,"Mildiou" ,new List<string> {},[0,0,0,6]){}
+    public TerrainPetitPrince():base(1,"Mildiou" ,new List<string> {"Rose"},[0,0,0,6]){}
 }
 public class TerrainBusinessman:Terrains{
-    public TerrainBusinessman():base(2,"Infertilité" ,new List<string> {},[1,1,0.8,7]){}
+    public TerrainBusinessman():base(2,"Infertilité" ,new List<string> {"Etoile filante"},[1,1,0.8,7]){}
 }
 public class TerrainBuveur:Terrains{
-    public TerrainBuveur():base(3,"Grande soif" ,new List<string> {},[1,1,0.7,8]){}
+    public TerrainBuveur():base(3,"Grande soif" ,new List<string> {"Alcootier"},[1,1,0.7,8]){}
 }
 public class TerrainVaniteux:Terrains{
-    public TerrainVaniteux():base(4,"Isolement" ,new List<string> {},[1,1,0.7,9]){}
+    public TerrainVaniteux():base(4,"Isolement" ,new List<string> {"Plante orgueilleuse"},[1,1,0.7,9]){}
 }
 public class TerrainRoi:Terrains{
-    public TerrainRoi():base(5,"Rouille" ,new List<string> {},[1,1,0.7,10]){}
+    public TerrainRoi():base(5,"Rouille" ,new List<string> {"Couronne"},[1,1,0.7,10]){}
 }
 public class TerrainGeographe:Terrains{
-    public TerrainGeographe():base(6,"Explosion" ,new List<string> {},[1,1,0.7,11]){}
+    public TerrainGeographe():base(6,"Explosion" ,new List<string> {"Planète"},[1,1,0.7,11]){}
 }
 public class TerrainReverbere:Terrains{
     public TerrainReverbere():base(7,"Peur du noir" ,new List<string> {},[1,1,0.7,12]){}

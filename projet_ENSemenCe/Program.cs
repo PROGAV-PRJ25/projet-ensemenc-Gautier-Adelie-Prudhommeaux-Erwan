@@ -2,26 +2,26 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+// a regarder : list prix achat et vente / list besoin plante / remplir liste plante par terrain
 
 // variable globale
 bool enCours = true;
-bool heure = false;
 
 void Main()
     {
         Jardin jardiland = new Jardin();
         jardiland.PlacerTerrain("Petit Prince", 1, jardiland.MatTerrain);
         Console.WriteLine(jardiland);
-        // Action principale (interaction utilisateur)
+        // Action principale 
         while (enCours)
         {
             if(jardiland.Meteo.NumeroCata > 0){
-                simulationurgence(jardiland.Meteo.NumeroCata,jardiland);
+                SimulationUrgence(jardiland.Meteo.NumeroCata,jardiland);
                 Thread.Sleep(2000);
                 Console.Clear();
                 Console.WriteLine("Voulez-vous arrêter le jeu ? O/N");
                 string fin = Console.ReadLine()!;
-                 while (fin != "O" || fin != "N")
+                while (fin != "O" && fin != "N")
                 {
                     Console.WriteLine("vous avez taper un caractère invalide.");
                     Console.WriteLine("Voulez-vous arrêter le jeu ? O/N");
@@ -32,12 +32,13 @@ void Main()
                     enCours = false;
                 }
             }else{
-                simulation7Jourclassique();
+                Console.Clear();
+                Simulation7JourClassique(jardiland);
                 Thread.Sleep(2000);
                 Console.Clear();
                 Console.WriteLine("Voulez-vous arrêter le jeu ? O/N");
                 string fin = Console.ReadLine()!;
-                 while (fin != "O" || fin != "N")
+                 while (fin != "O" && fin != "N")
                 {
                     Console.WriteLine("vous avez taper un caractère invalide.");
                     Console.WriteLine("Voulez-vous arrêter le jeu ? O/N");
@@ -52,24 +53,102 @@ void Main()
         Console.WriteLine("Jeu terminé.");
     }
 
-void simulation1Jourclassique(){
-// tour de jeu 
-
-//afficher
-//proposerposibilité joueur / répéter jusqu'a stop ou action =0
-//fin journée / animaux déplacement / cgt meteo / cgt saison / degat action surplante / aparition et disparition du terrain / re^passer toutes les valeurs besoin a false / action objet /
+void Simulation1JourClassique(Jardin jardin){
+    while( jardin.NombreAction != 0){
+    Console.WriteLine(jardin);
+    Console.WriteLine($"Que voulez vous faire ? il vous reste {jardin.NombreAction}");
+    int choix = jardin.ListeChoix(["Entretenir mon jardin","Allez au magasin","Finir la journée"]);
+    if(choix == 0){
+        jardin.Action(jardin.MatChoix(21,jardin),jardin);
+    }else if(choix == 1 ){
+        jardin.Magasin();
+    }else{
+        jardin.NombreAction = 0;
+    }
+    }
 }
 
-void simulation7Jourclassique(){
-    // une journée avec actions
-
-    // les 6 jours sans actions
-for (int i = 0; i<6; i++){
-    simulation1Jourclassique();
+void Simulation7JourClassique(Jardin jardin){
+    Simulation1JourClassique(jardin);
+for (int i = 0; i<7; i++){
+    FinJournée(jardin);
 }
 }
 
- void simulationurgence(int numCata, Jardin jardin){
+void FinJournée( Jardin jardin){
+    foreach(Animaux animal in jardin.ListAnimaux){
+        animal.Deplacer();
+    }
+    foreach(Plantes plante in jardin.ListPlante){
+        foreach(Maladies maladie in plante.Maladie){
+            for (int i=0; i<3;i++){
+            plante.EtatActuel[i] += maladie.Degats[i];
+            }
+        }
+        if(plante.EtatActuel[0] <= 0 ){
+            jardin.SupprimerPlante(plante.Position);
+        }
+        if(jardin.TourActuel - plante.JourPlanter > plante.Longevite*30){
+            jardin.SupprimerPlante(plante.Position);
+        }
+        plante.Proteger = false;
+        plante.Explosion = false;
+        if(plante.Nom == "Etoile"){
+            plante.Deplacer();
+        }
+    } 
+    Random ani = new Random();
+    int chance = ani.Next(0,100);
+    int coX = ani.Next(0,7);
+    int coY = ani.Next(0,7);
+    if (chance < 5 ){
+        bool found = false;
+         for (int y = 0; y < 21 && !found; y++)
+        {
+            for (int x = 0; x < 21 && !found; x++)
+            {
+                if (jardin.MatAnimaux[x, y] == -1)
+                {
+                    // ajouter un animal aléatoire
+                    found = true; 
+                }
+            }
+        }
+    }
+    Random mh = new Random();
+    int chances = mh.Next(0,100);
+    int coXx = mh.Next(0,7);
+    int coYy = mh.Next(0,7);
+    if (chances < 20 ){
+        bool found = false;
+         for (int y = 0; y < 21 && !found; y++)
+        {
+            for (int x = 0; x < 21 && !found; x++)
+            {
+                if (jardin.MatPlante[x, y] == -1)
+                {
+                    
+                    found = true; 
+                }
+            }
+        }
+    }
+    for (int i =0 ; i<21;i++){
+        for(int j =0; j<21;j++){
+            if (jardin.MatObjets[i,j] > 2){
+                jardin.Applaudir([i,j]);
+                jardin.MatObjets[i,j]--;
+            }
+        }
+    }
+
+    jardin.SaisonChange();
+    jardin.MeteoChange();
+    jardin.TourActuel++; 
+    jardin.NombreAction += 3 + 2*jardin.ListPlante.Count;
+}
+
+ void SimulationUrgence(int numCata, Jardin jardin){
     if(numCata == 4){
 
         Console.Clear();
@@ -82,9 +161,7 @@ for (int i = 0; i<6; i++){
             jardin.Magasin();
         }}while(choix == 0);
         jardin.CriseEco = 4;
-        jardin.SaisonChange();
-        jardin.MeteoChange();
-        jardin.TourActuel++;
+        FinJournée(jardin);
     }else if (numCata == 8){
         Console.Clear(); 
         Console.WriteLine("-----------------------------------------------------------------------------\n              ATTENTION UNE CATASTROPHE EST ARRIVÉE LE TEMPS EST              \n                        DÉRÉGLÉ, LA SAISON CHANGE!!!!!!!!                     \n-----------------------------------------------------------------------------");
@@ -93,23 +170,36 @@ for (int i = 0; i<6; i++){
         do{ S = rand.Next(0,3);
         }while(jardin.ListeSaison[S] == jardin.Saison);
         jardin.Saison = jardin.ListeSaison[S];
-        jardin.MeteoChange();
-        jardin.TourActuel++;
+        FinJournée(jardin);
     }else{
-        Thread thread = new Thread(SimulationEnFond);
+        Console.Clear();
+        Thread thread = new Thread(() => SimulationEnFond(jardin));
         thread.Start();
-        heure = true;
+        DateTime debut = DateTime.Now;
+        DateTime fin = debut.AddMinutes(5);
         _ = AfficherHeureAsync();
-        while(1==1){
+        while(DateTime.Now < fin){
+            Console.SetCursorPosition(0, 2); // met la position sur la ranger du dessous pour ne pas suprimer l'heure
+            if( jardin.NombreAction != 0){
+                Console.WriteLine(jardin);
+                Console.WriteLine("Que voulez vous faire ?");
+                int choix = jardin.ListeChoix(["Entretenir mon jardin","Allez au magasin","Finir la journée"]);
+                if(choix == 0){
+                    jardin.Action(jardin.MatChoix(21,jardin),jardin);
+                }else if(choix == 1 ){
+                    jardin.Magasin();
+                }   
+            }
+        }
+        thread.Abort();
+        FinJournée(jardin);
     }
-    }
-
 }
 
 
 async Task AfficherHeureAsync()
     {
-        while (heure)
+        while (true)
         {
             Console.SetCursorPosition(0, 0); // Affiche l'heure tout en haut
             Console.WriteLine("Heure : " + DateTime.Now.ToString("HH:mm:ss"));
@@ -117,14 +207,62 @@ async Task AfficherHeureAsync()
         }
     }
 
-    
 
 
- void SimulationEnFond()
+
+ void SimulationEnFond(Jardin jardin)
     {
         while (enCours)
         {
-            Console.WriteLine("[Simu] Une action automatique se produit...");
-            Thread.Sleep(1000); // Attend 2 secondes
+           foreach(Animaux animal in jardin.ListAnimaux){
+        animal.Deplacer();
+    }
+    foreach(Plantes plante in jardin.ListPlante){
+        foreach(Maladies maladie in plante.Maladie){
+            for (int i=0; i<3;i++){
+            plante.EtatActuel[i] += maladie.Degats[i];
+            }
+        }
+        if(plante.EtatActuel[0] <= 0 ){
+            jardin.SupprimerPlante(plante.Position);
+        }
+        if(jardin.TourActuel - plante.JourPlanter > plante.Longevite*30){
+            jardin.SupprimerPlante(plante.Position);
+        }
+        plante.Proteger = false;
+        plante.Explosion = false;
+        if(plante.Nom == "Etoile"){
+            plante.Deplacer();
+        }
+    } 
+    Random ani = new Random();
+    int chance = ani.Next(0,100);
+    int coX = ani.Next(0,7);
+    int coY = ani.Next(0,7);
+    if (chance < 5 ){
+        bool found = false;
+         for (int y = 0; y < 21 && !found; y++)
+        {
+            for (int x = 0; x < 21 && !found; x++)
+            {
+                if (jardin.MatAnimaux[x, y] != 0)
+                {
+                    if(jardin.MatAnimaux[x,y]==-1){
+                       found = true; 
+                    }
+                }
+            }
         }
     }
+    for (int i =0 ; i<21;i++){
+        for(int j =0; j<21;j++){
+            if (jardin.MatObjets[i,j] > 2){
+                jardin.Applaudir([i,j]);
+                jardin.MatObjets[i,j]--;
+            }
+        }
+    } 
+        }
+    }
+
+Main();
