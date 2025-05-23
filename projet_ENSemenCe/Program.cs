@@ -2,8 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-// a regarder : list prix achat et vente / list besoin plante / remplir liste plante par terrain
-
 // variable globale
 bool enCours = true;
 
@@ -99,39 +97,66 @@ void FinJournée( Jardin jardin){
     } 
     Random ani = new Random();
     int chance = ani.Next(0,100);
-    int coX = ani.Next(0,7);
-    int coY = ani.Next(0,7);
-    if (chance < 5 ){
-        bool found = false;
-         for (int y = 0; y < 21 && !found; y++)
-        {
-            for (int x = 0; x < 21 && !found; x++)
-            {
+    int x = ani.Next(0,21);
+    int y = ani.Next(0,21);
+    if (chance < 15){
                 if (jardin.MatAnimaux[x, y] == -1)
                 {
-                    // ajouter un animal aléatoire
-                    found = true; 
+                    int choix =ani.Next(0,4);
+                    if (choix == 0){
+                        Animaux serpent = new Serpent([x,y],jardin);
+                        jardin.ListAnimaux.Add(serpent);
+                        jardin.MatAnimaux[x,y] = serpent.Id;
+                    }else if(choix == 1){
+                        Animaux mouton= new Mouton([x,y],jardin);
+                        jardin.ListAnimaux.Add(mouton);
+                        jardin.MatAnimaux[x,y] = mouton.Id;
+                    }else if(choix == 2){
+                        Animaux oiseau = new Oiseau([x,y],jardin);
+                        jardin.ListAnimaux.Add(oiseau);
+                        jardin.MatAnimaux[x,y] = oiseau.Id;
+                    }else{
+                        Elephant elephant = new Elephant([x,y],jardin);
+                        int dir = elephant.Direction;
+                        if(dir == 0 && jardin.MatAnimaux[x-1,y] == -1 ){
+                            jardin.ListAnimaux.Add(elephant);
+                            jardin.MatAnimaux[x,y] = elephant.Id;
+                            jardin.MatAnimaux[x-1,y] = elephant.Id;
+                        }else if(dir == 1 && jardin.MatAnimaux[x+1,y] == -1 ){
+                            jardin.ListAnimaux.Add(elephant);
+                            jardin.MatAnimaux[x,y] = elephant.Id;
+                            jardin.MatAnimaux[x+1,y] = elephant.Id;
+                        }else if(dir == 2 && jardin.MatAnimaux[x,y-1] == -1 ){
+                            jardin.ListAnimaux.Add(elephant);
+                            jardin.MatAnimaux[x,y] = elephant.Id;
+                            jardin.MatAnimaux[x,y-1] = elephant.Id;
+                        }else if(dir == 3 && jardin.MatAnimaux[x,y+1] == -1 ){
+                            jardin.ListAnimaux.Add(elephant);
+                            jardin.MatAnimaux[x,y] = elephant.Id;
+                            jardin.MatAnimaux[x,y+1] = elephant.Id;
+                        }
+                    }
                 }
-            }
-        }
     }
     Random mh = new Random();
     int chances = mh.Next(0,100);
-    int coXx = mh.Next(0,7);
-    int coYy = mh.Next(0,7);
-    if (chances < 20 ){
-        bool found = false;
-         for (int y = 0; y < 21 && !found; y++)
-        {
-            for (int x = 0; x < 21 && !found; x++)
-            {
-                if (jardin.MatPlante[x, y] == -1)
+    int coXx = mh.Next(0,21);
+    int coYy = mh.Next(0,21);
+    if (chances < 40 ){
+                if (jardin.MatPlante[coXx, coYy] == -1)
                 {
-                    
-                    found = true; 
+                    int choix = mh.Next(0,2);
+                    if (choix == 0){
+                        Plantes baobab = new Baobab([coXx,coYy],jardin);
+                        jardin.ListPlante.Add(baobab);
+                        jardin.MatPlante[coXx,coYy] = baobab.Id;
+                    }else{
+                        Plantes champi = new Champignon([coXx,coYy],jardin);
+                        jardin.ListPlante.Add(champi);
+                        jardin.MatPlante[coXx,coYy] = champi.Id;
+                    }
                 }
-            }
-        }
+            
     }
     for (int i =0 ; i<21;i++){
         for(int j =0; j<21;j++){
@@ -144,7 +169,8 @@ void FinJournée( Jardin jardin){
 
     jardin.SaisonChange();
     jardin.MeteoChange();
-    jardin.TourActuel++; 
+    jardin.TourActuel++;
+    jardin.NombreAction =0;
     jardin.NombreAction += 3 + 2*jardin.ListPlante.Count;
 }
 
@@ -237,22 +263,66 @@ async Task AfficherHeureAsync()
     } 
     Random ani = new Random();
     int chance = ani.Next(0,100);
-    int coX = ani.Next(0,7);
-    int coY = ani.Next(0,7);
-    if (chance < 5 ){
-        bool found = false;
-         for (int y = 0; y < 21 && !found; y++)
-        {
-            for (int x = 0; x < 21 && !found; x++)
-            {
-                if (jardin.MatAnimaux[x, y] != 0)
+    int x = ani.Next(0,21);
+    int y = ani.Next(0,21);
+    if (chance < 15){
+                if (jardin.MatAnimaux[x, y] == -1)
                 {
-                    if(jardin.MatAnimaux[x,y]==-1){
-                       found = true; 
+                    int choix =ani.Next(0,4);
+                    if (choix == 0){
+                        Animaux serpent = new Serpent([x,y],jardin);
+                        jardin.ListAnimaux.Add(serpent);
+                        jardin.MatAnimaux[x,y] = serpent.Id;
+                    }else if(choix == 1){
+                        Animaux mouton= new Mouton([x,y],jardin);
+                        jardin.ListAnimaux.Add(mouton);
+                        jardin.MatAnimaux[x,y] = mouton.Id;
+                    }else if(choix == 2){
+                        Animaux oiseau = new Oiseau([x,y],jardin);
+                        jardin.ListAnimaux.Add(oiseau);
+                        jardin.MatAnimaux[x,y] = oiseau.Id;
+                    }else{
+                        Elephant elephant = new Elephant([x,y],jardin);
+                        int dir = elephant.Direction;
+                        if(dir == 0 && jardin.MatAnimaux[x-1,y] == -1 ){
+                            jardin.ListAnimaux.Add(elephant);
+                            jardin.MatAnimaux[x,y] = elephant.Id;
+                            jardin.MatAnimaux[x-1,y] = elephant.Id;
+                        }else if(dir == 1 && jardin.MatAnimaux[x+1,y] == -1 ){
+                            jardin.ListAnimaux.Add(elephant);
+                            jardin.MatAnimaux[x,y] = elephant.Id;
+                            jardin.MatAnimaux[x+1,y] = elephant.Id;
+                        }else if(dir == 2 && jardin.MatAnimaux[x,y-1] == -1 ){
+                            jardin.ListAnimaux.Add(elephant);
+                            jardin.MatAnimaux[x,y] = elephant.Id;
+                            jardin.MatAnimaux[x,y-1] = elephant.Id;
+                        }else if(dir == 3 && jardin.MatAnimaux[x,y+1] == -1 ){
+                            jardin.ListAnimaux.Add(elephant);
+                            jardin.MatAnimaux[x,y] = elephant.Id;
+                            jardin.MatAnimaux[x,y+1] = elephant.Id;
+                        }
                     }
                 }
-            }
-        }
+    }
+    Random mh = new Random();
+    int chances = mh.Next(0,100);
+    int coXx = mh.Next(0,21);
+    int coYy = mh.Next(0,21);
+    if (chances < 40 ){
+                if (jardin.MatPlante[coXx, coYy] == -1)
+                {
+                    int choix = mh.Next(0,2);
+                    if (choix == 0){
+                        Plantes baobab = new Baobab([coXx,coYy],jardin);
+                        jardin.ListPlante.Add(baobab);
+                        jardin.MatPlante[coXx,coYy] = baobab.Id;
+                    }else{
+                        Plantes champi = new Champignon([coXx,coYy],jardin);
+                        jardin.ListPlante.Add(champi);
+                        jardin.MatPlante[coXx,coYy] = champi.Id;
+                    }
+                }
+            
     }
     for (int i =0 ; i<21;i++){
         for(int j =0; j<21;j++){
