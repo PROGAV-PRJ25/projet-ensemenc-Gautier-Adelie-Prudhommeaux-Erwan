@@ -20,7 +20,7 @@ public class Jardin{
 
     
 
-    public Jardin(){
+    public Jardin() {
         TourActuel = 0;
         NombreAction = 3;
         Poudredetoile = 100;
@@ -32,7 +32,9 @@ public class Jardin{
         MaladiesPossible = ["Maladie1"];
         ObjectsAchetable = ["Lanterne","Pelle","Écharpe","Paravent","Arrosoir","Haut parleur","Médicament","Pommade"]; //cloture et epouventails
         Objects = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        //[Lanterne, Pelle, Echarpe, Paravent, Arrosoir, Haut parleur, Medicament, Pommade, Etoile, Météorite, Rose, Chapeau, Nuage, Etoile filante, Alcool, Soleil, Couronne, Planète, poussière d'étoile]
         GrainesDisponibles = [10,0,0,0,0,0,0,0,0,0,0];
+        // [Etoile, Météorite, Rose, Chapeau, Nuage, Etoile filante, Alcootier, Plante orgueilleuse, Couronne, Planète, Lampadaire]
         MatPlante = new int[21,21];
         MatAnimaux = new int[21,21];
         ListAnimaux = new List<Animaux> {};
@@ -85,7 +87,7 @@ public class Jardin{
         {
             if (Objects[6] > 0)
             {
-                foreach (Maladie maladie in plante.Maladie)
+                foreach (Maladies maladie in plante.Maladie)
                 {
                     maladie.Medicament++;
                 }
@@ -122,10 +124,10 @@ public class Jardin{
     {
         Objects[objet - 1]++;
     }
-public void AcheterTerrain()
+    public void AcheterTerrain()
     {
         // a faire
-}
+    }
     // fonction pour les différentes actions du joueur
 
     public void Applaudir(int[] coord)
@@ -174,7 +176,7 @@ public void AcheterTerrain()
 
     }
 
-    public void Effrayer(int[] coord)
+    public void Effrayer(int[] coord) //Verifier si l'animal n'est pas un serpent caché par un chapeau
     {
         SupprimerAnimaux([coord[0] + 1, coord[1] + 1]);
         SupprimerAnimaux([coord[0], coord[1]]);
@@ -188,24 +190,28 @@ public void AcheterTerrain()
     }
     public void Proteger(int[] coord)
     {
-        RechercherPlante([coord[0], coord[1]]).Proteger = true;
+        RechercherPlante(coord).Proteger = true;
     }
 
     public void Arroser(int[] coord)
     {
-        
+        RechercherPlante(coord).EtatActuel[2] += 6;
     }
-    public void Planter(int[] coord)
+    public void Planter(int[] coord, string graine)
     {
-        
+        if (MatPlante[coord[0], coord[1]] == -1) {
+
+        }
     }
     public void Deraciner(int[] coord)
     {
-        
+        SupprimerPlante(coord);
+
     }
     public void Recolter(int[] coord)
     {
-        
+        Plantes planteRecoltee = RechercherPlante(coord);
+
     }
 
     public void deplacementForcé(int[] coord, int[] direction)

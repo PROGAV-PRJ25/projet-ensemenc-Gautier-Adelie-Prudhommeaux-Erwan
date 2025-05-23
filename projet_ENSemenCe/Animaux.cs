@@ -189,21 +189,24 @@ public class Oiseau : Animaux
         if (Jardin.MatPlante[Position[0], Position[1]] > 0)
         {
             Plantes plantePicorée = Jardin.RechercherPlante(Position);
-            for (int i = 0; i < 4; i++)
+            if (!plantePicorée.Proteger)
             {
-                plantePicorée.EtatActuel[i] += Dégats[i];
+                for (int i = 0; i < 4; i++)
+                {
+                    plantePicorée.EtatActuel[i] += Dégats[i];
+                }
             }
         }
 
-        else
-        {
-            int[] coPlanteProche = Jardin.RechercherPlanteProche(Position, "");
-            int[] deplacement = Jardin.DeplacementDirigéAnimaux(Position, coPlanteProche);
-            Jardin.MatAnimaux[Position[0], Position[1]] = -1;
-            Position[0] += deplacement[0];
-            Position[1] += deplacement[1];
-            Jardin.MatAnimaux[Position[0], Position[1]] = Id;
-        }
+            else
+            {
+                int[] coPlanteProche = Jardin.RechercherPlanteProche(Position, "");
+                int[] deplacement = Jardin.DeplacementDirigéAnimaux(Position, coPlanteProche);
+                Jardin.MatAnimaux[Position[0], Position[1]] = -1;
+                Position[0] += deplacement[0];
+                Position[1] += deplacement[1];
+                Jardin.MatAnimaux[Position[0], Position[1]] = Id;
+            }
 
     }
 }
