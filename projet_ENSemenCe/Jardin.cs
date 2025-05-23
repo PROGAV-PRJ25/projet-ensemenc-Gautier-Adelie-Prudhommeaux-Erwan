@@ -52,15 +52,6 @@ public class Jardin
         };
         ListAnimaux = new List<Animaux> { };
         ListPlante = new List<Plantes> { };
-        for (int i = 0; i < 7; i++)
-        {
-            for (int j = 0; j < 7; j++)
-            {
-                MatPlante[i, j] = -1;
-                MatAnimaux[i, j] = -1;
-                MatObjets[i, j] = -1;
-            }
-        }
     }
 
 // fonction qui change la meteo 
@@ -73,6 +64,94 @@ public class Jardin
         // condition pour changer la saison
     }
 
+    public int[] MatChoix(int size, Jardin jardin){
+        int cursorX = 0;
+        int cursorY = 0;
+        bool found = false;
+
+        for (int y = 0; y < size && !found; y++)
+        {
+            for (int x = 0; x < size && !found; x++)
+            {
+                if (jardin.MatObjets[x, y] != 0)
+                {
+                    cursorX = x;
+                    cursorY = y;
+                    found = true;
+                }
+            }
+        }
+
+        if (!found)
+        {
+            Console.WriteLine("vous n'avez pas de terrain ou faire une action");
+        }
+        else
+        {
+            ConsoleKey key;
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine(jardin);
+                Console.WriteLine($"Sélectionnez une case libre avec les flèches pour sélectionnés l'endroit ou vous voulez faire votre action puis appuyez sur Entrée :\n");
+
+                for (int y = 0; y < size; y++)
+                {
+                    for (int x = 0; x < size; x++)
+                    {
+                        bool estSelection = (x == cursorX && y == cursorY);
+                        bool estLibre = jardin.MatObjets[x, y] != 0;
+
+                        if (estSelection)
+                        {
+                            if (estLibre)
+                            {
+                                Console.BackgroundColor = ConsoleColor.Green;
+                                Console.ForegroundColor = ConsoleColor.Black;
+                            }
+                            else
+                            {
+                                Console.BackgroundColor = ConsoleColor.DarkGray;
+                                Console.ForegroundColor = ConsoleColor.White;
+                            }
+                        }
+                        else if (!estLibre)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkGray;
+                        }
+
+                        Console.Write(jardin.MatObjets[x, y] != 0 ? " ." : " X");
+                        Console.ResetColor();
+                        Console.Write(" ");
+                    }
+                    Console.WriteLine();
+                }
+
+                key = Console.ReadKey(true).Key;
+
+                int newX = cursorX;
+                int newY = cursorY;
+
+                switch (key)
+                {
+                    case ConsoleKey.LeftArrow: newX = Math.Max(0, cursorX - 1); break;
+                    case ConsoleKey.RightArrow: newX = Math.Min(size - 1, cursorX + 1); break;
+                    case ConsoleKey.UpArrow: newY = Math.Max(0, cursorY - 1); break;
+                    case ConsoleKey.DownArrow: newY = Math.Min(size - 1, cursorY + 1); break;
+                }
+
+                // Se déplacer uniquement si la case est libre
+                if (jardin.MatObjets[newX, newY] != 0)
+                {
+                    cursorX = newX;
+                    cursorY = newY;
+                }
+
+            } while (key != ConsoleKey.Enter);
+        }
+        return [cursorX,cursorY];
+    }
     public int ListeChoix(string[] liste)
     {
         int indexSelection = 0;
@@ -194,7 +273,7 @@ public class Jardin
         }
     }
 
-    public void action()
+    public void action(int[] coord)
     {
         int index = ListeChoix(ActionPossible);
         //ici j'ai l'action voulu faut faire le reste
@@ -279,7 +358,7 @@ public class Jardin
     {
         Objects[objet]++;
     }
-    public void AcheterTerrain()
+    public void AcheterTerrain()//penser a ajouter tout de chaque terrain
     {
         string[] ob = ["Retour", "Petit Prince", "Businessman", "Buveur", "Vaniteux", "Roi", "Géographe", "Réverbère"];
         int indexSelection = ListeChoix(ob);
@@ -379,9 +458,9 @@ public class Jardin
 
             } while (key != ConsoleKey.Enter);
 
-            for (int i = 7 * cursorX; i < 7 * (cursorX + 1); i++)
+            for (int i = 7 * cursorY; i < 7 * (cursorY + 1); i++)
             {
-                for (int j = 7 * cursorY; j < 7 * (cursorX + 1); j++)
+                for (int j = 7 * cursorX; j < 7 * (cursorX + 1); j++)
                 {
                     MatPlante[i, j] = -1;
                     MatAnimaux[i, j] = -1;

@@ -19,9 +19,11 @@ public class Plantes {
     public string Emoji { get; set; }
     public bool Proteger { get; set; }
     public bool Explosion { get; set; }
+    public int JourPlanter {get;set;}
 
     public Plantes(string nom, int[] position, string nature, bool comestible, Saisons saison, string terrain, int place, int[] besoin, int[] etatActuel, int longevite, int produit, List<Maladies> maladie, double croissance, int hauteur, string emoji, Jardin jardin)
     {
+        JourPlanter = 0;
         Nom = nom;
         Position = position;
         Nature = nature;
