@@ -1,12 +1,12 @@
 public class Maladies {
     public string Nom {get; set;}
-    public int[] Dégats {get; set;}
+    public int[] Degats {get; set;}
     public int TauxApparition {get; set;}
     public int Medicament {get; set;}
 
-    public Maladies(string nom, int[] dégats, int tauxApparition) {
+    public Maladies(string nom, int[] degats, int tauxApparition) {
         Nom = nom;
-        Dégats = dégats; //nb de dégâts par tour
+        Degats = degats; //nb de dégâts par tour
         TauxApparition = tauxApparition;
         Medicament = 0;
     }

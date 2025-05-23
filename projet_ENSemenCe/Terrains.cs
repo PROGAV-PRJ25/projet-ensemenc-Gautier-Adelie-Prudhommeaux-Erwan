@@ -1,18 +1,18 @@
 //------------------------------------ Terrains -------------------------------------
 
-public class Terrains{
+public abstract class Terrains{
     public string Nomplanete {get;set;}
     public string? MaladiesPossible {get; set;}
     public List<string>? PlanteAchetable {get;set;}
     public double[] MeteoPourcentage {get;set;} 
 
 
-    public Terrains(int numplanete, string maladiesPossible, List<string> planteAchetable, double[] meteoAjouté){
+    public Terrains(int numplanete, string maladiesPossible, List<string> planteAchetable, double[] meteoAjoute){
         string[] nomTerrains = ["Aucun","Petit Prince","Businessman","Buveur","Vaniteux","Roi","Géographe","Réverbère"];
         Nomplanete = nomTerrains[numplanete];
         MaladiesPossible = maladiesPossible;
         PlanteAchetable = planteAchetable;
-        MeteoPourcentage = meteoAjouté;
+        MeteoPourcentage = meteoAjoute;
     }
 }
 
@@ -31,8 +31,8 @@ public class TerrainVaniteux:Terrains{
 public class TerrainRoi:Terrains{
     public TerrainRoi():base(5,"Rouille" ,new List<string> {},[1,1,0.7,10]){}
 }
-public class TerrainGéographe:Terrains{
-    public TerrainGéographe():base(6,"Explosion" ,new List<string> {},[1,1,0.7,11]){}
+public class TerrainGeographe:Terrains{
+    public TerrainGeographe():base(6,"Explosion" ,new List<string> {},[1,1,0.7,11]){}
 }
 public class TerrainRéverbère:Terrains{
     public TerrainRéverbère():base(7,"Peur du noir" ,new List<string> {},[1,1,0.7,12]){}
@@ -43,10 +43,10 @@ public class TerrainRéverbère:Terrains{
 
 public class Meteos{
     public string Nom {get;set;}
-    public int NuméroCata {get;set;} // 0 pas de catastrrphe sinon numéro de la catastrophes a definir pour chaque
+    public int NumeroCata {get;set;} // 0 pas de catastrrphe sinon numéro de la catastrophes a definir pour chaque
     public Meteos(string nom, int cata){
         Nom = nom;
-        NuméroCata = cata;
+        NumeroCata = cata;
     }
     public override string ToString()
     {
@@ -82,8 +82,8 @@ public class Gel : Meteos {
     public Gel():base("Gel",2){
     }
 }
-public class TempêteStellaire : Meteos {
-    public TempêteStellaire():base("Tempête Stellaire",3){
+public class TempeteStellaire : Meteos {
+    public TempeteStellaire():base("Tempête Stellaire",3){
     }
 }
 public class CriseEconomique : Meteos {
