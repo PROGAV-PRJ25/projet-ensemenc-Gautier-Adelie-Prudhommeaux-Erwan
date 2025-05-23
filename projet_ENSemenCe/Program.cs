@@ -21,7 +21,7 @@ void Main()
                 Console.Clear();
                 Console.WriteLine("Voulez-vous arrêter le jeu ? O/N");
                 string fin = Console.ReadLine()!;
-                 while (fin != "O" || fin != "N")
+                while (fin != "O" && fin != "N")
                 {
                     Console.WriteLine("vous avez taper un caractère invalide.");
                     Console.WriteLine("Voulez-vous arrêter le jeu ? O/N");
@@ -62,6 +62,8 @@ void Simulation1JourClassique(Jardin jardin){
         jardin.Action(jardin.MatChoix(21,jardin),jardin);
     }else if(choix == 1 ){
         jardin.Magasin();
+    }else{
+        jardin.NombreAction = 0;
     }
     }
 }
@@ -113,6 +115,24 @@ void FinJournée( Jardin jardin){
             }
         }
     }
+    Random mh = new Random();
+    int chances = mh.Next(0,100);
+    int coXx = mh.Next(0,7);
+    int coYy = mh.Next(0,7);
+    if (chances < 20 ){
+        bool found = false;
+         for (int y = 0; y < 21 && !found; y++)
+        {
+            for (int x = 0; x < 21 && !found; x++)
+            {
+                if (jardin.MatPlante[x, y] == -1)
+                {
+                    
+                    found = true; 
+                }
+            }
+        }
+    }
     for (int i =0 ; i<21;i++){
         for(int j =0; j<21;j++){
             if (jardin.MatObjets[i,j] > 2){
@@ -125,6 +145,7 @@ void FinJournée( Jardin jardin){
     jardin.SaisonChange();
     jardin.MeteoChange();
     jardin.TourActuel++; 
+    jardin.NombreAction += 3 + 2*jardin.ListPlante.Count;
 }
 
  void SimulationUrgence(int numCata, Jardin jardin){

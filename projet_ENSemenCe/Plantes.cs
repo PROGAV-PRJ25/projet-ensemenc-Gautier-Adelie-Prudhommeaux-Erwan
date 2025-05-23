@@ -64,27 +64,27 @@ public class Etoile : Plantes
 } 
 
 public class Meteorite : Plantes {
-    public Meteorite(int[] position, Jardin jardin) : base("Météorite", position, "Monocarpique", false, new Saison1(), "Petit Prince", 1, [], [150], 24, 0, new List<Maladies> {}, 6, 2,"☄️", jardin, 9) {
+    public Meteorite(int[] position, Jardin jardin) : base("Météorite", position, "Monocarpique", false, new Saison1(), "Petit Prince", 1, [100, 150, 150, 0], [100, 125, 160, 0], 24, 0, new List<Maladies> {}, 6, 2,"☄️", jardin, 9) {
         Random aleatoire = new Random();
         Produit = aleatoire.Next(2,6);
     }
 }
 
 public class Rose : Plantes {
-    public Rose(int[] position, Jardin jardin) : base("Rose", position, "Monocarpique", false, new Saison3(), "Petit Prince", 1, [], [50], 2, 1, new List<Maladies> {}, 1, 3,"🌹", jardin, 10) {}
+    public Rose(int[] position, Jardin jardin) : base("Rose", position, "Monocarpique", false, new Saison3(), "Petit Prince", 1, [100, 150, 150, 0], [50, 125, 160, 0], 2, 1, new List<Maladies> {}, 1, 3,"🌹", jardin, 10) {}
 }
 
 public class Chapeau : Plantes {
-    public Chapeau(int[] position, Jardin jardin) : base("Chapeau", position, "Monocarpique", true, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 1, [], [100], 24, 2, new List<Maladies> {}, 1, 2,"👒", jardin, 11) {}
+    public Chapeau(int[] position, Jardin jardin) : base("Chapeau", position, "Monocarpique", true, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 1, [100, 150, 150, 0], [100, 125, 160, 0], 24, 2, new List<Maladies> {}, 1, 2,"👒", jardin, 11) {}
 }
 
 public class Nuage : Plantes {
-    public Nuage(int[] position, Jardin jardin) : base("Nuage", position, "Polycarpique", true, new Saison2(), "Aucun", 1, [], [100], 72, 3, new List<Maladies> {}, 2, 1,"☁️", jardin, 12) {}
+    public Nuage(int[] position, Jardin jardin) : base("Nuage", position, "Polycarpique", true, new Saison2(), "Aucun", 1, [100, 150, 150, 0], [100, 125, 160, 0], 72, 3, new List<Maladies> {}, 2, 1,"☁️", jardin, 12) {}
 }
 
 public class EtoileFilante : Plantes
 {
-    public EtoileFilante(int[] position, Jardin jardin) : base("Etoile filante", position, "Monocarpique", false, new Saison1(), "Businessman", 1, [], [50], 2, 1, new List<Maladies> { }, 1, 2,"💫", jardin, 13) { }
+    public EtoileFilante(int[] position, Jardin jardin) : base("Etoile filante", position, "Monocarpique", false, new Saison1(), "Businessman", 1, [100, 150, 150, 0], [50, 125, 160, 0], 2, 1, new List<Maladies> { }, 1, 2,"💫", jardin, 13) { }
 
     public override void Deplacer()
     {
@@ -105,23 +105,23 @@ public class EtoileFilante : Plantes
 }
 
 public class Alcootier : Plantes {
-    public Alcootier(int[] position, Jardin jardin) : base("Alcootier", position, "Polycarpique", true, new Saison3(), "Buveur", 4, [], [500], 240, 1, new List<Maladies> {}, 8, 5,"🌳", jardin, 14) {}
+    public Alcootier(int[] position, Jardin jardin) : base("Alcootier", position, "Polycarpique", true, new Saison3(), "Buveur", 4, [100, 150, 150, 0], [500, 125, 160, 0], 240, 1, new List<Maladies> {}, 8, 5,"🌳", jardin, 14) {}
 }
 
 public class PlanteOrgueilleuse : Plantes {
-    public PlanteOrgueilleuse(int[] position, Jardin jardin) : base("Plante orgueilleuse", position, "Polycarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Vaniteux", 1, [], [100], 36, 1, new List<Maladies> {}, 0.75, 3,"🌻", jardin, 15) {}
+    public PlanteOrgueilleuse(int[] position, Jardin jardin) : base("Plante orgueilleuse", position, "Polycarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Vaniteux", 1, [100, 150, 150, 100], [100, 125, 160, 100], 36, 1, new List<Maladies> {}, 0.75, 3,"🌻", jardin, 15) {}
 }
 
 public class Couronne : Plantes {
-    public Couronne(int[] position, Jardin jardin) : base("Couronne", position, "Monocarpique", true, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Roi", 1, [], [200], 12, 1, new List<Maladies> {}, 3, 2,"👑", jardin, 16) {}
+    public Couronne(int[] position, Jardin jardin) : base("Couronne", position, "Monocarpique", true, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Roi", 1, [100, 150, 150, 0], [200, 125, 160, 0], 12, 1, new List<Maladies> {}, 3, 2,"👑", jardin, 16) {}
 }
 
 public class Planete : Plantes {
-    public Planete(int[] position, Jardin jardin) : base("Planète", position, "Monocarpique", false, new Saison2(), "Géographe", 1, [], [1000], 60, 1, new List<Maladies> {}, 24, 3,"🪐", jardin, 17) {}
+    public Planete(int[] position, Jardin jardin) : base("Planète", position, "Monocarpique", false, new Saison2(), "Géographe", 1, [100, 150, 150, 0], [1000, 125, 160, 0], 60, 1, new List<Maladies> {}, 24, 3,"🪐", jardin, 17) {}
 }
 
 public class Lampadaire : Plantes {
-    public Lampadaire(int[] position, Jardin jardin) : base("Lampadaire", position, "Polycarpique", false, new Saison1(),"Réverbère", 1, [], [100], 1200, 0, new List<Maladies> {}, 2, 4,"🏮", jardin, -1) {}
+    public Lampadaire(int[] position, Jardin jardin) : base("Lampadaire", position, "Polycarpique", false, new Saison1(),"Réverbère", 1, [100, 150, 150, 0], [100, 125, 160, 0], 1200, 0, new List<Maladies> {}, 2, 4,"🏮", jardin, -1) {}
 }
 
 
@@ -129,14 +129,14 @@ public class Lampadaire : Plantes {
 
 public class Baobab : Plantes {
     public List<int> TauxApparition {get; set;}
-    public Baobab(int[] position, Jardin jardin) : base("Baobab", position, "Monocarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 4, [], [700], 240, 0, new List<Maladies> {}, 5, 5,"🌴", jardin, -1) {
+    public Baobab(int[] position, Jardin jardin) : base("Baobab", position, "Monocarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 4, [100, 150, 150, 0], [700, 125, 160, 0], 240, 0, new List<Maladies> {}, 5, 5,"🌴", jardin, -1) {
         TauxApparition = new List<int> {0, 0, 0, 0, 0, 0, 0};
     }
 }
 
 public class Champignon : Plantes {
     public List<int> TauxApparition {get; set;}
-    public Champignon(int[] position, Jardin jardin) : base("Champignon", position, "Monocarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 1, [], [100], 12, 0, new List<Maladies> {}, 1, 1,"🍄", jardin, -1) {
+    public Champignon(int[] position, Jardin jardin) : base("Champignon", position, "Monocarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 1, [100, 150, 150, 0], [100, 125, 160, 0], 12, 0, new List<Maladies> {}, 1, 1,"🍄", jardin, -1) {
         TauxApparition = new List<int> {0, 0, 0, 0, 0, 0, 0};
     }
 }

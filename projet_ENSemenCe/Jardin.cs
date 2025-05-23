@@ -118,9 +118,9 @@ public class Jardin
                         {
                             Console.ForegroundColor = ConsoleColor.DarkGray;
                         }
-                        if(jardin.MatPlante[x, y] ==-1){
+                        if(jardin.MatPlante[x,y] ==-1){
                             Console.Write(" .");
-                        }else if (jardin.MatPlante[x, y] == 0){
+                        }else if (jardin.MatPlante[x,y] == 0){
                             Console.Write(" X");
                         }else{
                             Console.Write(" o");
@@ -595,11 +595,11 @@ public class Jardin
 
             } while (key != ConsoleKey.Enter);
 
-            for (int i = 7 * cursorY; i < 7 * (cursorY + 1); i++)
+            for (int i = 7 * cursorX; i < 7 * (cursorX + 1); i++)
             {
-                for (int j = 7 * cursorX; j < 7 * (cursorX + 1); j++)
+                for (int j = 7 * cursorY; j < 7 * (cursorY+ 1); j++)
                 {
-                    MatPlante[i, j] = -1;
+                    MatPlante[i,j] = -1;
                     MatAnimaux[i, j] = -1;
                     MatObjets[i, j] = -1;
                 }
@@ -934,6 +934,7 @@ public class Jardin
 
     public string AfficherJardins()
     {
+        Console.WriteLine("");
         string resultat = "||=========================================||=========================================||=========================================||\n";
         for (int i = 0; i < 3; i++)
         {
