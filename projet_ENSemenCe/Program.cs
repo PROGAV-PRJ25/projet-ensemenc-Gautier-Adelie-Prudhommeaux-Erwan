@@ -15,8 +15,8 @@ void Main()
         // Action principale 
         while (enCours)
         {
-            if(jardiland.Meteo.NuméroCata > 0){
-                simulationurgence(jardiland.Meteo.NuméroCata,jardiland);
+            if(jardiland.Meteo.NumeroCata > 0){
+                simulationurgence(jardiland.Meteo.NumeroCata,jardiland);
                 Thread.Sleep(2000);
                 Console.Clear();
                 Console.WriteLine("Voulez-vous arrêter le jeu ? O/N");
@@ -109,7 +109,7 @@ void FinJournée( jardin jardin){
         {Console.WriteLine("Voulez-vous acheter quelque chose au magasin avant cela ?");
         choix = jardin.ListeChoix(["Oui","Non"]);
         if (choix == 0){
-            jardin.magasin();
+            jardin.Magasin();
         }}while(choix == 0);
         jardin.CriseEco = 4;
         FinJournée();
