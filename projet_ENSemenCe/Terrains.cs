@@ -34,8 +34,8 @@ public class TerrainRoi:Terrains{
 public class TerrainGeographe:Terrains{
     public TerrainGeographe():base(6,"Explosion" ,new List<string> {},[1,1,0.7,11]){}
 }
-public class TerrainRéverbère:Terrains{
-    public TerrainRéverbère():base(7,"Peur du noir" ,new List<string> {},[1,1,0.7,12]){}
+public class TerrainReverbere:Terrains{
+    public TerrainReverbere():base(7,"Peur du noir" ,new List<string> {},[1,1,0.7,12]){}
 }
 
 
