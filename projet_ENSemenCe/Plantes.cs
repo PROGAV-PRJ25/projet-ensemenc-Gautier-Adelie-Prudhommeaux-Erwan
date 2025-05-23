@@ -49,6 +49,7 @@ public abstract class Plantes
         IdFruit = idFruit;
         JourPlanter = 0;
     }
+    public virtual void Deplacer(){}
 }
 
 //------------------------------------ Plante vide -------------------------------------
@@ -85,7 +86,7 @@ public class EtoileFilante : Plantes
 {
     public EtoileFilante(int[] position, Jardin jardin) : base("Etoile filante", position, "Monocarpique", false, new Saison1(), "Businessman", 1, [], [50], 2, 1, new List<Maladies> { }, 1, 2,"💫", jardin, 13) { }
 
-    public void Deplacer()
+    public override void Deplacer()
     {
         Random aleatoire = new Random();
         int deplacementX = aleatoire.Next(-1, 1);

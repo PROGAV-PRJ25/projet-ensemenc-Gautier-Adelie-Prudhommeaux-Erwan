@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-// a regarder : list prix achat et vente / llist besoin plante / remplir liste plante par terrain / acheter terrain ajout de tout / taux d'apparition pour les animaux
+// a regarder : list prix achat et vente / list besoin plante / remplir liste plante par terrain
 
 // variable globale
 bool enCours = true;
@@ -16,7 +16,7 @@ void Main()
         while (enCours)
         {
             if(jardiland.Meteo.NumeroCata > 0){
-                simulationurgence(jardiland.Meteo.NumeroCata,jardiland);
+                SimulationUrgence(jardiland.Meteo.NumeroCata,jardiland);
                 Thread.Sleep(2000);
                 Console.Clear();
                 Console.WriteLine("Voulez-vous arrêter le jeu ? O/N");
@@ -33,7 +33,7 @@ void Main()
                 }
             }else{
                 Console.Clear();
-                simulation7Jourclassique();
+                Simulation7JourClassique(jardiland);
                 Thread.Sleep(2000);
                 Console.Clear();
                 Console.WriteLine("Voulez-vous arrêter le jeu ? O/N");
@@ -53,36 +53,64 @@ void Main()
         Console.WriteLine("Jeu terminé.");
     }
 
-void simulation1Jourclassique(Jardin jardin){
+void Simulation1JourClassique(Jardin jardin){
     while( jardin.NombreAction != 0){
     Console.WriteLine(jardin);
-    Console.WriteLine("Que voulez vous faire ?");
+    Console.WriteLine($"Que voulez vous faire ? il vous reste {jardin.NombreAction}");
     int choix = jardin.ListeChoix(["Entretenir mon jardin","Allez au magasin","Finir la journée"]);
     if(choix == 0){
-        action(MatChoix(21,jardin));
+        jardin.Action(jardin.MatChoix(21,jardin),jardin);
     }else if(choix == 1 ){
-        jardin.magasin();
+        jardin.Magasin();
     }
     }
 }
 
-void simulation7Jourclassique(){
-    simulation1Jourclassique();
+void Simulation7JourClassique(Jardin jardin){
+    Simulation1JourClassique(jardin);
 for (int i = 0; i<7; i++){
-    FinJournée();
+    FinJournée(jardin);
 }
 }
 
-void FinJournée( jardin jardin){
+void FinJournée( Jardin jardin){
     foreach(Animaux animal in jardin.ListAnimaux){
         animal.Deplacer();
     }
     foreach(Plantes plante in jardin.ListPlante){
         foreach(Maladies maladie in plante.Maladie){
-            plante.EtatActuel + maladie.dégats;
+            for (int i=0; i<3;i++){
+            plante.EtatActuel[i] += maladie.Degats[i];
+            }
         }
         if(plante.EtatActuel[0] <= 0 ){
-            SupprimerPlante(plante.Position);
+            jardin.SupprimerPlante(plante.Position);
+        }
+        if(jardin.TourActuel - plante.JourPlanter > plante.Longevite*30){
+            jardin.SupprimerPlante(plante.Position);
+        }
+        plante.Proteger = false;
+        plante.Explosion = false;
+        if(plante.Nom == "Etoile"){
+            plante.Deplacer();
+        }
+    } 
+    Random ani = new Random();
+    int chance = ani.Next(0,100);
+    int coX = ani.Next(0,7);
+    int coY = ani.Next(0,7);
+    if (chance < 5 ){
+        bool found = false;
+         for (int y = 0; y < 21 && !found; y++)
+        {
+            for (int x = 0; x < 21 && !found; x++)
+            {
+                if (jardin.MatAnimaux[x, y] == -1)
+                {
+                    // ajouter un animal aléatoire
+                    found = true; 
+                }
+            }
         }
     }
     for (int i =0 ; i<21;i++){
@@ -94,12 +122,12 @@ void FinJournée( jardin jardin){
         }
     }
 
-    SaisonChange();
-    MeteoChange();
-    TourActuel++; //degat action surplante / aparition et disparition du terrain / repasser toutes les valeurs besoin a false / aparition animaux
+    jardin.SaisonChange();
+    jardin.MeteoChange();
+    jardin.TourActuel++; 
 }
 
- void simulationurgence(int numCata, Jardin jardin){
+ void SimulationUrgence(int numCata, Jardin jardin){
     if(numCata == 4){
 
         Console.Clear();
@@ -112,7 +140,7 @@ void FinJournée( jardin jardin){
             jardin.Magasin();
         }}while(choix == 0);
         jardin.CriseEco = 4;
-        FinJournée();
+        FinJournée(jardin);
     }else if (numCata == 8){
         Console.Clear(); 
         Console.WriteLine("-----------------------------------------------------------------------------\n              ATTENTION UNE CATASTROPHE EST ARRIVÉE LE TEMPS EST              \n                        DÉRÉGLÉ, LA SAISON CHANGE!!!!!!!!                     \n-----------------------------------------------------------------------------");
@@ -121,10 +149,10 @@ void FinJournée( jardin jardin){
         do{ S = rand.Next(0,3);
         }while(jardin.ListeSaison[S] == jardin.Saison);
         jardin.Saison = jardin.ListeSaison[S];
-        FinJournée();
+        FinJournée(jardin);
     }else{
-        Console.clear();
-        Thread thread = new Thread(SimulationEnFond);
+        Console.Clear();
+        Thread thread = new Thread(() => SimulationEnFond(jardin));
         thread.Start();
         DateTime debut = DateTime.Now;
         DateTime fin = debut.AddMinutes(5);
@@ -136,23 +164,21 @@ void FinJournée( jardin jardin){
                 Console.WriteLine("Que voulez vous faire ?");
                 int choix = jardin.ListeChoix(["Entretenir mon jardin","Allez au magasin","Finir la journée"]);
                 if(choix == 0){
-                    action(MatChoix(21,jardin));
+                    jardin.Action(jardin.MatChoix(21,jardin),jardin);
                 }else if(choix == 1 ){
-                    jardin.magasin();
+                    jardin.Magasin();
                 }   
             }
         }
-        thread.Stop();
-        FinJournée();
-    
+        thread.Abort();
+        FinJournée(jardin);
     }
-
 }
 
 
 async Task AfficherHeureAsync()
     {
-        while (heure)
+        while (true)
         {
             Console.SetCursorPosition(0, 0); // Affiche l'heure tout en haut
             Console.WriteLine("Heure : " + DateTime.Now.ToString("HH:mm:ss"));
@@ -163,11 +189,58 @@ async Task AfficherHeureAsync()
 
 
 
- void SimulationEnFond()
+ void SimulationEnFond(Jardin jardin)
     {
         while (enCours)
         {
-            
+           foreach(Animaux animal in jardin.ListAnimaux){
+        animal.Deplacer();
+    }
+    foreach(Plantes plante in jardin.ListPlante){
+        foreach(Maladies maladie in plante.Maladie){
+            for (int i=0; i<3;i++){
+            plante.EtatActuel[i] += maladie.Degats[i];
+            }
+        }
+        if(plante.EtatActuel[0] <= 0 ){
+            jardin.SupprimerPlante(plante.Position);
+        }
+        if(jardin.TourActuel - plante.JourPlanter > plante.Longevite*30){
+            jardin.SupprimerPlante(plante.Position);
+        }
+        plante.Proteger = false;
+        plante.Explosion = false;
+        if(plante.Nom == "Etoile"){
+            plante.Deplacer();
+        }
+    } 
+    Random ani = new Random();
+    int chance = ani.Next(0,100);
+    int coX = ani.Next(0,7);
+    int coY = ani.Next(0,7);
+    if (chance < 5 ){
+        bool found = false;
+         for (int y = 0; y < 21 && !found; y++)
+        {
+            for (int x = 0; x < 21 && !found; x++)
+            {
+                if (jardin.MatAnimaux[x, y] != 0)
+                {
+                    if(jardin.MatAnimaux[x,y]==-1){
+                       found = true; 
+                    }
+                }
+            }
+        }
+    }
+    for (int i =0 ; i<21;i++){
+        for(int j =0; j<21;j++){
+            if (jardin.MatObjets[i,j] > 2){
+                jardin.Applaudir([i,j]);
+                jardin.MatObjets[i,j]--;
+            }
+        }
+    } 
         }
     }
 

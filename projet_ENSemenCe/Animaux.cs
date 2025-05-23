@@ -20,6 +20,8 @@ public class Animaux
         Jardin = jardin;
         Emoji = emoji;
     }
+
+    public virtual void Deplacer(){}
 }
 
 
@@ -33,7 +35,7 @@ public class Serpent : Animaux
         Cacher = false;
     }
 
-    public void Deplacer()
+    public override void Deplacer()
     {
         //Si un elephant sur sa case, il va le manger
         //Si un chapeau sur sa case, il va se cacher en dessous
@@ -65,7 +67,7 @@ public class Mouton : Animaux
 {
     public Mouton(int[] position, Jardin jardin) : base("Mouton", position, 1, new List<int> { 0, 0, 0, 0, 0, 0, 0 }, jardin, "🐑") {}
 
-    public void Deplacer()
+    public override void Deplacer()
     {
         //Si baobab sur sa case, il va le manger
         //Sinon, se dirige vers le baobab le plus proche, ou reste sur place
@@ -100,7 +102,7 @@ public class Elephant : Animaux
         //0:N  1:S, 2:O, 3:E
     }
 
-    public void Deplacer()
+    public override void Deplacer()
     {
         //Se déplace en ligne droite
         if (Direction == 0)
@@ -173,7 +175,7 @@ public class Oiseau : Animaux
         Degats = [-5, 0, 0, 0];
     }
 
-    public void Deplacer()
+    public override void Deplacer()
     {
         //Si plante sur une case adjacente, il va la picorer --> enlève des pv à la plante
         //Sinon, se dirige vers la plante la plus proche (ou reste sur place si la plante n'est pas accessible)
