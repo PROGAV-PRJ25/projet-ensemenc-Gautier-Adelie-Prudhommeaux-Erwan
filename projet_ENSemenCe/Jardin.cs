@@ -37,7 +37,9 @@ public class Jardin
         MaladiesPossible = ["Maladie1"];
         ObjectsAchetable = ["Lanterne", "Pelle", "Écharpe", "Paravent", "Arrosoir", "Haut parleur", "Médicament", "Pommade"]; //cloture et epouventails
         Objects = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        //[Lanterne, Pelle, Echarpe, Paravent, Arrosoir, Haut parleur, Medicament, Pommade, Etoile, Météorite, Rose, Chapeau, Nuage, Etoile filante, Alcool, Soleil, Couronne, Planète, poussière d'étoile]
         GrainesDisponibles = [10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+        // [Etoile, Météorite, Rose, Chapeau, Nuage, Etoile filante, Alcootier, Plante orgueilleuse, Couronne, Planète, Lampadaire]
         MatPlante = new int[21, 21];
         MatAnimaux = new int[21, 21];
         MatObjets = new int[21, 21];
@@ -138,7 +140,7 @@ public class Jardin
     {
         Objects[objet - 1]++;
     }
-    public void AcheterTerrain(string[] ob)
+        public void AcheterTerrain(string[] ob)
     {
         int indexSelection = 0;
         ConsoleKey key;
@@ -319,7 +321,7 @@ public class Jardin
 
     }
 
-    public void Effrayer(int[] coord)
+    public void Effrayer(int[] coord) //Verifier si l'animal n'est pas un serpent caché par un chapeau
     {
         SupprimerAnimaux([coord[0] + 1, coord[1] + 1]);
         SupprimerAnimaux([coord[0], coord[1]]);
@@ -333,23 +335,27 @@ public class Jardin
     }
     public void Proteger(int[] coord)
     {
-        RechercherPlante([coord[0], coord[1]]).Proteger = true;
+        RechercherPlante(coord).Proteger = true;
     }
 
     public void Arroser(int[] coord)
     {
-
+        RechercherPlante(coord).EtatActuel[2] += 6;
     }
-    public void Planter(int[] coord)
+    public void Planter(int[] coord, string graine)
     {
+        if (MatPlante[coord[0], coord[1]] == -1) {
 
+        }
     }
     public void Deraciner(int[] coord)
     {
+        SupprimerPlante(coord);
 
     }
     public void Recolter(int[] coord)
     {
+        Plantes planteRecoltee = RechercherPlante(coord);
 
     }
 
@@ -373,7 +379,7 @@ public class Jardin
         {
             if (plante.Id == indiceCherché) { return plante; }
         }
-        return new Plantes("", [], "", false, new Saison1(), "", 0, [], [], 0, 0, new List<Maladies> { }, 0, 0, "", new Jardin());
+        return new Plantes("", [], "", false, new Saison1(), "", 0, [], [], 0, 0, new List<Maladies> { }, 0, 0,"", new Jardin());  
     }
 
     public Animaux RechercherAnimaux(int[] co)
@@ -384,7 +390,41 @@ public class Jardin
             if (animal.Id == indiceCherché)
             { return animal; }
         }
-        return new Animaux("", [], 0, 0, new List<int> { }, new Jardin(), "");
+        return new Animaux("",[],0,0,new List<int> {},new Jardin(), "");
+    }
+    
+    public int[] RechercherPlanteProche(int[] coOrigine, string planteCherchée) { //planteCherchée correspond au nom de la plante la plus proche recherchée. Si on veut regarder toutes les plantes, mettre ""
+        int[] coPlanteProche = [coOrigine[0], coOrigine[1]];
+        double distPlanteProche = 1000;
+        for (int i = 0; i < 21; i++) {
+            for (int j = 0; j < 21; j++) {
+                if (MatPlante[i, j] > 0 && (planteCherchée=="" || RechercherPlante([i,j]).Nom==planteCherchée)) {
+                    double dist = Math.Sqrt(Math.Pow(coOrigine[0] - i, 2) + Math.Pow(coOrigine[1] - j, 2));
+                    if (dist < distPlanteProche) {
+                        distPlanteProche = dist;
+                        coPlanteProche = [i, j];
+                    }
+                }
+            }
+        }
+        return coPlanteProche;
+    }
+
+    public int[] RechercherAnimalProche(int[] coOrigine, string animalCherché) { //planteCherchée correspond au nom de la plante la plus proche recherchée. Si on veut regarder toutes les plantes, mettre ""
+        int[] coAnimalProche = [coOrigine[0], coOrigine[1]];
+        double distAnimalProche = 1000;
+        for (int i = 0; i < 21; i++) {
+            for (int j = 0; j < 21; j++) {
+                if (MatAnimaux[i, j] > 0 && (animalCherché=="" || RechercherAnimaux([i,j]).Nom==animalCherché)) {
+                    double dist = Math.Sqrt(Math.Pow(coOrigine[0] - i, 2) + Math.Pow(coOrigine[1] - j, 2));
+                    if (dist < distAnimalProche) {
+                        distAnimalProche = dist;
+                        coAnimalProche = [i, j];
+                    }
+                }
+            }
+        }
+        return coAnimalProche;
     }
 
     public int[] DeplacementDirigéAnimaux(int[] coAnimal, int[] coCible)
