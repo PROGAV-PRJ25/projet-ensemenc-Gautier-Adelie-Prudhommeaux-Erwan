@@ -494,7 +494,7 @@ public class Jardin
                     ListeSaison[i].PourcentMeteos[(int)ter.MeteoPourcentage[3]] = Convert.ToDouble(ter.MeteoPourcentage[i]);
                 }                
             }else if (indexSelection == 6){
-                Terrains ter = new TerrainRéverbère();
+                Terrains ter = new TerrainReverbere();
                 foreach(string plante in ter.PlanteAchetable){
                     PlantesJouable = Ajout(PlantesJouable,plante);
                 }
