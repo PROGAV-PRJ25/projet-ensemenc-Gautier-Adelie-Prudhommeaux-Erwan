@@ -199,8 +199,94 @@ public class Jardin{
     }
     public void Planter(int[] coord, string graine)
     {
-        if (MatPlante[coord[0], coord[1]] == -1) {
-
+        bool planterOk = false;
+        for (int i = 0; i < PlantesJouable.Length; i++) {
+            if (PlantesJouable[i] == graine)
+            {
+                planterOk = true;
+            }
+        }
+        //Etoile, Météorite, Rose, Chapeau, Nuage, Etoile filante, Alcootier, Plante orgueilleuse, Couronne, Planète, Lampadaire
+        if (planterOk && MatPlante[coord[0], coord[1]] == -1)
+        {
+            if (graine == "Etoile" && GrainesDisponibles[0] > 0)
+            {
+                Plantes nouvellePlante = new Etoile(coord, jardin);
+                MatPlante[coord[0], coord[1]] = nouvellePlante.Id;
+                ListPlante.Add(nouvellePlante);
+                nouvellePlante.JourPlanter = TourActuel;
+            }
+            else if (graine == "Météorite" && GrainesDisponibles[1] > 0)
+            {
+                Plantes nouvellePlante = new Meteorite(coord, jardin);
+                MatPlante[coord[0], coord[1]] = nouvellePlante.Id;
+                ListPlante.Add(nouvellePlante);
+                nouvellePlante.JourPlanter = TourActuel;
+            }
+            else if (graine == "Rose" && GrainesDisponibles[2] > 0)
+            {
+                Plantes nouvellePlante = new Rose(coord, jardin);
+                MatPlante[coord[0], coord[1]] = nouvellePlante.Id;
+                ListPlante.Add(nouvellePlante);
+                nouvellePlante.JourPlanter = TourActuel;
+            }
+            else if (graine == "Chapeau" && GrainesDisponibles[3] > 0)
+            {
+                Plantes nouvellePlante = new Chapeau(coord, jardin);
+                MatPlante[coord[0], coord[1]] = nouvellePlante.Id;
+                ListPlante.Add(nouvellePlante);
+                nouvellePlante.JourPlanter = TourActuel;
+            }
+            else if (graine == "Nuage" && GrainesDisponibles[4] > 0)
+            {
+                Plantes nouvellePlante = new Nuage(coord, jardin);
+                MatPlante[coord[0], coord[1]] = nouvellePlante.Id;
+                ListPlante.Add(nouvellePlante);
+                nouvellePlante.JourPlanter = TourActuel;
+            }
+            else if (graine == "Etoile filante" && GrainesDisponibles[5] > 0)
+            {
+                Plantes nouvellePlante = new EtoileFilante(coord, jardin);
+                MatPlante[coord[0], coord[1]] = nouvellePlante.Id;
+                ListPlante.Add(nouvellePlante);
+                nouvellePlante.JourPlanter = TourActuel;
+            }
+            else if (graine == "Alcootier" && GrainesDisponibles[6] > 0)
+            {
+                Plantes nouvellePlante = new Alcootier(coord, jardin);
+                MatPlante[coord[0], coord[1]] = nouvellePlante.Id;
+                ListPlante.Add(nouvellePlante);
+                nouvellePlante.JourPlanter = TourActuel;
+            }
+            else if (graine == "Plante orgueilleuse" && GrainesDisponibles[7] > 0)
+            {
+                Plantes nouvellePlante = new PlanteOrgueilleuse(coord, jardin);
+                MatPlante[coord[0], coord[1]] = nouvellePlante.Id;
+                ListPlante.Add(nouvellePlante);
+                nouvellePlante.JourPlanter = TourActuel;
+            }
+            else if (graine == "Couronne" && GrainesDisponibles[8] > 0)
+            {
+                Plantes nouvellePlante = new Couronne(coord, jardin);
+                MatPlante[coord[0], coord[1]] = nouvellePlante.Id;
+                ListPlante.Add(nouvellePlante);
+                nouvellePlante.JourPlanter = TourActuel;
+            }
+            else if (graine == "Planète" && GrainesDisponibles[9] > 0)
+            {
+                Plantes nouvellePlante = new Planete(coord, jardin);
+                MatPlante[coord[0], coord[1]] = nouvellePlante.Id;
+                ListPlante.Add(nouvellePlante);
+                nouvellePlante.JourPlanter = TourActuel;
+            }
+            else if (graine == "Lampadaire" && GrainesDisponibles[10] > 0)
+            {
+                Plantes nouvellePlante = new Lampadaire(coord, jardin);
+                MatPlante[coord[0], coord[1]] = nouvellePlante.Id;
+                ListPlante.Add(nouvellePlante);
+                nouvellePlante.JourPlanter = TourActuel;
+            }
+        else { Console.WriteLine("Cette plante n'est pas encore disponible"); }
         }
     }
     public void Deraciner(int[] coord)
@@ -211,6 +297,21 @@ public class Jardin{
     public void Recolter(int[] coord)
     {
         Plantes planteRecoltee = RechercherPlante(coord);
+        if (TourActuel - planteRecoltee.JourPlanter >= planteRecoltee.Croissance * 30)
+        {
+            if (planteRecoltee.IdFruit >= 0)
+            {
+                Objects[planteRecoltee.IdFruit] += planteRecoltee.Produit;
+            }
+        }
+        if (planteRecoltee.Nature == "Monocarpique")
+        {
+            SupprimerPlante(coord);
+        }
+        else
+        {
+            planteRecoltee.JourPlanter = TourActuel;
+        }
 
     }
 
@@ -234,7 +335,7 @@ public class Jardin{
         {
             if (plante.Id == indiceCherché) { return plante; }
         }
-        return new Plantes("", [], "", false, new Saison1(), "", 0, [], [], 0, 0, new List<Maladies> { }, 0, 0, " ", new Jardin());  
+        return new PlanteVide(new Jardin());  
     }
 
     public Animaux RechercherAnimaux(int[] co) {
