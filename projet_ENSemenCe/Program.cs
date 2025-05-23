@@ -169,7 +169,8 @@ void FinJournée( Jardin jardin){
 
     jardin.SaisonChange();
     jardin.MeteoChange();
-    jardin.TourActuel++; 
+    jardin.TourActuel++;
+    jardin.NombreAction =0;
     jardin.NombreAction += 3 + 2*jardin.ListPlante.Count;
 }
 
