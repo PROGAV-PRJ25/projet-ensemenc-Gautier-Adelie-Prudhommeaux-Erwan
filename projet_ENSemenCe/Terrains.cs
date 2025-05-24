@@ -2,8 +2,8 @@
 
 public abstract class Terrains{
     public string Nomplanete {get;set;}
-    public string? MaladiesPossible {get; set;}
-    public List<string>? PlanteAchetable {get;set;}
+    public string MaladiesPossible {get; set;}
+    public List<string> PlanteAchetable {get;set;}
     public double[] MeteoPourcentage {get;set;} 
 
 
