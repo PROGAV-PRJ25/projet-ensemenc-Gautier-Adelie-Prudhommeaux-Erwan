@@ -875,9 +875,11 @@ public class Jardin
         if (diffX != 0 && diffY != 0) { deplacement = [diffX / Math.Abs(diffX), diffY / Math.Abs(diffY)]; }
         else if (diffY != 0) { deplacement = [0, diffY / Math.Abs(diffY)]; }
         else if (diffX != 0) { deplacement = [diffX / Math.Abs(diffX), 0]; }
-
+        
+        if(diffY != 0 && diffX != 0){
         if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1]] != -1)
         {
+            if(diffY != 0){
             if (diffY / Math.Abs(diffY) <= 0)
             {
                 if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1] + 1] != -1) { deplacement = [0, 0]; }
@@ -888,6 +890,20 @@ public class Jardin
                 if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1] - 1] != -1) { deplacement = [0, 0]; }
                 else { deplacement[1] = deplacement[1] - 1; }
             }
+        }else{
+            if (diffX / Math.Abs(diffX) <= 0)
+            {
+                if (MatAnimaux[coAnimal[0] + deplacement[0] - 1, coAnimal[1] + deplacement[1] ] != -1) { deplacement = [0, 0]; }
+                else { deplacement[0] = deplacement[0]-1 ; }
+            }
+            else
+            {
+                if (MatAnimaux[coAnimal[0] + deplacement[0]+1, coAnimal[1] + deplacement[1] ] != -1) { deplacement = [0, 0]; }
+                else { deplacement[0] = deplacement[0] +1; }
+            }
+        }
+
+        }
         }
         return deplacement;
     }

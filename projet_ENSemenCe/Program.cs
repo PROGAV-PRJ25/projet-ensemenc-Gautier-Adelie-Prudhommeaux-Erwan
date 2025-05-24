@@ -68,6 +68,8 @@ void Simulation1JourClassique(Jardin jardin){
 
 void Simulation7JourClassique(Jardin jardin){
     Simulation1JourClassique(jardin);
+    Console.WriteLine("Journée finit");
+    Thread.Sleep(1000);
 for (int i = 0; i<7; i++){
     FinJournée(jardin);
 }
