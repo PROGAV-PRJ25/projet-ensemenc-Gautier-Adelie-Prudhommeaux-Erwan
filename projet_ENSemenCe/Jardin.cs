@@ -216,6 +216,7 @@ public class Jardin
     {
         if (CriseEco > 0){
             Console.WriteLine("Vous ne pouvez pas acheter c'est la crisis total here !!!!!!");
+            Thread.Sleep(1000);
         }else{
         Console.WriteLine("Que voulez vous faire ? ");
         string[] l1 = ["Achater", "Vendre","sortir"];
@@ -853,7 +854,7 @@ public class Jardin
             if (animal.Id == indiceCherche)
             { return animal; }
         }
-        return new Animaux("",[],0,new List<int> {},new Jardin(), "");
+        return new Animaux("",[],0,new List<int> {},new Jardin(), "  ");
     }
     
     public int[] RechercherPlanteProche(int[] coOrigine, string planteCherchee) { //planteCherchée correspond au nom de la plante la plus proche recherchée. Si on veut regarder toutes les plantes, mettre ""

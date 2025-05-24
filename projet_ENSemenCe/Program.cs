@@ -4,15 +4,18 @@ using System.Threading.Tasks;
 
 // variable globale
 bool enCours = true;
+bool t = false;
 
 void Main()
     {
         Jardin jardiland = new Jardin();
         jardiland.PlacerTerrain("Petit Prince", 1, jardiland.MatTerrain);
         Console.WriteLine(jardiland);
+        Console.SetCursorPosition(0, 2);
         // Action principale 
         while (enCours)
         {
+            Console.SetCursorPosition(0, 2);
             if(jardiland.Meteo.NumeroCata > 0){
                 SimulationUrgence(jardiland.Meteo.NumeroCata,jardiland);
                 Thread.Sleep(2000);
@@ -80,7 +83,7 @@ for (int i = 0; i<7; i++){
     }else{
         Console.Clear();
         Console.WriteLine("OOOOH NOOON UNE CATASTROPHE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        Thread.Sleep(3000);
+        Thread.Sleep(1000);
         break;
     }
 
@@ -133,7 +136,7 @@ void FinJournée( Jardin jardin){
     int chance = ani.Next(0,100);
     int x = ani.Next(0,21);
     int y = ani.Next(0,21);
-    if (chance < 55){
+    if (chance < 40){
                 if (jardin.MatAnimaux[x, y] == -1)
                 {
                     int choix =ani.Next(0,4);
@@ -152,22 +155,22 @@ void FinJournée( Jardin jardin){
                     }else{if (y != 0 && y != 20 && x != 0 && x != 20){
                         Elephant elephant = new Elephant([x,y],jardin);
                         int dir = elephant.Direction;
-                        if(dir == 0 && jardin.MatAnimaux[x-1,y] == -1 ){
-                            jardin.ListAnimaux.Add(elephant);
-                            jardin.MatAnimaux[x,y] = elephant.Id;
-                            jardin.MatAnimaux[x-1,y] = elephant.Id;
-                        }else if(dir == 1 && jardin.MatAnimaux[x+1,y] == -1 ){
+                        if(dir == 0 && jardin.MatAnimaux[x+1,y] == -1 ){
                             jardin.ListAnimaux.Add(elephant);
                             jardin.MatAnimaux[x,y] = elephant.Id;
                             jardin.MatAnimaux[x+1,y] = elephant.Id;
-                        }else if(dir == 2 && jardin.MatAnimaux[x,y-1] == -1 ){
+                        }else if(dir == 1 && jardin.MatAnimaux[x-1,y] == -1 ){
                             jardin.ListAnimaux.Add(elephant);
                             jardin.MatAnimaux[x,y] = elephant.Id;
-                            jardin.MatAnimaux[x,y-1] = elephant.Id;
-                        }else if(dir == 3 && jardin.MatAnimaux[x,y+1] == -1 ){
+                            jardin.MatAnimaux[x-1,y] = elephant.Id;
+                        }else if(dir == 2 && jardin.MatAnimaux[x,y+1] == -1 ){
                             jardin.ListAnimaux.Add(elephant);
                             jardin.MatAnimaux[x,y] = elephant.Id;
                             jardin.MatAnimaux[x,y+1] = elephant.Id;
+                        }else if(dir == 3 && jardin.MatAnimaux[x,y-1] == -1 ){
+                            jardin.ListAnimaux.Add(elephant);
+                            jardin.MatAnimaux[x,y] = elephant.Id;
+                            jardin.MatAnimaux[x,y-1] = elephant.Id;
                         }
                     }}
                 }
@@ -176,7 +179,7 @@ void FinJournée( Jardin jardin){
     int chances = mh.Next(0,100);
     int coXx = mh.Next(0,21);
     int coYy = mh.Next(0,21);
-    if (chances < 30 ){
+    if (chances < 60 ){
                 if (jardin.MatPlante[coXx, coYy] == -1)
                 {
                     int choix = mh.Next(0,2);
@@ -268,6 +271,7 @@ void FinJournée( Jardin jardin){
         FinJournée(jardin);
     }else{
         Console.Clear();
+        t = true;
         Thread thread = new Thread(() => SimulationEnFond(jardin));
         thread.Start();
         DateTime debut = DateTime.Now;
@@ -292,6 +296,7 @@ void FinJournée( Jardin jardin){
                 }
             }
         }
+        t =false;
         FinJournée(jardin);
     }
 }
@@ -312,7 +317,7 @@ async Task AfficherHeureAsync()
 
  void SimulationEnFond(Jardin jardin)
     {
-        while (enCours)
+        while (t)
         {
             Thread.Sleep(1000);
             if(jardin.ListAnimaux.Count == 0){
