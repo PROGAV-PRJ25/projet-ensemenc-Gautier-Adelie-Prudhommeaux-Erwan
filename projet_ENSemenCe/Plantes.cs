@@ -54,7 +54,7 @@ public abstract class Plantes
 
 //------------------------------------ Plante vide -------------------------------------
 public class PlanteVide : Plantes {
-    public PlanteVide(Jardin jardin) : base("", [], "", false, new Saison1(), "", 0, [],[], 0, 0, new List<Maladies> {}, 0, 0,"", jardin, -1) {}
+    public PlanteVide(Jardin jardin) : base("", [], "", false, new Saison1(), "", 0, [0, 0, 0, 0], [0, 0, 0, 0], 0, 0, new List<Maladies> {}, 0, 0,"", jardin, -1) {}
 }
 
 //------------------------------------ Plantes cultivables -------------------------------------
@@ -89,13 +89,13 @@ public class EtoileFilante : Plantes
     public override void Deplacer()
     {
         Random aleatoire = new Random();
-        int deplacementX = aleatoire.Next(-1, 1);
-        int deplacementY = aleatoire.Next(-1, 1);
+        int deplacementX = aleatoire.Next(-1, 2);
+        int deplacementY = aleatoire.Next(-1, 2);
         Jardin.MatPlante[Position[0], Position[1]] = -1;
         while (Jardin.MatPlante[Position[0] + deplacementX, Position[1] + deplacementY] != -1)
         {
-            deplacementX = aleatoire.Next(-1, 1);
-            deplacementY = aleatoire.Next(-1, 1);
+            deplacementX = aleatoire.Next(-1, 2);
+            deplacementY = aleatoire.Next(-1, 2);
         }
         Jardin.MatPlante[Position[0], Position[1]] = 1;
         Position[0] += deplacementX;

@@ -124,10 +124,10 @@ public class Saisons {
 }
 
 public class Saison1 : Saisons{
-    public Saison1():base("Saison1",[20,20,20,20,8,5,1,0,0,0,0,0,0]){}//[20,20,20,20,8,5,1,1,1,1,1,1,1]
+    public Saison1():base("Saison1",[22,22,22,22,3,2,1,0,0,0,0,0,0]){}//[20,20,20,20,8,5,1,1,1,1,1,1,1]
 }
 public class Saison2 : Saisons{
-    public Saison2():base("Saison2",[20,20,20,20,5,8,1,0,0,0,0,0,0]){}//[20,20,20,20,5,8,1,1,1,1,1,1,1]
+    public Saison2():base("Saison2",[22,22,22,22,2,3,1,0,0,0,0,0,0]){}//[20,20,20,20,5,8,1,1,1,1,1,1,1]
 }
 public class Saison3 : Saisons{
     public Saison3():base("Saison3",[50,15,15,15,0,0,0.8,0,0,0,0,0,0]){}//[50,15,15,15,0,0,0.8,0.7,0.7,0.7,0.7,0.7,0.7]

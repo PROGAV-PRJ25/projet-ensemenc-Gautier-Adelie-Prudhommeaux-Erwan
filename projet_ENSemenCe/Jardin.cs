@@ -55,11 +55,29 @@ public class Jardin
     }
 
 // fonction qui change la meteo 
-    public void MeteoChange(){}
+    public void MeteoChange(){
+        double somme = 0;
+        double[] pourcent = Saison.PourcentMeteos;
+        Random rand = new Random();
+        int indMeteo = rand.Next(1,1001);
+        for(int i =0;i<13;i++){
+            if (pourcent[i]!=0){
+                somme += pourcent[i]*10;
+                if (indMeteo<somme){
+                    Console.WriteLine($"{indMeteo}");
+                    List<Meteos> liste = [new Calme(), new Pluie(),new Nuit(), new Soleil(), new Secheresse(), new Gel(), new TempeteStellaire(), new CriseEconomique(), new FortePluie(), new HordeAnimaux(), new Obligation(), new ChangementSaison(), new ToutNoir() ];
+                    Meteo = liste[i];
+                    break;
+                }
+            }
+        }
+    }
 
 // fonction qui change la saison 
     public void SaisonChange(){
-        // condition pour changer la saison
+        if(TourActuel/30 >(TourActuel-1)/30){
+             Saison = ListeSaison[(TourActuel/30)%3];
+        }
 }
 
     public int[] MatChoix(int size, Jardin jardin){
@@ -155,7 +173,7 @@ public class Jardin
         }
         return [cursorX,cursorY];
     }
-    public int ListeChoix(string[] liste)
+    public int ListeChoix(string[] liste,Jardin jardin)
     {
         int indexSelection = 0;
         int len = liste.Length;
@@ -164,6 +182,7 @@ public class Jardin
         do
         {
             Console.Clear();
+            Console.WriteLine(jardin);
             Console.WriteLine("Sélectionnez avec les flèches, puis appuyez sur Entrée pour valider :\n");
 
             for (int i = 0; i < len; i++)
@@ -193,23 +212,23 @@ public class Jardin
     }
 
 
-    public void Magasin()
+    public void Magasin(Jardin jardin)
     {
         if (CriseEco > 0){
             Console.WriteLine("Vous ne pouvez pas acheter c'est la crisis total here !!!!!!");
         }else{
         Console.WriteLine("Que voulez vous faire ? ");
         string[] l1 = ["Achater", "Vendre","sortir"];
-        int index1 = ListeChoix(l1);
+        int index1 = ListeChoix(l1,jardin);
         if (index1 == 0)
         {
             Console.WriteLine("Dans quel catégories voulez vous acheter ? ");
             string[] l2 = ["Objets", "Terrains","Plante", "sortir"];
-            int index2 = ListeChoix(l2);
+            int index2 = ListeChoix(l2, jardin);
             if (index2 == 0)
             {
                 Console.WriteLine("Que voulez vous acheter? ");
-                int index3 = ListeChoix(ObjectsAchetable);
+                int index3 = ListeChoix(ObjectsAchetable,jardin);
                 // vérification si il peux l'acheter avec son argent 
                 AcheterObjet(index3);
                 NombreAction--;
@@ -217,7 +236,7 @@ public class Jardin
             else if (index2 == 2)
             {
                 Console.WriteLine("Que voulez vous acheter? ");
-                int index3 = ListeChoix(PlantesJouable);
+                int index3 = ListeChoix(PlantesJouable,jardin);
                 // vérification si il peux l'acheter avec son argent 
                 if (index3 < 5){
                 GrainesDisponibles[index3]++;
@@ -252,7 +271,7 @@ public class Jardin
             }
             else if(index2 == 1)
             {
-                AcheterTerrain();
+                AcheterTerrain(jardin);
             }
         } else if (index1 == 2) {
         }
@@ -260,7 +279,7 @@ public class Jardin
         {
             Console.WriteLine("Que voulez vous vendre ? ");
             string[] list = ["Lanterne", "Pelle", "Echarpe", "Paravent", "Arrosoir", "Haut parleur", "Medicament", "Pommade", "Etoile", "Météorite", "Rose", "Chapeau", "Nuage", "Etoile filante", "Alcool", "Soleil", "Couronne", "Planète", "poussière d'étoile", "sortir"];
-            int id = ListeChoix(list);
+            int id = ListeChoix(list,jardin);
             if(id != 19 ){
             if (Objects[id] == 0)
             {
@@ -275,7 +294,7 @@ public class Jardin
                 }
                 if (taper == "O")
                 {
-                    Magasin();
+                    Magasin(jardin);
                 }
 
             }
@@ -296,7 +315,7 @@ public class Jardin
                     }
                     if (taper1 == "O")
                     {
-                        Magasin();
+                        Magasin(jardin);
                     }
                 }
                 else
@@ -314,9 +333,9 @@ public class Jardin
 
     public void Action(int[] coord, Jardin jardin)
     {
-        int index = ListeChoix(ActionPossible); 
+        int index = ListeChoix(ActionPossible,jardin); 
         if(index == 1){
-            int plant = ListeChoix(PlantesJouable);
+            int plant = ListeChoix(PlantesJouable,jardin);
             Planter(coord, PlantesJouable[plant],jardin);
             NombreAction--;
         }else if (index == 2){
@@ -341,7 +360,7 @@ public class Jardin
             Console.WriteLine("fonction pas encore implémenté");
         }else {
             Console.WriteLine("Quel objet voulez vous utiliser ?");
-            int objet = ListeChoix(ObjectsAchetable);
+            int objet = ListeChoix(ObjectsAchetable,jardin);
             Objet(ObjectsAchetable[objet],coord);
             NombreAction--;
         }
@@ -441,10 +460,10 @@ public class Jardin
                         nouveauTableau[tab.Length - 1] = ajout;
                         return nouveauTableau;
     }
-    public void AcheterTerrain()
+    public void AcheterTerrain(Jardin jardin)
     {
         string[] ob = ["Retour", "Petit Prince", "Businessman", "Buveur", "Vaniteux", "Roi", "Géographe", "Réverbère"];
-        int indexSelection = ListeChoix(ob);
+        int indexSelection = ListeChoix(ob,jardin);
         if (indexSelection != 0)
         {
             PlacerTerrain(ob[indexSelection], indexSelection, MatTerrain);
@@ -614,6 +633,7 @@ public class Jardin
     public void Applaudir(int[] coord)
     {
         RechercherPlante(coord).EtatActuel[3] += 2;
+        if(coord[0] != 0 && coord[0] != 20 && coord[1] != 0 && coord[1] != 20){
         if (MatAnimaux[coord[0] + 1, coord[1]] > 0)
         {
             RechercherPlante([coord[0] + 1, coord[1]]).EtatActuel[3] += 2;
@@ -654,11 +674,13 @@ public class Jardin
             RechercherPlante([coord[0] - 1, coord[1] - 1]).EtatActuel[3] += 2;
             DeplacementForce(coord, [-1, -1]);
         }
+        }
 
     }
 
     public void Effrayer(int[] coord) //Verifier si l'animal n'est pas un serpent caché par un chapeau
     {
+        if(coord[0] != 0 && coord[0] != 20 && coord[1] != 0 && coord[1] != 20){
         SupprimerAnimaux([coord[0] + 1, coord[1] + 1]);
         SupprimerAnimaux([coord[0], coord[1]]);
         SupprimerAnimaux([coord[0] - 1, coord[1] - 1]);
@@ -668,6 +690,7 @@ public class Jardin
         SupprimerAnimaux([coord[0] - 1, coord[1] + 1]);
         SupprimerAnimaux([coord[0] + 1, coord[1]]);
         SupprimerAnimaux([coord[0] - 1, coord[1]]);
+        }
     }
     public void Proteger(int[] coord)
     {

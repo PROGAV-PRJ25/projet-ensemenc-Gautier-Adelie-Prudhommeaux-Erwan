@@ -45,8 +45,8 @@ public class Serpent : Animaux
         {
             Jardin.SupprimerAnimaux(coAnimalProche);
             Jardin.MatAnimaux[Position[0], Position[1]] = -1;
-            Position[0] += coAnimalProche[0];
-            Position[1] += coAnimalProche[1];
+            Position[0] = coAnimalProche[0];
+            Position[1] = coAnimalProche[1];
             Jardin.MatAnimaux[Position[0], Position[1]] = Id;
         }
         else
@@ -98,7 +98,8 @@ public class Elephant : Animaux
     {
         Degats = [-2000, 0, 0, 0];
         Random aleatoire = new Random();
-        Direction = aleatoire.Next(4);
+        Direction = aleatoire.Next(0,4);
+        Jardin.SupprimerPlante(Position);
         //0:N  1:S, 2:O, 3:E
     }
 
@@ -114,8 +115,8 @@ public class Elephant : Animaux
             else if (Jardin.MatAnimaux[Position[0] - 1, Position[1]] == -1)
             {
                 Jardin.MatAnimaux[Position[0] + 1, Position[1]] = -1;   //On supprime l'arrière de l'éléphant
-                Position[0] = Position[0] - 1;
-                Jardin.MatAnimaux[Position[0], Position[1]] = Id;
+                Jardin.MatAnimaux[Position[0] - 1, Position[1]] = Id;
+                Position = [Position[0]-1,Position[1]];
                 Jardin.SupprimerPlante(Position);
             }
         }
@@ -129,8 +130,8 @@ public class Elephant : Animaux
             else if (Jardin.MatAnimaux[Position[0] + 1, Position[1]] == -1)
             {
                 Jardin.MatAnimaux[Position[0] - 1, Position[1]] = -1;   //On supprime l'arrière de l'éléphant
-                Position[0] = Position[0] + 1;
-                Jardin.MatAnimaux[Position[0], Position[1]] = Id;
+                Jardin.MatAnimaux[Position[0] + 1, Position[1]] = Id;
+                Position[0] += 1;
                 Jardin.SupprimerPlante(Position);
             }
         }
@@ -145,8 +146,8 @@ public class Elephant : Animaux
             else if (Jardin.MatAnimaux[Position[0], Position[1] - 1] == -1)
             {
                 Jardin.MatAnimaux[Position[0], Position[1] + 1] = -1;   //On supprime l'arrière de l'éléphant
-                Position[1] = Position[1] - 1;
-                Jardin.MatAnimaux[Position[0], Position[1]] = Id;
+                Jardin.MatAnimaux[Position[0], Position[1]-1] = Id;
+                Position[1] -= 1;
                 Jardin.SupprimerPlante(Position);
             }
         }
@@ -158,8 +159,8 @@ public class Elephant : Animaux
             else if (Jardin.MatAnimaux[Position[0], Position[1] + 1] == -1)
             {
                 Jardin.MatAnimaux[Position[0], Position[1] - 1] = -1;   //On supprime l'arrière de l'éléphant
-                Position[1] = Position[1] + 1;
                 Jardin.MatAnimaux[Position[0], Position[1]] = Id;
+                Position[1] += 1;
                 Jardin.SupprimerPlante(Position);
             }
         }
