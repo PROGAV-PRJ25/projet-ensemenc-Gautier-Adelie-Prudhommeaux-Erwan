@@ -54,7 +54,9 @@ public abstract class Plantes
 
 //------------------------------------ Plante vide -------------------------------------
 public class PlanteVide : Plantes {
-    public PlanteVide(Jardin jardin) : base("", [], "", false, new Saison1(), "", 0, [0, 0, 0, 0], [0, 0, 0, 0], 0, 0, new List<Maladies> {}, 0, 0,"", jardin, -1) {}
+    public PlanteVide(Jardin jardin) : base("", [], "", false, new Saison1(), "", 0, [0, 0, 0, 0], [0, 0, 0, 0], 0, 0, new List<Maladies> {}, 0, 0,"  ", jardin, -1) {
+        Id =-1;
+    }
 }
 
 //------------------------------------ Plantes cultivables -------------------------------------

@@ -292,7 +292,6 @@ void FinJournée( Jardin jardin){
                 }
             }
         }
-        thread.Abort();
         FinJournée(jardin);
     }
 }
@@ -383,22 +382,22 @@ async Task AfficherHeureAsync()
                         Elephant elephant = new Elephant([x,y],jardin);
                         int dir = elephant.Direction;
                         if (y != 0 && y != 20 && x != 0 && x != 20){
-                        if(dir == 0 && jardin.MatAnimaux[x-1,y] == -1 ){
-                            jardin.ListAnimaux.Add(elephant);
-                            jardin.MatAnimaux[x,y] = elephant.Id;
-                            jardin.MatAnimaux[x-1,y] = elephant.Id;
-                        }else if(dir == 1 && jardin.MatAnimaux[x+1,y] == -1 ){
+                        if(dir == 0 && jardin.MatAnimaux[x+1,y] == -1 ){
                             jardin.ListAnimaux.Add(elephant);
                             jardin.MatAnimaux[x,y] = elephant.Id;
                             jardin.MatAnimaux[x+1,y] = elephant.Id;
-                        }else if(dir == 2 && jardin.MatAnimaux[x,y-1] == -1 ){
+                        }else if(dir == 1 && jardin.MatAnimaux[x-1,y] == -1 ){
                             jardin.ListAnimaux.Add(elephant);
                             jardin.MatAnimaux[x,y] = elephant.Id;
-                            jardin.MatAnimaux[x,y-1] = elephant.Id;
-                        }else if(dir == 3 && jardin.MatAnimaux[x,y+1] == -1 ){
+                            jardin.MatAnimaux[x-1,y] = elephant.Id;
+                        }else if(dir == 2 && jardin.MatAnimaux[x,y+1] == -1 ){
                             jardin.ListAnimaux.Add(elephant);
                             jardin.MatAnimaux[x,y] = elephant.Id;
                             jardin.MatAnimaux[x,y+1] = elephant.Id;
+                        }else if(dir == 3 && jardin.MatAnimaux[x,y-1] == -1 ){
+                            jardin.ListAnimaux.Add(elephant);
+                            jardin.MatAnimaux[x,y] = elephant.Id;
+                            jardin.MatAnimaux[x,y-1] = elephant.Id;
                         }
                         }
                     }
