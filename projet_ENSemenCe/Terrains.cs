@@ -43,7 +43,7 @@ public class TerrainReverbere:Terrains{
 
 public class Meteos{
     public string Nom {get;set;}
-    public int NumeroCata {get;set;} // 0 pas de catastrrphe sinon numéro de la catastrophes a definir pour chaque
+    public int NumeroCata {get;set;} // 0 pas de catastrrphe sinon numéro de la catastrophes pour chaque
     public Meteos(string nom, int cata){
         Nom = nom;
         NumeroCata = cata;
@@ -116,7 +116,7 @@ public class ToutNoir : Meteos {
 
 public class Saisons {
     public string Nom {get;set;}
-    public double[] PourcentMeteos {get;set;}
+    public double[] PourcentMeteos {get;set;} // pourcentage de chaque meteo 
     public Saisons(string nom, double[] pourcentMeteos){
         Nom = nom;
         PourcentMeteos = pourcentMeteos;

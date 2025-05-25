@@ -6,16 +6,19 @@ using System.Threading.Tasks;
 bool enCours = true;
 bool t = false;
 
+
 void Main()
     {
+        
         Jardin jardiland = new Jardin();
         jardiland.PlacerTerrain("Petit Prince", 1, jardiland.MatTerrain);
         Console.WriteLine(jardiland);
-        Console.SetCursorPosition(0, 2);
+        Console.SetCursorPosition(0, 2);// set le curseur a la deuxième ocurrence du terminal
         // Action principale 
         while (enCours)
         {
             Console.SetCursorPosition(0, 2);
+            // lance la simulation si une meteo catastrophe arrive
             if(jardiland.Meteo.NumeroCata > 0){
                 SimulationUrgence(jardiland.Meteo.NumeroCata,jardiland);
                 Thread.Sleep(2000);
@@ -28,6 +31,7 @@ void Main()
                     enCours = false;
                 }
             }else{
+                // lance la simulation pour 7 jours
                 Console.Clear();
                 Simulation7JourClassique(jardiland);
                 Thread.Sleep(2000);
@@ -45,9 +49,14 @@ void Main()
     }
 
 void Simulation1JourClassique(Jardin jardin){
+    //On demande quel action puis on effectue l'action reçu
+    // soit il veux alllez sur son jardin
+    // soit il va a son magasin
+    // soit il finit la journée
     while( jardin.NombreAction != 0){
     Console.WriteLine(jardin);
     Console.WriteLine($"Que voulez vous faire ? il vous reste {jardin.NombreAction}");
+    Thread.Sleep(1000);
     int choix = jardin.ListeChoix(["Entretenir mon jardin","Allez au magasin","Finir la journée"],jardin);
     Console.WriteLine(jardin);
     if(choix == 0){
@@ -61,6 +70,8 @@ void Simulation1JourClassique(Jardin jardin){
 }
 
 void Simulation7JourClassique(Jardin jardin){
+    //on simule 1 jour puis on fait 6 fois la fin de journée 
+    // sauf si catastrophe on arrete la semaine en cours
     Simulation1JourClassique(jardin);
     Console.WriteLine("Journée finit");
     Thread.Sleep(1000);
@@ -81,6 +92,9 @@ for (int i = 0; i<7; i++){
 }
 
 void FinJournée( Jardin jardin){
+    // creer la fin de journée
+
+    // je déplace tout les animaux present dans le jardin
     if(jardin.ListAnimaux.Count == 0){
             }else{
                 List<Animaux> liste =  new List<Animaux> {};
@@ -90,6 +104,11 @@ void FinJournée( Jardin jardin){
            foreach(Animaux animal in liste){
         animal.Deplacer();
     }}
+    // j'applique a toute les plantes dans le jardin
+    // leurs maladies
+    // leurs deplacements
+    // supprime si plus de vie ou plus de longevité
+    // remet a false leurs protections 
     if(jardin.ListPlante.Count == 0){
 
             }else{
@@ -122,6 +141,7 @@ void FinJournée( Jardin jardin){
         plante.Proteger = false;
         plante.Explosion = false;
     } }
+    // fait apparaitre des animaux aléatoirement sur le jardin avec 40% de chance
     Random ani = new Random();
     int chance = ani.Next(0,100);
     int x = ani.Next(0,21);
@@ -165,6 +185,7 @@ void FinJournée( Jardin jardin){
                     }}
                 }
     }
+    // fait apparaitre des amauvaise herbes aléatoirement sur le jardin avec 60% de chance
     Random mh = new Random();
     int chances = mh.Next(0,100);
     int coXx = mh.Next(0,21);
@@ -183,8 +204,10 @@ void FinJournée( Jardin jardin){
                         jardin.MatPlante[coXx,coYy] = champi.Id;
                     }
                 }
-            
+ 
     }
+    // fait fonctionner l'haut parleur si il est placer sur le terrain 
+    // apllaudit a l'endroit du haut parleur pendant 5 tours en diminuant son indice
     for (int i =0 ; i<21;i++){
         for(int j =0; j<21;j++){
             if (jardin.MatObjets[i,j] > 2){
@@ -193,7 +216,7 @@ void FinJournée( Jardin jardin){
             }
         }
     }
-
+    // change la saisson, la meteo, augmante le jour et remet a jour les actions du joueur
     jardin.SaisonChange();
     jardin.MeteoChange();
     jardin.TourActuel++;
@@ -203,7 +226,7 @@ void FinJournée( Jardin jardin){
 
  void SimulationUrgence(int numCata, Jardin jardin){
     if(numCata == 4){
-
+        // applique la catatstrophe du magasin ou il y a plus de agasin pendant 24 jour 
         Console.Clear();
         Console.WriteLine("-----------------------------------------------------------------------------\n           ATTENTION UNE CATASTROPHE EST ARRIVÉE TOUS LES MAGASINS           \n                 ON FERMER LEUR PORTES POUR 28 JOURS!!!!!!!!                 \n-----------------------------------------------------------------------------");
         string[] liste = ["Oui","Non"];
@@ -251,6 +274,7 @@ void FinJournée( Jardin jardin){
         jardin.CriseEco = 4;
         FinJournée(jardin);
     }else if (numCata == 8){
+        // applique la catastrophe de changement de saison 
         Console.Clear(); 
         Console.WriteLine("-----------------------------------------------------------------------------\n              ATTENTION UNE CATASTROPHE EST ARRIVÉE LE TEMPS EST              \n                        DÉRÉGLÉ, LA SAISON CHANGE!!!!!!!!                     \n-----------------------------------------------------------------------------");
         Random rand = new Random();
@@ -261,6 +285,7 @@ void FinJournée( Jardin jardin){
         Thread.Sleep(1000);
         FinJournée(jardin);
     }else{
+        // applique les autres catastrophs ou il y aura plein d'animaux et mauvaise herbes
         Console.Clear();
         t = true;
         Thread thread = new Thread(() => SimulationEnFond(jardin));
@@ -268,7 +293,7 @@ void FinJournée( Jardin jardin){
         DateTime debut = DateTime.Now;
         DateTime fin = debut.AddMinutes(2);
         _ = AfficherHeureAsync();
-        jardin.NombreAction *= 10;
+        jardin.NombreAction *= 5; // 5 fois plus d'action pendant la catastrophe
         while(DateTime.Now < fin){
             Console.SetCursorPosition(0, 2); // met la position sur la ranger du dessous pour ne pas suprimer l'heure
             if( jardin.NombreAction != 0){
@@ -295,6 +320,7 @@ void FinJournée( Jardin jardin){
 
 async Task AfficherHeureAsync()
     {
+        //permet d'afficher l'heure en haut
         while (true)
         {
             Console.SetCursorPosition(0, 0); // Affiche l'heure tout en haut
@@ -308,6 +334,7 @@ async Task AfficherHeureAsync()
 
  void SimulationEnFond(Jardin jardin)
     {
+        // simulation pour le thread qausi la meme que fin de journée
         while (t)
         {
             Thread.Sleep(500);
@@ -347,8 +374,6 @@ async Task AfficherHeureAsync()
         if(jardin.TourActuel - plante.JourPlanter > plante.Longevite*30){
             jardin.SupprimerPlante(plante.Position);
         }
-        plante.Proteger = false;
-        plante.Explosion = false;
         if(plante.Nom == "Etoile"){
             plante.Deplacer();
         }

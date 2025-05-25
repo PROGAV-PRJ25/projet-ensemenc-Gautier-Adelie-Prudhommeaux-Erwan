@@ -57,7 +57,7 @@ public class Jardin
 // fonction qui change la meteo 
     public void MeteoChange(){
         double somme = 0;
-        double[] pourcent = Saison.PourcentMeteos;
+        double[] pourcent = Saison.PourcentMeteos; // change la meteo en fonction des pourcentage evolutif avec les terrains acheté
         Random rand = new Random();
         int indMeteo = rand.Next(1,1001);
         for(int i =0;i<13;i++){
@@ -74,12 +74,13 @@ public class Jardin
 
 // fonction qui change la saison 
     public void SaisonChange(){
-        if(TourActuel/30 >(TourActuel-1)/30){
+        if(TourActuel/30 >(TourActuel-1)/30){ // change si 30 jour passé
              Saison = ListeSaison[(TourActuel/30)%3];
         }
 }
 
     public int[] MatChoix(int size, Jardin jardin){
+        // permet de faire un choix sur une matrice avec les flêches
         int cursorX = 0;
         int cursorY = 0;
         bool found = false;
@@ -174,6 +175,7 @@ public class Jardin
     }
     public int ListeChoix(string[] liste,Jardin jardin)
     {
+        // permet d'avoir une liste de choix avec les flêches
         int indexSelection = 0;
         int len = liste.Length;
         ConsoleKey key;
@@ -213,7 +215,8 @@ public class Jardin
 
     public void Magasin(Jardin jardin)
     {
-        if (CriseEco > 0){
+        // permet d'acheter ou de vendre soit des objets / terrains / plante
+        if (CriseEco > 0){// si catastrophe plus de magasin
             Console.WriteLine("Vous ne pouvez pas acheter c'est la crisis total here !!!!!!");
             Thread.Sleep(1000);
         }else{
@@ -227,6 +230,7 @@ public class Jardin
             int index2 = ListeChoix(l2, jardin);
             if (index2 == 0)
             {
+                // achat objets
                 Console.WriteLine("Que voulez vous acheter? ");
                 int index3 = ListeChoix(ObjectsAchetable,jardin);
                 // vérification si il peux l'acheter avec son argent 
@@ -236,6 +240,7 @@ public class Jardin
             }
             else if (index2 == 2)
             {
+                // achat plante
                 Console.WriteLine("Que voulez vous acheter? tout est a 20 poussière d'étoiles");
                 Thread.Sleep(1000);
                 int index3 = ListeChoix(PlantesJouable,jardin);
@@ -281,6 +286,7 @@ public class Jardin
             }
             else if(index2 == 1)
             {
+                // achat terrains
                 Console.Clear();
                 Console.WriteLine("Que voulez vous acheter? tout est a 200 poussière d'étoiles");
                 Thread.Sleep(1000);
@@ -290,6 +296,7 @@ public class Jardin
         }
         else
         {
+            // vendre plante ou objet
             Console.WriteLine("Que voulez vous vendre ? tout ce vend 30 unité ");
             string[] list = [$"Lanterne, Nombre possédé : {Objects[0]}", $"Pelle, Nombre possédé : {Objects[1]}", $"Echarpe, Nombre possédé : {Objects[2]}", $"Paravent, Nombre possédé : {Objects[3]}", $"Arrosoir, Nombre possédé : {Objects[4]}", $"Haut parleur, Nombre possédé : {Objects[5]}", $"Medicament, Nombre possédé : {Objects[6]}", $"Pommade, Nombre possédé : {Objects[7]}", $"Etoile, Nombre possédé : {Objects[8]}", $"Météorite, Nombre possédé : {Objects[9]}", $"Rose, Nombre possédé : {Objects[10]}", $"Chapeau, Nombre possédé : {Objects[11]}", $"Nuage, Nombre possédé : {Objects[12]}", $"Etoile filante, Nombre possédé : {Objects[13]}", $"Alcool, Nombre possédé : {Objects[14]}", $"Soleil, Nombre possédé : {Objects[15]}", $"Couronne, Nombre possédé : {Objects[16]}", $"Planète, Nombre possédé : {Objects[17]}", $"poussière d'étoile, Nombre possédé : {Objects[18]}", "sortir"];
             int id = ListeChoix(list,jardin);
@@ -307,7 +314,7 @@ public class Jardin
 
             }
             else
-            {
+            {// nombre a vendre
                 Console.WriteLine("Combien voulez vous en vendre");
                 int nombre = int.Parse(Console.ReadLine()!);
                 if (nombre > Objects[id])
@@ -323,7 +330,7 @@ public class Jardin
                 }
                 else
                 {
-                    int prix = 30; // a définir pour chacun
+                    int prix = 30; // prix 
                     PoudreEtoile += prix * nombre;
                     Objects[id] -= nombre;
                     NombreAction--;
@@ -336,6 +343,7 @@ public class Jardin
 
     public void Action(int[] coord, Jardin jardin)
     {
+        // demande l'action par rapport a toute les actions possible
         int index = ListeChoix(ActionPossible,jardin); 
         if(index == 1){
             string[] liste = PlantesJouable;
@@ -345,6 +353,7 @@ public class Jardin
 
         do
         {
+            // selection de la plante a planter
             Console.Clear();
             Console.WriteLine(jardin);
             Console.WriteLine("Quel plante voulez-vous planter ?");
@@ -406,6 +415,7 @@ public class Jardin
 
         do
         {
+            // utilisation d'objet
             Console.Clear();
             Console.WriteLine(jardin);
             Console.WriteLine("Quel objet voulez vous utiliser ?");
@@ -437,12 +447,11 @@ public class Jardin
             Objet(ObjectsAchetable[indexSelection],coord);
         }
     }
-
-    // regarder plante???
     
     // achat et objets
     public void Objet(string choix, int[] coord)
     {
+        // actions de chaque objet
         Plantes plante = RechercherPlante(coord);
         if (choix == "Lanterne")
         {
@@ -542,12 +551,14 @@ public class Jardin
     }
     public void AcheterTerrain(Jardin jardin)
     {
+        // achat du terrain
         string[] ob = ["Retour", "Petit Prince", "Businessman", "Buveur", "Vaniteux", "Roi", "Géographe", "Réverbère"];
         int indexSelection = ListeChoix(ob,jardin);
         if (indexSelection != 0)
         {
             if(PoudreEtoile >= 200){
-            PlacerTerrain(ob[indexSelection], indexSelection, MatTerrain);
+            PlacerTerrain(ob[indexSelection], indexSelection, MatTerrain); // place le tterrians
+            // ajout des effets du terrain
             if (indexSelection == 2){
                 Terrains ter = new TerrainBusinessman();
                 foreach(string plante in ter.PlanteAchetable){
@@ -720,6 +731,7 @@ public class Jardin
 
     public void Applaudir(int[] coord)
     {
+        // regarde autour et recule tout les animaux qui se trouve sur ses cases et chacun de ceux dérière jusqu'au bord et fait disparaitre l'aniaml si il sort du jardin
         RechercherPlante(coord).EtatActuel[3] += 2;
         if(coord[0] != 0 && coord[0] != 20 && coord[1] != 0 && coord[1] != 20){
         if (MatAnimaux[coord[0] + 1, coord[1]] > 0)
@@ -766,8 +778,9 @@ public class Jardin
 
     }
 
-    public void Effrayer(int[] coord) //Verifier si l'animal n'est pas un serpent caché par un chapeau
+    public void Effrayer(int[] coord) 
     {
+        // suprime tout les animaux autour
         if(coord[0] != 0 && coord[0] != 20 && coord[1] != 0 && coord[1] != 20){
         SupprimerAnimaux([coord[0] + 1, coord[1] + 1]);
         SupprimerAnimaux([coord[0], coord[1]]);
@@ -927,6 +940,7 @@ public class Jardin
 
     public void DeplacementForce(int[] coord, int[] direction)
     {
+        // recule l'animal recursivement avec les animaux dans la direction voulu et suprime si sort du jardin
         if(coord[0] != 0 && coord[0] != 20 && coord[1] != 0 && coord[1] != 20){
         if (MatAnimaux[coord[0] + direction[0], coord[1] + direction[1]] > 0)
         {
