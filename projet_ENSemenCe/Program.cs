@@ -448,7 +448,6 @@ async Task AfficherHeureAsync()
         for(int j =0; j<21;j++){
             if (jardin.MatObjets[i,j] > 2){
                 jardin.Applaudir([i,j]);
-                jardin.MatObjets[i,j]--;
             }
         }
     } 

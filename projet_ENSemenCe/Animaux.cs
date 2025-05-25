@@ -179,7 +179,7 @@ public class Oiseau : Animaux
     public Oiseau(int[] position, Jardin jardin) : base("Oiseau", position, 1, jardin, "🐦")
     {
         //Les dégats que l'oiseau fait à une plante lorsqu'il la picore
-        Degats = [-5, 0, 0, 0];
+        Degats = [-1, 0, 0, 0];
     }
 
     public override void Deplacer()

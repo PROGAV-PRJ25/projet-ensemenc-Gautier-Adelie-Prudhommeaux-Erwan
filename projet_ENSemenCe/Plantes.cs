@@ -66,7 +66,7 @@ public class Etoile : Plantes
 } 
 
 public class Meteorite : Plantes {
-    public Meteorite(int[] position, Jardin jardin) : base("Météorite", position, "Monocarpique", false, new Saison1(), "Petit Prince", 1, [100, 150, 150, 0], [100, 125, 160, 0], 24, 0, new List<Maladies> { }, 6, 2, "☄️", jardin, 9)
+    public Meteorite(int[] position, Jardin jardin) : base("Météorite", position, "Monocarpique", false, new Saison1(), "Petit Prince", 1, [100, 150, 150, 0], [150, 125, 160, 0], 24, 0, new List<Maladies> { }, 6, 2, "☄️", jardin, 9)
     {
         Random aleatoire = new Random();
         Produit = aleatoire.Next(2, 6);
@@ -134,7 +134,7 @@ public class Lampadaire : Plantes {
 //------------------------------------ Plantes nuisibles -------------------------------------
 
 public class Baobab : Plantes {
-    public Baobab(int[] position, Jardin jardin) : base("Baobab", position, "Monocarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 4, [100, 150, 150, 0], [700, 125, 160, 0], 240, 0, new List<Maladies> {}, 5, 5,"🌴", jardin, -1) {
+    public Baobab(int[] position, Jardin jardin) : base("Baobab", position, "Monocarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 4, [2000, 150, 150, 0], [700, 125, 160, 0], 240, 0, new List<Maladies> {}, 5, 5,"🌴", jardin, -1) {
     }
 }
 
