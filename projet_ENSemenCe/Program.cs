@@ -21,6 +21,7 @@ void Main()
                 Thread.Sleep(2000);
                 Console.Clear();
                 Console.WriteLine("Voulez-vous arrêter le jeu ?");
+                Thread.Sleep(2000);
                 int fin =jardiland.ListeChoix(["Non","Oui"],jardiland);
                 if (fin == 1)
                 {
@@ -31,7 +32,8 @@ void Main()
                 Simulation7JourClassique(jardiland);
                 Thread.Sleep(2000);
                 Console.Clear();
-                Console.WriteLine("Voulez-vous arrêter le jeu ? O/N");
+                Console.WriteLine("Voulez-vous arrêter le jeu ?");
+                Thread.Sleep(2000);
                 int fin =jardiland.ListeChoix(["Non","Oui"],jardiland);
                 if (fin == 1)
                 {
@@ -308,7 +310,7 @@ async Task AfficherHeureAsync()
     {
         while (t)
         {
-            Thread.Sleep(1000);
+            Thread.Sleep(500);
             if(jardin.ListAnimaux.Count == 0){
 
             }else{
@@ -401,7 +403,7 @@ async Task AfficherHeureAsync()
     int chances = mh.Next(0,100);
     int coXx = mh.Next(0,21);
     int coYy = mh.Next(0,21);
-    if (chances < 50 ){
+    if (chances < 60 ){
                 if (jardin.MatPlante[coXx, coYy] == -1)
                 {
                     int choix = mh.Next(0,2);

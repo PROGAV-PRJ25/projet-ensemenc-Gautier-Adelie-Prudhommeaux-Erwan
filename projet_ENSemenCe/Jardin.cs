@@ -236,6 +236,7 @@ public class Jardin
             else if (index2 == 2)
             {
                 Console.WriteLine("Que voulez vous acheter? tout est a 20 poussière d'étoiles");
+                Thread.Sleep(1000);
                 int index3 = ListeChoix(PlantesJouable,jardin);
                 if(PoudreEtoile > 20){
                 // vérification si il peux l'acheter avec son argent 
@@ -279,6 +280,9 @@ public class Jardin
             }
             else if(index2 == 1)
             {
+                Console.Clear();
+                Console.WriteLine("Que voulez vous acheter? tout est a 200 poussière d'étoiles");
+                Thread.Sleep(1000);
                 AcheterTerrain(jardin);
             }
         } else if (index1 == 2) {
@@ -293,6 +297,7 @@ public class Jardin
             {
                 Console.WriteLine("Vous n'en n'avez pas, vous ne pouvez pas en vendre !!!");
                 Console.WriteLine("Voulez-vous faire une autre utilisation du magasin ?");
+                Thread.Sleep(500);
                 int  taper = ListeChoix(["Oui","Non"],jardin);
                 if (taper == 0)
                 {
@@ -307,7 +312,8 @@ public class Jardin
                 if (nombre > Objects[id])
                 {
                     Console.WriteLine("Vous n'en avez pas assez pour en vendre autant");
-                    Console.WriteLine("Voulez-vous faire une autre utilisation du magasin ? O/N");
+                    Console.WriteLine("Voulez-vous faire une autre utilisation du magasin ?");
+                    Thread.Sleep(500);
                     int taper1 = jardin.ListeChoix(["Oui","Non"],jardin);
                     if (taper1 == 0)
                     {
@@ -331,8 +337,42 @@ public class Jardin
     {
         int index = ListeChoix(ActionPossible,jardin); 
         if(index == 1){
-            int plant = ListeChoix(PlantesJouable,jardin);
-            Planter(coord, PlantesJouable[plant],jardin);
+            string[] liste = PlantesJouable;
+            int indexSelection = 0;
+        int len = liste.Length;
+        ConsoleKey key;
+
+        do
+        {
+            Console.Clear();
+            Console.WriteLine(jardin);
+            Console.WriteLine("Quel plante voulez-vous planter ?");
+            Console.WriteLine("Sélectionnez avec les flèches, puis appuyez sur Entrée pour valider :\n");
+
+            for (int i = 0; i < len; i++)
+            {
+                if (i == indexSelection)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkCyan;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine($"> {liste[i]} , Nombre possédé : {GrainesDisponibles[i]}");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine($"  {liste[i]} , Nombre possédé : {GrainesDisponibles[i]}");
+                }
+            }
+
+            key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.UpArrow && indexSelection > 0)
+                indexSelection--;
+            else if (key == ConsoleKey.DownArrow && indexSelection < len - 1)
+                indexSelection++;
+
+        } while (key != ConsoleKey.Enter);
+            Planter(coord, PlantesJouable[indexSelection],jardin);
             NombreAction--;
         }else if (index == 2){
             Recolter(coord);
@@ -357,9 +397,43 @@ public class Jardin
             Thread.Sleep(500);
         }else {
             Console.WriteLine("Quel objet voulez vous utiliser ?");
-            int objet = ListeChoix(ObjectsAchetable,jardin);
-            Objet(ObjectsAchetable[objet],coord);
-            NombreAction--;
+            Thread.Sleep(500);
+            string[] liste = ObjectsAchetable;
+            int indexSelection = 0;
+        int len = liste.Length;
+        ConsoleKey key;
+
+        do
+        {
+            Console.Clear();
+            Console.WriteLine(jardin);
+            Console.WriteLine("Quel objet voulez vous utiliser ?");
+            Console.WriteLine("Sélectionnez avec les flèches, puis appuyez sur Entrée pour valider :\n");
+
+            for (int i = 0; i < len; i++)
+            {
+                if (i == indexSelection)
+                {
+                    Console.BackgroundColor = ConsoleColor.DarkCyan;
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine($"> {liste[i]} , Nombre possédé : {Objects[i]}");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.WriteLine($"  {liste[i]} , Nombre possédé : {Objects[i]}");
+                }
+            }
+
+            key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.UpArrow && indexSelection > 0)
+                indexSelection--;
+            else if (key == ConsoleKey.DownArrow && indexSelection < len - 1)
+                indexSelection++;
+
+        } while (key != ConsoleKey.Enter);
+            Objet(ObjectsAchetable[indexSelection],coord);
         }
     }
 
@@ -375,6 +449,7 @@ public class Jardin
             {
                 plante.EtatActuel[2] += 3;
                 Objects[0]--;
+                NombreAction--;
             }
         }
         else if (choix == "Pelle")
@@ -384,6 +459,7 @@ public class Jardin
                 MatObjets[coord[0], coord[1]] = 1;
                 Recolter(coord);
                 Objects[1]--;
+                NombreAction--;
             }
         }
         else if (choix == "Écharpe")
@@ -392,6 +468,7 @@ public class Jardin
             {
                 Proteger(coord);
                 Objects[2]--;
+                NombreAction--;
             }
         }
         else if (choix == "Paravent")
@@ -400,6 +477,7 @@ public class Jardin
             {
                 Proteger(coord);
                 Objects[3]--;
+                NombreAction--;
             }
         }
         else if (choix == "Médicament")
@@ -411,6 +489,7 @@ public class Jardin
                     maladie.Medicament++;
                 }
                 Objects[6]--;
+                NombreAction--;
             }
         }
         else if (choix == "Arrosoir")
@@ -419,6 +498,7 @@ public class Jardin
             {
                 plante.EtatActuel[1] += 6;
                 Objects[4]--;
+                NombreAction--;
             }
         }
         else if (choix == "Pommade")
@@ -427,6 +507,7 @@ public class Jardin
             {
                 plante.Explosion = true;
                 Objects[7]--;
+                NombreAction--;
             }
         }
         else if (choix == "Haut parleur")
@@ -436,6 +517,7 @@ public class Jardin
                 MatObjets[coord[0], coord[1]] = 6; 
                 plante.EtatActuel[2] += 3;
                 Objects[5]--;
+                NombreAction--;
             }
         }
     }
@@ -463,6 +545,7 @@ public class Jardin
         int indexSelection = ListeChoix(ob,jardin);
         if (indexSelection != 0)
         {
+            if(PoudreEtoile >= 200){
             PlacerTerrain(ob[indexSelection], indexSelection, MatTerrain);
             if (indexSelection == 2){
                 Terrains ter = new TerrainBusinessman();
@@ -520,6 +603,11 @@ public class Jardin
                 }            
             }
             NombreAction--;
+            PoudreEtoile-=200;
+            }else{
+                Console.WriteLine("Vous n'avez pas assez d'argent pour acheter ce terrain.");
+                Thread.Sleep(500);
+            }
         } else {
             Console.WriteLine("Vous n'avez pas acheter de terrain.");
             Thread.Sleep(500);
@@ -549,6 +637,7 @@ public class Jardin
         if (!found)
         {
             Console.WriteLine("vous ne pouvez plus acheter de terrain.");
+            Thread.Sleep(500);
         }
         else
         {
@@ -809,14 +898,17 @@ public class Jardin
             {
                 Objects[planteRecoltee.IdFruit] += planteRecoltee.Produit;
             }
-        }
-        if (planteRecoltee.Nature == "Monocarpique")
-        {
-            SupprimerPlante(coord);
-        }
-        else
-        {
-            planteRecoltee.JourPlanter = TourActuel;
+            if (planteRecoltee.Nature == "Monocarpique")
+            {
+                SupprimerPlante(coord);
+            }
+            else
+            {
+                planteRecoltee.JourPlanter = TourActuel;
+            }
+        }else{
+            Console.WriteLine("Votre plante n'a pas encore grandi assez pour la recolter.");
+            Thread.Sleep(1000);
         }
 
     }
