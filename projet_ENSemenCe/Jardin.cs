@@ -232,6 +232,7 @@ public class Jardin
                 // vérification si il peux l'acheter avec son argent 
                 AcheterObjet(index3);
                 NombreAction--;
+                PoudreEtoile-= 20;
             }
             else if (index2 == 2)
             {
