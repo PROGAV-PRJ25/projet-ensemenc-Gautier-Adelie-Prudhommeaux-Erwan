@@ -2,27 +2,25 @@ using System;
 
 public class Jardin
 {
-    public int TourActuel { get; set; }
-    public int PoudreEtoile { get; set; }
+    public int TourActuel { get; set; }   //Le nombre de jours depuis le début de la simulation
+    public int PoudreEtoile { get; set; }  //La quantité de poudre d'étoile (= argent) du joueur
     public List<Saisons> ListeSaison { get; set; }
     public Saisons Saison { get; set; }
     public Meteos Meteo { get; set; }
-    public int[,] MatPlante { get; set; }
-    public int[,] MatAnimaux { get; set; }
-    public int[,] MatObjets { get; set; }
-    public string[] ActionPossible { get; set; }
+    public int[,] MatPlante { get; set; }   //La représentation du plateau de jeu, dans laquelle sont localisées toutes les plantes. Chaque plante est représentée par son indice
+    public int[,] MatAnimaux { get; set; }      //La représentation du plateau de jeu, dans laquelle sont localisés tous les animaux. Chaque animal est représenté par son indice
+    public int[,] MatObjets { get; set; }     //La représentation du plateau de jeu, dans laquelle sont localisés tous les pbjets posés par le joueur
+    public string[] ActionPossible { get; set; }  //La liste des actions possibles par le joueur
     public int NombreAction { get; set; }
-    public int[] Objects { get; set; }// chaque indice correspond a un object. il y en a 25 
-    public string[] PlantesJouable { get; set; }
+    public int[] Objects { get; set; }   // chaque indice correspond a un object. il y en a 25 
+    public string[] PlantesJouable { get; set; }   //La liste des plantes accessibles (de nouvelles plantes se rajoutent quand on achète une autre planète)
     public string[] MaladiesPossible { get; set; }
     public string[] ObjectsAchetable { get; set; }
-    public int[] GrainesDisponibles { get; set; } // chaque indice est associé a une plante. il y en a 11 
-    public List<Plantes> ListPlante { get; set; }
-    public List<Animaux> ListAnimaux { get; set; }
+    public int[] GrainesDisponibles { get; set; }  //chaque indice est associé a une plante. il y en a 11 
+    public List<Plantes> ListPlante { get; set; }  //La liste des plantes présentes sur le plateau (sur MatPlante)
+    public List<Animaux> ListAnimaux { get; set; }  //La liste des animaux présents sur le plateau
     public int[,] MatTerrain { get; set; }
     public int CriseEco {get;set;}
-
-
 
 
     public Jardin()
@@ -214,20 +212,20 @@ public class Jardin
     public void Magasin(Jardin jardin)
     {
         if (CriseEco > 0){
-            Console.WriteLine("Vous ne pouvez pas acheter c'est la crisis total here !!!!!!");
+            Console.WriteLine("Vous ne pouvez pas acheter, c'est la crisis total here !!!!!!");
             Thread.Sleep(1000);
         }else{
         Console.WriteLine("Que voulez vous faire ? ");
-        string[] l1 = ["Achater", "Vendre","sortir"];
+        string[] l1 = ["Acheter", "Vendre","sortir"];
         int index1 = ListeChoix(l1,jardin);
         if (index1 == 0)
         {
-            Console.WriteLine("Dans quel catégories voulez vous acheter ? ");
-            string[] l2 = ["Objets", "Terrains","Plante", "sortir"];
+            Console.WriteLine("Dans quelle catégorie voulez vous acheter ? ");
+            string[] l2 = ["Objets", "Terrains","Plantes", "sortir"];
             int index2 = ListeChoix(l2, jardin);
             if (index2 == 0)
             {
-                Console.WriteLine("Que voulez vous acheter? ");
+                Console.WriteLine("Que voulez vous acheter ? ");
                 int index3 = ListeChoix(ObjectsAchetable,jardin);
                 // vérification si il peux l'acheter avec son argent 
                 AcheterObjet(index3);
@@ -235,7 +233,7 @@ public class Jardin
             }
             else if (index2 == 2)
             {
-                Console.WriteLine("Que voulez vous acheter? tout est a 20 poussière d'étoiles");
+                Console.WriteLine("Que voulez vous acheter ? tout coûte 20 poussières d'étoiles");
                 Thread.Sleep(1000);
                 int index3 = ListeChoix(PlantesJouable,jardin);
                 if(PoudreEtoile > 20){
@@ -281,7 +279,7 @@ public class Jardin
             else if(index2 == 1)
             {
                 Console.Clear();
-                Console.WriteLine("Que voulez vous acheter? tout est a 200 poussière d'étoiles");
+                Console.WriteLine("Que voulez vous acheter ? tout coûte 200 poussières d'étoiles");
                 Thread.Sleep(1000);
                 AcheterTerrain(jardin);
             }
@@ -289,13 +287,13 @@ public class Jardin
         }
         else
         {
-            Console.WriteLine("Que voulez vous vendre ? tout ce vend 30 unité ");
+            Console.WriteLine("Que voulez vous vendre ? tout se vend 30 poussières d'étoiles");
             string[] list = [$"Lanterne, Nombre possédé : {Objects[0]}", $"Pelle, Nombre possédé : {Objects[1]}", $"Echarpe, Nombre possédé : {Objects[2]}", $"Paravent, Nombre possédé : {Objects[3]}", $"Arrosoir, Nombre possédé : {Objects[4]}", $"Haut parleur, Nombre possédé : {Objects[5]}", $"Medicament, Nombre possédé : {Objects[6]}", $"Pommade, Nombre possédé : {Objects[7]}", $"Etoile, Nombre possédé : {Objects[8]}", $"Météorite, Nombre possédé : {Objects[9]}", $"Rose, Nombre possédé : {Objects[10]}", $"Chapeau, Nombre possédé : {Objects[11]}", $"Nuage, Nombre possédé : {Objects[12]}", $"Etoile filante, Nombre possédé : {Objects[13]}", $"Alcool, Nombre possédé : {Objects[14]}", $"Soleil, Nombre possédé : {Objects[15]}", $"Couronne, Nombre possédé : {Objects[16]}", $"Planète, Nombre possédé : {Objects[17]}", $"poussière d'étoile, Nombre possédé : {Objects[18]}", "sortir"];
             int id = ListeChoix(list,jardin);
             if(id != 19 ){
             if (Objects[id] == 0)
             {
-                Console.WriteLine("Vous n'en n'avez pas, vous ne pouvez pas en vendre !!!");
+                Console.WriteLine("Vous n'en n'avez pas, vous ne pouvez pas en vendre !");
                 Console.WriteLine("Voulez-vous faire une autre utilisation du magasin ?");
                 Thread.Sleep(2000);
                 int  taper = ListeChoix(["Oui","Non"],jardin);
@@ -346,7 +344,7 @@ public class Jardin
         {
             Console.Clear();
             Console.WriteLine(jardin);
-            Console.WriteLine("Quel plante voulez-vous planter ?");
+            Console.WriteLine("Quelle plante voulez-vous planter ?");
             Console.WriteLine("Sélectionnez avec les flèches, puis appuyez sur Entrée pour valider :\n");
 
             for (int i = 0; i < len; i++)
@@ -393,7 +391,7 @@ public class Jardin
             Applaudir(coord);
             NombreAction--;
         }else if (index == 8){
-            Console.WriteLine("fonction pas encore implémenté");
+            Console.WriteLine("fonction pas encore implémentée");
             Thread.Sleep(500);
         }else {
             Console.WriteLine("Quel objet voulez vous utiliser ?");
@@ -437,7 +435,7 @@ public class Jardin
         }
     }
 
-    // regarder plante???
+
     
     // achat et objets
     public void Objet(string choix, int[] coord)
@@ -609,7 +607,7 @@ public class Jardin
                 Thread.Sleep(500);
             }
         } else {
-            Console.WriteLine("Vous n'avez pas acheter de terrain.");
+            Console.WriteLine("Vous n'avez pas acheté de terrain.");
             Thread.Sleep(500);
         }
     }
@@ -646,7 +644,7 @@ public class Jardin
             do
             {
                 Console.Clear();
-                Console.WriteLine($"Sélectionnez une case libre avec les flèches pour sélectionnés l'endroit ou vous voulez placer le terrain {nom} puis appuyez sur Entrée :\n");
+                Console.WriteLine($"Sélectionnez une case libre avec les flèches pour choisir l'endroit où vous voulez placer le terrain {nom} puis appuyez sur Entrée :\n");
 
                 for (int y = 0; y < size; y++)
                 {
@@ -765,7 +763,7 @@ public class Jardin
 
     }
 
-    public void Effrayer(int[] coord) //Verifier si l'animal n'est pas un serpent caché par un chapeau
+    public void Effrayer(int[] coord)
     {
         if(coord[0] != 0 && coord[0] != 20 && coord[1] != 0 && coord[1] != 20){
         SupprimerAnimaux([coord[0] + 1, coord[1] + 1]);
@@ -788,10 +786,14 @@ public class Jardin
     {
         RechercherPlante(coord).EtatActuel[2] += 6;
     }
+
     public void Planter(int[] coord, string graine, Jardin jardin)
+    //Fonction qui permet de planter une graine choisie (donnée en argument) sur une case spécifique (donnée en argument)
     {
         bool planterOk = false;
-        for (int i = 0; i < PlantesJouable.Length; i++) {
+        for (int i = 0; i < PlantesJouable.Length; i++)
+        {
+            //On vérifie si la graine a déjà été débloquée par le joueur
             if (PlantesJouable[i] == graine)
             {
                 planterOk = true;
@@ -800,8 +802,10 @@ public class Jardin
         //Etoile, Météorite, Rose, Chapeau, Nuage, Etoile filante, Alcootier, Plante orgueilleuse, Couronne, Planète, Lampadaire
         if (planterOk && MatPlante[coord[0], coord[1]] == -1)
         {
+            //on peut planter s'il n'y a pas déjà une plante sur cette case
             if (graine == "Etoile" && GrainesDisponibles[0] > 0)
             {
+                //Pour chaque type de graine, si c'est celui sélectionné par le joueur, on créé une nouvelle instance de cette plante et on la place sur MatPlante (en actualisant toutes les variables nécessaires)
                 Plantes nouvellePlante = new Etoile(coord, jardin);
                 MatPlante[coord[0], coord[1]] = nouvellePlante.Id;
                 ListPlante.Add(nouvellePlante);
@@ -888,8 +892,10 @@ public class Jardin
                 nouvellePlante.JourPlanter = TourActuel;
                 GrainesDisponibles[10]--;
             }
-        else { Console.WriteLine("Cette plante n'est pas encore disponible ou vous n'avez pas assez de graines.");NombreAction++;Thread.Sleep(1000); }
-        }else{
+            else { Console.WriteLine("Cette plante n'est pas encore disponible ou vous n'avez pas assez de graines."); NombreAction++; Thread.Sleep(1000); }
+        }
+        else
+        {
             Console.WriteLine("vous n'avez pas la place pour planter ici !");
             NombreAction++;
             Thread.Sleep(2000);
@@ -902,11 +908,14 @@ public class Jardin
     }
     public void Recolter(int[] coord)
     {
+        //Fonction pour récolter une plante. Si la plante est monocarpique, elle disparait après avoir été récoltée. Si elle est polycarpique, elle est remise à zéro et peu de nouveau faire pousser un fruit
         Plantes planteRecoltee = RechercherPlante(coord);
         if (TourActuel - planteRecoltee.JourPlanter >= planteRecoltee.Croissance * 30)
+        //Si la plante n'avait pas encore fait de fruit (n'était pas arrivée à maturation), on annule l'action du joueur 
         {
             if (planteRecoltee.IdFruit >= 0)
             {
+                //On vérifie si c'est un type de plante qui fait des fruits
                 Objects[planteRecoltee.IdFruit] += planteRecoltee.Produit;
             }
             if (planteRecoltee.Nature == "Monocarpique")
@@ -940,6 +949,7 @@ public class Jardin
     }
     // fonction de recherche globale
     public Plantes RechercherPlante(int[] co)
+    //Recherche et renvoie la plante présente sur les coordonnées de la case données en argument. S'il n'y avait pas de plante, on renvoie une plante vide fabriquée
     {
         int indiceCherche = MatPlante[co[0], co[1]];
         foreach (Plantes plante in ListPlante)
@@ -951,23 +961,27 @@ public class Jardin
 
     public Animaux RechercherAnimaux(int[] co)
     {
+        //Recherche et renvoie l'animal présent sur les coordonnées de la case données en argument. S'il n'y avait pas d'animal, on renvoie un animal vide fabriqué
         int indiceCherche = MatAnimaux[co[0], co[1]];
         foreach (Animaux animal in ListAnimaux)
         {
             if (animal.Id == indiceCherche)
             { return animal; }
         }
-        return new Animaux("",[],0,new List<int> {},new Jardin(), "  ");
+        return new Animaux("",[],0,new Jardin(), "  ");
     }
     
-    public int[] RechercherPlanteProche(int[] coOrigine, string planteCherchee) { //planteCherchée correspond au nom de la plante la plus proche recherchée. Si on veut regarder toutes les plantes, mettre ""
+    public int[] RechercherPlanteProche(int[] coOrigine, string planteCherchee) { //planteCherchee correspond au nom de la plante la plus proche recherchée. Si on veut regarder toutes les plantes, mettre ""
+        //Recherche la plante d'un certain type la plus proche d'une certaine case (dont les coordonnées sont donnés en argument). Renvoie les coordonnées de la plante la plus proche
         int[] coPlanteProche = [coOrigine[0], coOrigine[1]];
         double distPlanteProche = 1000;
         for (int i = 0; i < 21; i++) {
             for (int j = 0; j < 21; j++) {
                 if (MatPlante[i, j] > 0 && (planteCherchee=="" || RechercherPlante([i,j]).Nom==planteCherchee)) {
                     double dist = Math.Sqrt(Math.Pow(coOrigine[0] - i, 2) + Math.Pow(coOrigine[1] - j, 2));
-                    if (dist < distPlanteProche) {
+                    //On détermine la plante la plus proche à l'aide de la distance √((x2 - x1)² + (y2 - y1)²)
+                    if (dist < distPlanteProche)
+                    {
                         distPlanteProche = dist;
                         coPlanteProche = [i, j];
                     }
@@ -977,7 +991,8 @@ public class Jardin
         return coPlanteProche;
     }
 
-    public int[] RechercherAnimalProche(int[] coOrigine, string animalCherche) { //planteCherchée correspond au nom de la plante la plus proche recherchée. Si on veut regarder toutes les plantes, mettre ""
+    public int[] RechercherAnimalProche(int[] coOrigine, string animalCherche) { //animalCherche correspond à l'espèce de l'animal le plus proche recherché. Si on veut regarder tous les animaux, mettre ""
+        //Recherche l'animal d'une certaine espèce le plus proche d'une certaine case (dont les coordonnées sont donnés en argument). Renvoie les coordonnées de l'animal le plus proche
         int[] coAnimalProche = [coOrigine[0], coOrigine[1]];
         double distAnimalProche = 1000;
         for (int i = 0; i < 21; i++) {
@@ -996,6 +1011,7 @@ public class Jardin
 
     public int[] DeplacementDirigeAnimaux(int[] coAnimal, int[] coCible)
     {
+        //On fourni en argument les coordonnées d'un animal et les coordonnées de la case vers laquelle il souhaite se diriger. La fonction renvoie une liste Deplacement, qui indique le déplacement à faire en x et en y pour aller vers cette case (déplacement à additionner aux cos de l'animal pour le déplacer)
         int diffX = coCible[0] - coAnimal[0];
         int diffY = coCible[1] - coAnimal[1];
         int[] deplacement = [0, 0];
@@ -1006,38 +1022,44 @@ public class Jardin
         if(diffY != 0 && diffX != 0){
         if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1]] != -1)
         {
-            if(diffY != 0){
-            if (diffY / Math.Abs(diffY) <= 0)
-            {
-                if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1] + 1] != -1) { deplacement = [0, 0]; }
-                else { deplacement[1] = deplacement[1] + 1; }
-            }
-            else
-            {
-                if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1] - 1] != -1) { deplacement = [0, 0]; }
-                else { deplacement[1] = deplacement[1] - 1; }
-            }
-        }else{
-            if (diffX / Math.Abs(diffX) <= 0)
-            {
-                if (MatAnimaux[coAnimal[0] + deplacement[0] - 1, coAnimal[1] + deplacement[1] ] != -1) { deplacement = [0, 0]; }
-                else { deplacement[0] = deplacement[0]-1 ; }
-            }
-            else
-            {
-                if (MatAnimaux[coAnimal[0] + deplacement[0]+1, coAnimal[1] + deplacement[1] ] != -1) { deplacement = [0, 0]; }
-                else { deplacement[0] = deplacement[0] +1; }
-            }
-        }
+            //Si un autre animal est déjà présent sur la case ou on souhaite se déplacer, on regarde essaie de se déplacer sur une case adjacente
+            if (diffY != 0)
+                {
+                    if (diffY / Math.Abs(diffY) <= 0)
+                    {
+                        if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1] + 1] != -1) { deplacement = [0, 0]; }
+                        //Si un autre animal est aussi présent sur la case adjacente, on ne se déplacera pas (déplacement mis à [0, 0])
+                        else { deplacement[1] = deplacement[1] + 1; }
+                    }
+                    else
+                    {
+                        if (MatAnimaux[coAnimal[0] + deplacement[0], coAnimal[1] + deplacement[1] - 1] != -1) { deplacement = [0, 0]; }
+                        else { deplacement[1] = deplacement[1] - 1; }
+                    }
+                }
+                else
+                {
+                    if (diffX / Math.Abs(diffX) <= 0)
+                    {
+                        if (MatAnimaux[coAnimal[0] + deplacement[0] - 1, coAnimal[1] + deplacement[1]] != -1) { deplacement = [0, 0]; }
+                        else { deplacement[0] = deplacement[0] - 1; }
+                    }
+                    else
+                    {
+                        if (MatAnimaux[coAnimal[0] + deplacement[0] + 1, coAnimal[1] + deplacement[1]] != -1) { deplacement = [0, 0]; }
+                        else { deplacement[0] = deplacement[0] + 1; }
+                    }
+                }
 
         }
         }
         return deplacement;
     }
 
-    // fonction de supprésion 
+    // fonction de suppression 
     public void SupprimerPlante(int[] co)
     {
+        //Supprime la plante située sur la case dont les coordonnées sont données en argument. On retire la plante de la liste ListePlante et on met un -1 (=une case vide) à la place de son id sur la matrice MatPlante
         Plantes planteSup = RechercherPlante(co);
         if (planteSup.Nom != "")
         {
@@ -1057,6 +1079,7 @@ public class Jardin
 
     public void SupprimerAnimaux(int[] co)
     {
+        //Supprime l'animal situé sur la case dont les coordonnées sont données en argument
         Animaux animalSup = RechercherAnimaux(co);
         if (animalSup.Nom != "")
         {

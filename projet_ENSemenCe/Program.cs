@@ -48,7 +48,7 @@ void Simulation1JourClassique(Jardin jardin){
     while( jardin.NombreAction != 0){
     Console.WriteLine(jardin);
     Console.WriteLine($"Que voulez vous faire ? il vous reste {jardin.NombreAction}");
-    int choix = jardin.ListeChoix(["Entretenir mon jardin","Allez au magasin","Finir la journée"],jardin);
+    int choix = jardin.ListeChoix(["Entretenir mon jardin","Aller au magasin","Finir la journée"],jardin);
     Console.WriteLine(jardin);
     if(choix == 0){
         jardin.Action(jardin.MatChoix(21,jardin),jardin);
@@ -62,7 +62,7 @@ void Simulation1JourClassique(Jardin jardin){
 
 void Simulation7JourClassique(Jardin jardin){
     Simulation1JourClassique(jardin);
-    Console.WriteLine("Journée finit");
+    Console.WriteLine("Journée finie");
     Thread.Sleep(1000);
 for (int i = 0; i<7; i++){
     if(jardin.Meteo.NumeroCata <= 0){
@@ -72,7 +72,7 @@ for (int i = 0; i<7; i++){
     Thread.Sleep(1000);
     }else{
         Console.Clear();
-        Console.WriteLine("OOOOH NOOON UNE CATASTROPHE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        Console.WriteLine("OOOOH NOOON UNE CATASTROPHE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         Thread.Sleep(1000);
         break;
     }
@@ -274,7 +274,7 @@ void FinJournée( Jardin jardin){
             if( jardin.NombreAction != 0){
                 Console.WriteLine(jardin);
                 Console.WriteLine("Que voulez vous faire ?");
-                int choix = jardin.ListeChoix(["Entretenir mon jardin","Allez au magasin"],jardin);
+                int choix = jardin.ListeChoix(["Entretenir mon jardin","Aller au magasin"],jardin);
                 if(choix == 0){
                     jardin.Action(jardin.MatChoix(21,jardin),jardin);
                 }else if(choix == 1 ){
@@ -347,8 +347,6 @@ async Task AfficherHeureAsync()
         if(jardin.TourActuel - plante.JourPlanter > plante.Longevite*30){
             jardin.SupprimerPlante(plante.Position);
         }
-        plante.Proteger = false;
-        plante.Explosion = false;
         if(plante.Nom == "Etoile"){
             plante.Deplacer();
         }

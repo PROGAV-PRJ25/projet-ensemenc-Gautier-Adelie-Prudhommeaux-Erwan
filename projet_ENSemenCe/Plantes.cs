@@ -1,27 +1,27 @@
 public abstract class Plantes
 {
     public string Nom { get; set; }
-    public int[] Position { get; set; }
-    public string Nature { get; set; }
+    public int[] Position { get; set; }  //Les coordonnées de la plante sur le plateau (dans MatPlantes)
+    public string Nature { get; set; }      //Monocarpique ou polycarpique
     public bool Comestible { get; set; }
-    public Saisons Saison { get; set; }
-    public string Terrain { get; set; }
-    public int Place { get; set; }
-    public int[] Besoin { get; set; }  //[eaumin, eaumax, lumièremin, applaudissementmin]
-    public int[] EtatActuel { get; set; }  //[vie, eau, lumière, applaudissement]
-    public int Longevite { get; set; }  //En mois
-    public int Produit { get; set; }
+    public Saisons Saison { get; set; }     //La saison préférée de la plante
+    public string Terrain { get; set; }     //Le terrain prégéré de la plante
+    public int Place { get; set; }      //Le nombre de case prisent par la plante
+    public int[] Besoin { get; set; }  //Liste des besoins de la plante [eaumin, eaumax, lumièremin, applaudissementmin]
+    public int[] EtatActuel { get; set; }  //Quantités de besoins que la plante a actuellement [vie, eau, lumière, applaudissement]
+    public int Longevite { get; set; }  //Longévité en mois
+    public int Produit { get; set; }   //Le nombre de fruits produit par la plante
     public List<Maladies> Maladie { get; set; }  //les maladies qu'a la plante
     public double Croissance { get; set; }  //Temps de croissance en mois
     public int Hauteur { get; set; }
-    public int Id { get; set; }
+    public int Id { get; set; }  //Identifiant unique caractérisant la plante sur le plateau MatPlante (généré automatiquement)
     public static int IdSuivant = 2;
     public Jardin Jardin { get; set; }
-    public string Emoji { get; set; }
+    public string Emoji { get; set; }  //L'image de la plante dans la console
     public bool Proteger { get; set; }
     public bool Explosion { get; set; }
-    public int IdFruit { get; set; }
-    public int JourPlanter { get; set; }
+    public int IdFruit { get; set; }  //L'id correspondant à la plante dans la liste des objets possédés par le joueur
+    public int JourPlanter { get; set; }  //Le jour de la simluation auquelle la plante a été plantée
 
     public Plantes(string nom, int[] position, string nature, bool comestible, Saisons saison, string terrain, int place, int[] besoin, int[] etatActuel, int longevite, int produit, List<Maladies> maladie, double croissance, int hauteur, string emoji, Jardin jardin, int idFruit)
     {
@@ -66,9 +66,11 @@ public class Etoile : Plantes
 } 
 
 public class Meteorite : Plantes {
-    public Meteorite(int[] position, Jardin jardin) : base("Météorite", position, "Monocarpique", false, new Saison1(), "Petit Prince", 1, [100, 150, 150, 0], [100, 125, 160, 0], 24, 0, new List<Maladies> {}, 6, 2,"☄️", jardin, 9) {
+    public Meteorite(int[] position, Jardin jardin) : base("Météorite", position, "Monocarpique", false, new Saison1(), "Petit Prince", 1, [100, 150, 150, 0], [100, 125, 160, 0], 24, 0, new List<Maladies> { }, 6, 2, "☄️", jardin, 9)
+    {
         Random aleatoire = new Random();
-        Produit = aleatoire.Next(2,6);
+        Produit = aleatoire.Next(2, 6);
+        //La quantité de fruits produits est tirée aléatoirement
     }
 }
 
@@ -90,6 +92,7 @@ public class EtoileFilante : Plantes
 
     public override void Deplacer()
     {
+        //Les étoiles filantes peuvent se déplacer sur le plateau. Elles se déplacent aléatoirement, s'il n'y a pas d'autre plante sur la case où elle veut aller (sinon, elle reste sur place)
         Random aleatoire = new Random();
         int deplacementX = aleatoire.Next(-1, 2);
         int deplacementY = aleatoire.Next(-1, 2);
@@ -100,6 +103,7 @@ public class EtoileFilante : Plantes
             deplacementY = aleatoire.Next(-1, 2);
         }
         Jardin.MatPlante[Position[0], Position[1]] = 1;
+        //L'étoile filante laisse de la poussière d'étoiles derrière elle
         Position[0] += deplacementX;
         Position[1] += deplacementY;
         Jardin.MatPlante[Position[0], Position[1]] = Id;
@@ -130,15 +134,11 @@ public class Lampadaire : Plantes {
 //------------------------------------ Plantes nuisibles -------------------------------------
 
 public class Baobab : Plantes {
-    public List<int> TauxApparition {get; set;}
     public Baobab(int[] position, Jardin jardin) : base("Baobab", position, "Monocarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 4, [100, 150, 150, 0], [700, 125, 160, 0], 240, 0, new List<Maladies> {}, 5, 5,"🌴", jardin, -1) {
-        TauxApparition = new List<int> {0, 0, 0, 0, 0, 0, 0};
     }
 }
 
 public class Champignon : Plantes {
-    public List<int> TauxApparition {get; set;}
     public Champignon(int[] position, Jardin jardin) : base("Champignon", position, "Monocarpique", false, new Saisons("Aucune",[0,0,0,0,0,0,0,0,0,0,0,0,0]), "Aucun", 1, [100, 150, 150, 0], [100, 125, 160, 0], 12, 0, new List<Maladies> {}, 1, 1,"🍄", jardin, -1) {
-        TauxApparition = new List<int> {0, 0, 0, 0, 0, 0, 0};
     }
 }
