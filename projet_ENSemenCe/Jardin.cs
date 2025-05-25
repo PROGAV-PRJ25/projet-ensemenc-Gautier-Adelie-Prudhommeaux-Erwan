@@ -64,7 +64,6 @@ public class Jardin
             if (pourcent[i]!=0){
                 somme += pourcent[i]*10;
                 if (indMeteo<somme){
-                    Console.WriteLine($"{indMeteo}");
                     List<Meteos> liste = [new Calme(), new Pluie(),new Nuit(), new Soleil(), new Secheresse(), new Gel(), new TempeteStellaire(), new CriseEconomique(), new FortePluie(), new HordeAnimaux(), new Obligation(), new ChangementSaison(), new ToutNoir() ];
                     Meteo = liste[i];
                     break;
@@ -236,8 +235,9 @@ public class Jardin
             }
             else if (index2 == 2)
             {
-                Console.WriteLine("Que voulez vous acheter? ");
+                Console.WriteLine("Que voulez vous acheter? tout est a 20 poussière d'étoiles");
                 int index3 = ListeChoix(PlantesJouable,jardin);
+                if(PoudreEtoile > 20){
                 // vérification si il peux l'acheter avec son argent 
                 if (index3 < 5){
                 GrainesDisponibles[index3]++;
@@ -267,8 +267,15 @@ public class Jardin
                 GrainesDisponibles[10]++;
             }
         else { Console.WriteLine("Cette plante n'est pas encore disponible"); }
+
+                    }
+                    NombreAction--;
+                    PoudreEtoile-= 20;
+                }else{
+                    Console.WriteLine("Vous n'avez pas assez d'argent");
+                    Thread.Sleep(1000);
                 }
-                NombreAction--;
+                
             }
             else if(index2 == 1)
             {
@@ -278,22 +285,16 @@ public class Jardin
         }
         else
         {
-            Console.WriteLine("Que voulez vous vendre ? ");
+            Console.WriteLine("Que voulez vous vendre ? tout ce vend 10 unité ");
             string[] list = ["Lanterne", "Pelle", "Echarpe", "Paravent", "Arrosoir", "Haut parleur", "Medicament", "Pommade", "Etoile", "Météorite", "Rose", "Chapeau", "Nuage", "Etoile filante", "Alcool", "Soleil", "Couronne", "Planète", "poussière d'étoile", "sortir"];
             int id = ListeChoix(list,jardin);
             if(id != 19 ){
             if (Objects[id] == 0)
             {
                 Console.WriteLine("Vous n'en n'avez pas, vous ne pouvez pas en vendre !!!");
-                Console.WriteLine("Voulez-vous faire une autre utilisation du magasin ? O/N");
-                string taper = Console.ReadLine()!;
-                while (taper != "O" && taper != "N")
-                {
-                    Console.WriteLine("vous avez taper un caractère invalide.");
-                    Console.WriteLine("Voulez-vous faire une autre utilisation du magasin ? O/N");
-                    taper = Console.ReadLine()!;
-                }
-                if (taper == "O")
+                Console.WriteLine("Voulez-vous faire une autre utilisation du magasin ?");
+                int  taper = ListeChoix(["Oui","Non"],jardin);
+                if (taper == 0)
                 {
                     Magasin(jardin);
                 }
@@ -307,21 +308,15 @@ public class Jardin
                 {
                     Console.WriteLine("Vous n'en avez pas assez pour en vendre autant");
                     Console.WriteLine("Voulez-vous faire une autre utilisation du magasin ? O/N");
-                    string taper1 = Console.ReadLine()!;
-                    while (taper1 != "O" || taper1 != "N")
-                    {
-                        Console.WriteLine("vous avez taper un caractère invalide.");
-                        Console.WriteLine("Voulez-vous faire une autre utilisation du magasin ? O/N");
-                        taper1 = Console.ReadLine()!;
-                    }
-                    if (taper1 == "O")
+                    int taper1 = jardin.ListeChoix(["Oui","Non"],jardin);
+                    if (taper1 == 0)
                     {
                         Magasin(jardin);
                     }
                 }
                 else
                 {
-                    int prix = 1; // a définir pour chacun
+                    int prix = 10; // a définir pour chacun
                     PoudreEtoile += prix * nombre;
                     Objects[id] -= nombre;
                     NombreAction--;
@@ -359,6 +354,7 @@ public class Jardin
             NombreAction--;
         }else if (index == 8){
             Console.WriteLine("fonction pas encore implémenté");
+            Thread.Sleep(500);
         }else {
             Console.WriteLine("Quel objet voulez vous utiliser ?");
             int objet = ListeChoix(ObjectsAchetable,jardin);
@@ -526,6 +522,7 @@ public class Jardin
             NombreAction--;
         } else {
             Console.WriteLine("Vous n'avez pas acheter de terrain.");
+            Thread.Sleep(500);
         }
     }
 
@@ -791,10 +788,11 @@ public class Jardin
                 ListPlante.Add(nouvellePlante);
                 nouvellePlante.JourPlanter = TourActuel;
             }
-        else { Console.WriteLine("Cette plante n'est pas encore disponible ou vous n'avez pas assez de graines.");NombreAction++;Thread.Sleep(2000); }
+        else { Console.WriteLine("Cette plante n'est pas encore disponible ou vous n'avez pas assez de graines.");NombreAction++;Thread.Sleep(1000); }
         }else{
             Console.WriteLine("vous n'avez pas la place pour planter ici !");
             NombreAction++;
+            Thread.Sleep(2000);
         }
     }
     public void Deraciner(int[] coord)

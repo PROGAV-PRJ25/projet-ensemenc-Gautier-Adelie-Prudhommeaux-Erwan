@@ -20,15 +20,9 @@ void Main()
                 SimulationUrgence(jardiland.Meteo.NumeroCata,jardiland);
                 Thread.Sleep(2000);
                 Console.Clear();
-                Console.WriteLine("Voulez-vous arrêter le jeu ? O/N");
-                string fin = Console.ReadLine()!;
-                while (fin != "O" && fin != "N")
-                {
-                    Console.WriteLine("vous avez taper un caractère invalide.");
-                    Console.WriteLine("Voulez-vous arrêter le jeu ? O/N");
-                    fin = Console.ReadLine()!;
-                }
-                if (fin == "O")
+                Console.WriteLine("Voulez-vous arrêter le jeu ?");
+                int fin =jardiland.ListeChoix(["Non","Oui"],jardiland);
+                if (fin == 1)
                 {
                     enCours = false;
                 }
@@ -38,14 +32,8 @@ void Main()
                 Thread.Sleep(2000);
                 Console.Clear();
                 Console.WriteLine("Voulez-vous arrêter le jeu ? O/N");
-                string fin = Console.ReadLine()!;
-                 while (fin != "O" && fin != "N")
-                {
-                    Console.WriteLine("vous avez taper un caractère invalide.");
-                    Console.WriteLine("Voulez-vous arrêter le jeu ? O/N");
-                    fin = Console.ReadLine()!;
-                }
-                if (fin == "O")
+                int fin =jardiland.ListeChoix(["Non","Oui"],jardiland);
+                if (fin == 1)
                 {
                     enCours = false;
                 }
@@ -228,6 +216,7 @@ void FinJournée( Jardin jardin){
         {
             Console.Clear();
             Console.WriteLine("-----------------------------------------------------------------------------\n           ATTENTION UNE CATASTROPHE EST ARRIVÉE TOUS LES MAGASINS           \n                 ON FERMER LEUR PORTES POUR 28 JOURS!!!!!!!!                 \n-----------------------------------------------------------------------------");
+            Console.WriteLine("Voulez-vous acheter quelque chose au magasin avant cela ?");
             Console.WriteLine("Sélectionnez avec les flèches, puis appuyez sur Entrée pour valider :\n");
 
             for (int i = 0; i < len; i++)
